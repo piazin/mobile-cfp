@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, BackHandler } from "react-native";
 import { Splash } from "../screens/splash";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -14,6 +14,9 @@ function Home() {
 }
 
 function Home2() {
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => true);
+  });
   return (
     <View>
       <Text>Hello Home2</Text>
@@ -24,7 +27,11 @@ function Home2() {
 export default function AppRoutes() {
   return (
     <AppStack.Navigator>
-      <AppStack.Screen name="Splash" component={Splash} />
+      <AppStack.Screen
+        name="Splash"
+        component={Splash}
+        options={{ headerShown: false }}
+      />
       <AppStack.Screen name="Home" component={Home} />
       <AppStack.Screen name="Home2" component={Home2} />
     </AppStack.Navigator>
