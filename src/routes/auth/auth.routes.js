@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Login from "../../screens/Login";
+import LoginScreen from "../../screens/Login";
 import { Splash } from "../../screens/splash";
 import { BackHandler } from "react-native";
 
@@ -18,7 +18,7 @@ export default function AuthRoutes() {
       }}
     >
       <AuthStack.Screen name="Splash" component={Splash} />
-      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="Login" component={LoginScreen} />
     </AuthStack.Navigator>
   );
 }
