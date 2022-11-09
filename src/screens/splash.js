@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+
+import {
+  useFonts,
+  Inter_900Black,
+  Inter_500Medium,
+} from "@expo-google-fonts/inter";
+import { StyleSheet, View, StatusBar } from "react-native";
 import LottieView from "lottie-react-native";
-import { View } from "native-base";
 
 export function Splash() {
   const navigation = useNavigation();
+  const [fontLoad, setFontLoad] = useState(true);
+
+  const [fontsLoaded] = useFonts({
+    Inter_900Black,
+    Inter_500Medium,
+  });
+
+  useEffect(() => {
+    setFontLoad(fontsLoaded ? false : true);
+  }, [fontsLoaded]);
+
   return (
     <View style={styles.container}>
       <LottieView
         source={require("../assets/splashscreen.json")}
         autoPlay
-        loop={false}
+        loop={fontLoad}
         speed={1.0}
         onAnimationFinish={() => {
-          navigation.navigate("Home2");
+          navigation.navigate("Login");
         }}
       />
     </View>

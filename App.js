@@ -1,23 +1,17 @@
-import AppRoutes from "./src/routes/app.routes";
-import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
+import Routes from "./src/routes/index.routes";
+
+import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
+
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
     <NavigationContainer>
       <NativeBaseProvider>
-        <AppRoutes />
+        <Routes />
+        <StatusBar style="inverted" translucent={false} />
       </NativeBaseProvider>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
