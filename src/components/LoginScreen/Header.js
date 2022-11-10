@@ -1,8 +1,10 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { View, Text } from "native-base";
 
-const Header = () => {
+const Header = ({ title, subtitle }) => {
+  let colorScheme = useColorScheme();
+
   return (
     <View style={styles.headerBox}>
       <Text
@@ -11,15 +13,15 @@ const Header = () => {
         fontWeight="700"
         fontSize="4xl"
       >
-        CFP
+        {title}
       </Text>
       <Text
-        color="muted.300"
+        color={colorScheme === "dark" ? "muted.300" : "primary.900"}
         fontFamily="heading"
         fontWeight="500"
         fontSize="md"
       >
-        acesse sua conta
+        {subtitle}
       </Text>
     </View>
   );

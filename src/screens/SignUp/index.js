@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useContext } from "react";
 import {
   Keyboard,
   StatusBar,
   TouchableNativeFeedback,
   TouchableOpacity,
+  useColorScheme,
 } from "react-native";
+import { ThemeContext } from "../../contexts/themeContext";
+import { useNavigation } from "@react-navigation/native";
 import { Box, View, Text } from "native-base";
 
 import { styles } from "./styles";
@@ -16,23 +18,37 @@ import Button from "../../components/LoginScreen/Button";
 
 const statusBarHeight = StatusBar.currentHeight;
 
-export default function LoginScreen() {
+export default function SignUpScreen() {
   const navigation = useNavigation();
 
+  const { deviceTheme } = useContext(ThemeContext);
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [stateSecureText, setStateSecureText] = useState(true);
 
+  let colorScheme = deviceTheme;
+
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-      <Box bg="primary.900" style={styles.container}>
-        <Header title="CFP" subtitle="acesse sua conta" />
+      <Box
+        bg={colorScheme === "dark" ? "primary.900" : "white"}
+        style={styles.container}
+      >
+        <Header title="Sign Up" subtitle="crie sua conta" />
         <View style={styles.inputBox}>
           <InputComponent
             placeholder="Digite seu e-mail"
             value={email}
             changeText={setEmail}
           />
+          <InputComponent
+            placeholder="Digite seu nome"
+            value={name}
+            changeText={setName}
+          />
+
           <InputComponent
             placeholder="******"
             value={password}
@@ -41,22 +57,21 @@ export default function LoginScreen() {
             typeInput={stateSecureText}
             changeTypeInput={setStateSecureText}
           />
-          <TouchableOpacity style={styles.btnForgotPassword}>
-            <Text color="purple.600">esqueceu a senha?</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.btnBox}>
           <Button />
           <View style={styles.boxHelpAcount}>
-            <Text color="muted.300">não tem uma conta?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-              <Text color="purple.600">criar conta</Text>
+            <Text color={colorScheme === "dark" ? "muted.300" : "primary.900"}>
+              tem uma conta?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text color="purple.600">faça login</Text>
             </TouchableOpacity>
           </View>
         </View>
         <StatusBar
           barStyle="light-content"
-          backgroundColor="#1E1E1E"
+          backgroundColor={colorScheme === "dark" ? "#1E1E1E" : "#ffffff"}
           translucent
         />
       </Box>
