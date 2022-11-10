@@ -1,16 +1,15 @@
 import Routes from "./src/routes/index.routes";
 
-import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 
 import { NavigationContainer } from "@react-navigation/native";
+import { theme } from "./src/styles/styles";
 
 export default function App() {
   return (
     <NavigationContainer>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <Routes />
-        <StatusBar style="inverted" translucent={false} />
       </NativeBaseProvider>
     </NavigationContainer>
   );

@@ -4,7 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import {
   useFonts,
   Inter_900Black,
+  Inter_700Bold,
   Inter_500Medium,
+  Inter_400Regular,
 } from "@expo-google-fonts/inter";
 import { StyleSheet, View, StatusBar } from "react-native";
 import LottieView from "lottie-react-native";
@@ -15,7 +17,9 @@ export function Splash() {
 
   const [fontsLoaded] = useFonts({
     Inter_900Black,
+    Inter_700Bold,
     Inter_500Medium,
+    Inter_400Regular,
   });
 
   useEffect(() => {
@@ -33,6 +37,7 @@ export function Splash() {
           navigation.navigate("Login");
         }}
       />
+      <StatusBar backgroundColor="#7E74F1" />
     </View>
   );
 }
