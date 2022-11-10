@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { Keyboard, StatusBar, TouchableNativeFeedback } from "react-native";
-import { Box, View } from "native-base";
+import {
+  Keyboard,
+  StatusBar,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+} from "react-native";
+import { Box, View, Text } from "native-base";
 
 import { styles } from "./styles";
 
@@ -17,10 +22,7 @@ export default function LoginScreen() {
 
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-      <Box
-        bg="primary.900"
-        style={[styles.container, { paddingTop: statusBarHeight }]}
-      >
+      <Box bg="primary.900" style={styles.container}>
         <Header />
         <View style={styles.inputBox}>
           <InputComponent
@@ -36,9 +38,18 @@ export default function LoginScreen() {
             typeInput={stateSecureText}
             changeTypeInput={setStateSecureText}
           />
+          <TouchableOpacity style={styles.btnForgotPassword}>
+            <Text color="purple.600">esqueceu a senha?</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.btnBox}>
           <Button />
+          <View style={styles.boxHelpAcount}>
+            <Text color="muted.300">não tem uma conta?</Text>
+            <TouchableOpacity>
+              <Text color="purple.600">criar conta</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <StatusBar
           barStyle="light-content"

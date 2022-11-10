@@ -12,4 +12,14 @@ export const styles = StyleSheet.create({
   btnBox: {
     marginTop: 18,
   },
+  boxHelpAcount: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  btnForgotPassword: {
+    marginTop: 1,
+    marginBottom: 5,
+    alignSelf: "flex-end",
+  },
 });
