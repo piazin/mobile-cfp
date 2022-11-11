@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Keyboard,
-  StatusBar,
   TouchableNativeFeedback,
   TouchableOpacity,
 } from "react-native";
@@ -15,6 +14,8 @@ import Header from "../../components/LoginScreen/Header";
 import InputComponent from "../../components/LoginScreen/Input";
 import Button from "../../components/LoginScreen/Button";
 
+import { validateEmail } from "../../utils/validateFormFieldsUser";
+
 export default function LoginScreen() {
   const navigation = useNavigation();
 
@@ -23,6 +24,17 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [stateSecureText, setStateSecureText] = useState(true);
+  const [validateForm, setValidateForm] = useState(false);
+
+  const handleEmail = (email) => {
+    if (!validateEmail(email)) {
+      setEmail(email);
+      setValidateForm(false);
+    } else {
+      setEmail(email);
+      setValidateForm(true);
+    }
+  };
 
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
@@ -35,7 +47,7 @@ export default function LoginScreen() {
           <InputComponent
             placeholder="Digite seu e-mail"
             value={email}
-            changeText={setEmail}
+            changeText={handleEmail}
           />
           <InputComponent
             placeholder="******"
@@ -50,7 +62,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.btnBox}>
-          <Button title="Login" />
+          <Button title="Login" buttonState={validateForm} />
           <View style={styles.boxHelpAcount}>
             <Text color={deviceTheme === "dark" ? "muted.300" : "primary.900"}>
               não tem uma conta?

@@ -1,13 +1,22 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import { Spinner } from "native-base";
 import { Text } from "native-base";
 
-const Button = ({ title }) => {
+const Button = ({ title, onPressFunction, isLoading, buttonState }) => {
   return (
-    <TouchableOpacity style={styles.btnLogin}>
-      <Text color="white" fontSize="md" fontFamily="body" fontWeight="700">
-        {title}
-      </Text>
+    <TouchableOpacity
+      style={[styles.btnLogin, { opacity: buttonState ? 1 : 0.5 }]}
+      onPress={() => onPressFunction()}
+      disabled={!buttonState}
+    >
+      {isLoading ? (
+        <Spinner color="white" size="sm" />
+      ) : (
+        <Text color="white" fontSize="md" fontFamily="body" fontWeight="700">
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

@@ -19,7 +19,7 @@ const InputComponent = ({
         placeholderTextColor="#1E1E1E"
         value={value}
         onChangeText={(value) => changeText(value)}
-        keyboardType={type == "pass" ? "default" : "email-address"}
+        keyboardType="default"
         secureTextEntry={typeInput ? typeInput : false}
       />
       {type == "pass" ? (
