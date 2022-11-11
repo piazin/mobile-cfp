@@ -2,11 +2,11 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Text } from "native-base";
 
-const Button = () => {
+const Button = ({ title }) => {
   return (
     <TouchableOpacity style={styles.btnLogin}>
-      <Text color="primary.50" fontSize="md" fontFamily="body" fontWeight="700">
-        Login
+      <Text color="white" fontSize="md" fontFamily="body" fontWeight="700">
+        {title}
       </Text>
     </TouchableOpacity>
   );

@@ -1,10 +1,22 @@
-import React from "react";
-
+import React, { useContext, useState } from "react";
+import { StatusBar } from "react-native";
 import AppRoutes from "./app/app.routes";
 import AuthRoutes from "../routes/auth/auth.routes";
 
-export default function Routes() {
-  const [signed, setSigned] = React.useState(false);
+import { ThemeContext } from "../contexts/themeContext";
 
-  return signed ? <AppRoutes /> : <AuthRoutes />;
+export default function Routes() {
+  const { deviceTheme } = useContext(ThemeContext);
+  const [signed, setSigned] = useState(false);
+
+  return (
+    <>
+      {signed ? <AppRoutes /> : <AuthRoutes />}
+      <StatusBar
+        barStyle={deviceTheme === "dark" ? "light-content" : "dark-content"}
+        backgroundColor={deviceTheme === "dark" ? "#1E1E1E" : "#ffffff"}
+        translucent
+      />
+    </>
+  );
 }

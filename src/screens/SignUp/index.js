@@ -4,7 +4,6 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   TouchableOpacity,
-  useColorScheme,
 } from "react-native";
 import { ThemeContext } from "../../contexts/themeContext";
 import { useNavigation } from "@react-navigation/native";
@@ -15,8 +14,6 @@ import { styles } from "./styles";
 import Header from "../../components/LoginScreen/Header";
 import InputComponent from "../../components/LoginScreen/Input";
 import Button from "../../components/LoginScreen/Button";
-
-const statusBarHeight = StatusBar.currentHeight;
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -59,7 +56,7 @@ export default function SignUpScreen() {
           />
         </View>
         <View style={styles.btnBox}>
-          <Button />
+          <Button title="Criar conta" />
           <View style={styles.boxHelpAcount}>
             <Text color={colorScheme === "dark" ? "muted.300" : "primary.900"}>
               tem uma conta?
@@ -69,11 +66,6 @@ export default function SignUpScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={colorScheme === "dark" ? "#1E1E1E" : "#ffffff"}
-          translucent
-        />
       </Box>
     </TouchableNativeFeedback>
   );

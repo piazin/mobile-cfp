@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Keyboard,
@@ -6,6 +6,7 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
 } from "react-native";
+import { ThemeContext } from "../../contexts/themeContext";
 import { Box, View, Text } from "native-base";
 
 import { styles } from "./styles";
@@ -14,10 +15,10 @@ import Header from "../../components/LoginScreen/Header";
 import InputComponent from "../../components/LoginScreen/Input";
 import Button from "../../components/LoginScreen/Button";
 
-const statusBarHeight = StatusBar.currentHeight;
-
 export default function LoginScreen() {
   const navigation = useNavigation();
+
+  const { deviceTheme } = useContext(ThemeContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +26,10 @@ export default function LoginScreen() {
 
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-      <Box bg="primary.900" style={styles.container}>
+      <Box
+        bg={deviceTheme === "dark" ? "primary.900" : "white"}
+        style={styles.container}
+      >
         <Header title="CFP" subtitle="acesse sua conta" />
         <View style={styles.inputBox}>
           <InputComponent
@@ -46,19 +50,16 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.btnBox}>
-          <Button />
+          <Button title="Login" />
           <View style={styles.boxHelpAcount}>
-            <Text color="muted.300">não tem uma conta?</Text>
+            <Text color={deviceTheme === "dark" ? "muted.300" : "primary.900"}>
+              não tem uma conta?
+            </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
               <Text color="purple.600">criar conta</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="#1E1E1E"
-          translucent
-        />
       </Box>
     </TouchableNativeFeedback>
   );
