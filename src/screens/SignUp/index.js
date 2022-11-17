@@ -24,7 +24,7 @@ export default function SignUpScreen() {
   const navigation = useNavigation();
 
   const { deviceTheme } = useContext(ThemeContext);
-  const { signUp, loadingAuth } = useContext(AuthContext);
+  const { signUp, loadingAuth, errorSignUp } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -81,6 +81,9 @@ export default function SignUpScreen() {
         style={styles.container}
       >
         <Header title="Sign Up" subtitle="crie sua conta" />
+        {errorSignUp ? (
+          <Text style={{ color: "red" }}>{errorSignUp}</Text>
+        ) : null}
         <View style={styles.inputBox}>
           <InputComponent
             placeholder="Digite seu nome"

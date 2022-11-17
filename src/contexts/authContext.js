@@ -9,6 +9,7 @@ export default AuthProvider = ({ children }) => {
   const [loadingAuth, setLoadingAuth] = useState(false);
 
   const [errorLogin, setErrorLogin] = useState(null);
+  const [errorSignUp, setErrorSignUp] = useState(null);
 
   useEffect(() => {
     loadStorage();
@@ -18,10 +19,9 @@ export default AuthProvider = ({ children }) => {
     try {
       // await AsyncStorage.removeItem("@user_auth");
       const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
-      storageUser ? setUser(storageUser) : setUser(null);
+      storageUser ? setUser(storageUser.data) : setUser(null);
     } catch (error) {
       setUser(null);
-      console.error(error);
     }
   }
 
@@ -41,7 +41,6 @@ export default AuthProvider = ({ children }) => {
       setStorageUser(response.data);
       setLoadingAuth(false);
     } catch (error) {
-      console.error(error.response.data);
       setLoadingAuth(false);
       setErrorLogin(error.response.data.message);
       setTimeout(() => {
@@ -62,21 +61,26 @@ export default AuthProvider = ({ children }) => {
       setUser(response.data);
       setStorageUser(response.data);
       setLoadingAuth(false);
-
-      return response.data;
     } catch (error) {
-      console.error(error.response.data);
       setLoadingAuth(false);
-      return {
-        status: 400,
-        message: error.response.data.message,
-      };
+      setErrorSignUp(error.response.data.message);
+      setTimeout(() => {
+        setErrorSignUp(null);
+      }, 5000);
     }
   }
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, signUp, signIn, loadingAuth, errorLogin }}
+      value={{
+        signed: !!user,
+        user,
+        signUp,
+        signIn,
+        loadingAuth,
+        errorLogin,
+        errorSignUp,
+      }}
     >
       {children}
     </AuthContext.Provider>
