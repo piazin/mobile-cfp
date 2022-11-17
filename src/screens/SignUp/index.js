@@ -32,63 +32,36 @@ export default function SignUpScreen() {
   const [stateSecureText, setStateSecureText] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
   const [progressForm, setProgressForm] = useState(0);
-  const [validateErrorMessage, setValidateErrorMessage] = useState(null);
 
-  async function onSubmit() {
-    if (name.length < 1) {
-      return setValidateForm(false);
-    }
-
-    if (!validateEmail(email)) {
-      setValidateErrorMessage("insira um email válido");
-      setValidateForm(false);
-      setTimeout(() => {
-        setValidateErrorMessage(null);
-      }, 10000);
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setValidateErrorMessage("insira uma senha forte");
-      setValidateForm(false);
-      setTimeout(() => {
-        setValidateErrorMessage(null);
-      }, 10000);
-      return;
-    }
+  async function handleSignUp() {
+    await signUp({ name, email, password });
   }
 
   useEffect(() => {
     handleProgressForm();
-  }, [name, email, password]);
+  }, [name, email, password, progressForm]);
 
   const handleName = (name) => {
     if (name.length <= 1) {
       setName(name);
-      setValidateForm(false);
     } else {
       setName(name);
-      setValidateForm(true);
     }
   };
 
   const handleEmail = (email) => {
     if (!validateEmail(email)) {
       setEmail(email);
-      setValidateForm(false);
     } else {
       setEmail(email);
-      setValidateForm(true);
     }
   };
 
   const handlePassword = (password) => {
     if (!validatePassword(password)) {
       setPassword(password);
-      setValidateForm(false);
     } else {
       setPassword(password);
-      setValidateForm(true);
     }
   };
 
@@ -98,6 +71,7 @@ export default function SignUpScreen() {
     var progressPass = !validatePassword(password) ? 0 : 40;
 
     setProgressForm(progressName + progressEmail + progressPass);
+    progressForm == 100 ? setValidateForm(true) : setValidateForm(false);
   };
 
   return (
@@ -108,17 +82,6 @@ export default function SignUpScreen() {
       >
         <Header title="Sign Up" subtitle="crie sua conta" />
         <View style={styles.inputBox}>
-          {validateErrorMessage ? (
-            <Text
-              color="red.400"
-              alignSelf="center"
-              fontFamily="body"
-              fontWeight="500"
-            >
-              {validateErrorMessage}
-            </Text>
-          ) : null}
-
           <InputComponent
             placeholder="Digite seu nome"
             value={name}
@@ -147,7 +110,7 @@ export default function SignUpScreen() {
         <View style={styles.btnBox}>
           <Button
             title="Criar conta"
-            onPressFunction={onSubmit}
+            onPressFunction={handleSignUp}
             isLoading={loadingAuth}
             buttonState={validateForm}
           />

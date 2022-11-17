@@ -5,8 +5,7 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password) {
-  let reg =
-    /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
-
+  let reg = /^(?=.*\d)(?=.*[A-Z])(.{8,50})$/;
+  // /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
   return !reg.test(password) ? false : true;
 }

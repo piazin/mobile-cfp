@@ -21,6 +21,7 @@ const InputComponent = ({
         onChangeText={(value) => changeText(value)}
         keyboardType="default"
         secureTextEntry={typeInput ? typeInput : false}
+        autoCapitalize="none"
       />
       {type == "pass" ? (
         <TouchableOpacity

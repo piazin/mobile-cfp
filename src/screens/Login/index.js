@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ThemeContext } from "../../contexts/themeContext";
+import { AuthContext } from "../../contexts/authContext";
 import { Box, View, Text } from "native-base";
 
 import { styles } from "./styles";
@@ -19,6 +20,7 @@ import { validateEmail } from "../../utils/validateFormFieldsUser";
 export default function LoginScreen() {
   const navigation = useNavigation();
 
+  const { signIn, loadingAuth, errorLogin } = useContext(AuthContext);
   const { deviceTheme } = useContext(ThemeContext);
 
   const [email, setEmail] = useState("");
@@ -36,6 +38,11 @@ export default function LoginScreen() {
     }
   };
 
+  const handleLogin = async () => {
+    Keyboard.dismiss();
+    await signIn(email, password);
+  };
+
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
       <Box
@@ -43,6 +50,7 @@ export default function LoginScreen() {
         style={styles.container}
       >
         <Header title="CFP" subtitle="acesse sua conta" />
+        {errorLogin ? <Text style={{ color: "red" }}>{errorLogin}</Text> : null}
         <View style={styles.inputBox}>
           <InputComponent
             placeholder="Digite seu e-mail"
@@ -62,7 +70,12 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.btnBox}>
-          <Button title="Login" buttonState={validateForm} />
+          <Button
+            title="Login"
+            buttonState={validateForm}
+            onPressFunction={handleLogin}
+            isLoading={loadingAuth}
+          />
           <View style={styles.boxHelpAcount}>
             <Text color={deviceTheme === "dark" ? "muted.300" : "primary.900"}>
               não tem uma conta?
