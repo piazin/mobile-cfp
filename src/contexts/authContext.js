@@ -19,6 +19,7 @@ export default AuthProvider = ({ children }) => {
     try {
       // await AsyncStorage.removeItem("@user_auth");
       const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
+
       storageUser ? setUser(storageUser.data) : setUser(null);
     } catch (error) {
       setUser(null);

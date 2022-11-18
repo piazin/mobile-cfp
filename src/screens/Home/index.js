@@ -12,9 +12,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   const { deviceTheme } = useContext(ThemeContext);
-  const {
-    user: { data },
-  } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const styles = deviceTheme === "dark" ? darkMode : lightMode;
 
   return (
@@ -23,8 +21,8 @@ export default function HomeScreen() {
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
             source={{
-              uri: data?.avatar
-                ? data.avatar.url
+              uri: user.avatar
+                ? user.avatar.url
                 : "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
             }}
             style={styles.profilePic}
@@ -35,7 +33,7 @@ export default function HomeScreen() {
             Welcome Back 👋{" "}
           </Text>
           <Text style={[styles.globalTextColor, styles.userNameText]}>
-            {data.name}
+            {user?.name}
           </Text>
         </View>
       </View>
