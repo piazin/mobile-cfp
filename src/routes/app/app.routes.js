@@ -31,6 +31,7 @@ export default function AppRoutes() {
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: deviceTheme == "dark" ? "#1e1e1e" : "#ffffff",
+          borderTopWidth: 0,
         },
       })}
     >

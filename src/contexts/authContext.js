@@ -19,8 +19,7 @@ export default AuthProvider = ({ children }) => {
     try {
       // await AsyncStorage.removeItem("@user_auth");
       const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
-
-      storageUser ? setUser(storageUser.data) : setUser(null);
+      storageUser ? setUser(storageUser) : setUser(null);
     } catch (error) {
       setUser(null);
     }
@@ -38,8 +37,8 @@ export default AuthProvider = ({ children }) => {
         password,
       });
 
-      setUser(response.data);
-      setStorageUser(response.data);
+      setUser(response.data.data);
+      setStorageUser(response.data.data);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);
@@ -59,8 +58,8 @@ export default AuthProvider = ({ children }) => {
         password: password,
       });
 
-      setUser(response.data);
-      setStorageUser(response.data);
+      setUser(response.data.data);
+      setStorageUser(response.data.data);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);
