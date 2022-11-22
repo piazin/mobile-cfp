@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { View, Text } from "react-native";
+import React, { useContext, useState } from "react";
+import { View } from "react-native";
 import { AuthContext } from "../../contexts/authContext";
 
 import { styles, lightMode } from "./styles";
@@ -10,11 +10,24 @@ import BoxShortcutIcons from "../../components/HomeScreen/BoxShortcutIcons";
 export default function HomeScreen() {
   const { user } = useContext(AuthContext);
 
+  const [balanceViewState, setBalanceViewState] = useState(false);
+
+  const handleBalanceViewState = () => {
+    setBalanceViewState(balanceViewState ? false : true);
+  };
+
   return (
     <>
-      <Header user={user} />
+      <Header
+        user={user}
+        handleBalanceViewState={handleBalanceViewState}
+        balanceViewState={balanceViewState}
+      />
       <View style={styles.container}>
-        <BoxBalance balance={user?.balance} />
+        <BoxBalance
+          balance={user?.balance}
+          balanceViewState={balanceViewState}
+        />
         <BoxShortcutIcons />
       </View>
     </>

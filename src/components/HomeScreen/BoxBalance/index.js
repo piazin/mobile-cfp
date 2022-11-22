@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Box, Text } from "native-base";
 import styles from "./styles";
 
-const BoxBalance = ({ balance }) => {
+const BoxBalance = ({ balance, balanceViewState }) => {
   return (
     <View style={styles.balanceBox}>
       <TouchableOpacity onPress={() => console.info("btn")}>
@@ -25,7 +25,7 @@ const BoxBalance = ({ balance }) => {
           fontSize={22}
           paddingTop="2.5"
         >
-          R$ {balance}{" "}
+          {balanceViewState ? `R$ ${balance}` : "****"}
         </Text>
       </TouchableOpacity>
     </View>

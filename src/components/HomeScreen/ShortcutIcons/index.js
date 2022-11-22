@@ -23,7 +23,7 @@ export function ShortcutIcons({ iconName, label }) {
       >
         <MaterialCommunityIcons name={iconName} color="#fff" size={42} />
       </Box>
-      <Text color="white" textAlign="center" marginTop={5}>
+      <Text color="white" textAlign="center" marginTop={2}>
         {label}
       </Text>
     </TouchableOpacity>

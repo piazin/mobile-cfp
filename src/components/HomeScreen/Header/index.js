@@ -7,7 +7,7 @@ import styles from "./styles";
 
 const statusBarHeight = StatusBar.currentHeight;
 
-const Header = ({ user }) => {
+const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
   const navigation = useNavigation();
 
   return (
@@ -33,8 +33,12 @@ const Header = ({ user }) => {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Ionicons name="eye-outline" color="#ffffff" size={30} />
+        <TouchableOpacity onPress={() => handleBalanceViewState()}>
+          <Ionicons
+            name={balanceViewState ? "eye-outline" : "eye-off-outline"}
+            color="#ffffff"
+            size={30}
+          />
         </TouchableOpacity>
       </Box>
       <Box marginTop="6">
