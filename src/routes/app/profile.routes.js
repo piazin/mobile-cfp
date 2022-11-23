@@ -1,21 +1,9 @@
-import React from "react";
+import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, StatusBar } from "react-native";
+
+import ProfileScreen from "../../screens/Profile";
 
 const ProfileStack = createNativeStackNavigator();
-
-function ProfileScreen() {
-  return (
-    <View>
-      <Text>Hello</Text>
-      <StatusBar
-        backgroundColor="#fff"
-        barStyle={"light-content"}
-        translucent
-      />
-    </View>
-  );
-}
 
 export default function ProfileRoutes() {
   return (

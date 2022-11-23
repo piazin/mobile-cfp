@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import { AuthContext } from "../../contexts/authContext";
 
 import { styles, lightMode } from "./styles";
@@ -30,6 +30,11 @@ export default function HomeScreen() {
         />
         <BoxShortcutIcons />
       </View>
+      <StatusBar
+        backgroundColor="#7E74F1"
+        barStyle="light-content"
+        translucent
+      />
     </>
   );
 }

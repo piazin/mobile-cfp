@@ -35,14 +35,5 @@ export default function Routes() {
 
   if (!fontLoad) return <Loading />;
 
-  return (
-    <>
-      {signed ? <AppRoutes /> : <AuthRoutes />}
-      <StatusBar
-        barStyle={"light-content"}
-        backgroundColor="#7E74F1"
-        translucent
-      />
-    </>
-  );
+  return <>{signed ? <AppRoutes /> : <AuthRoutes />}</>;
 }

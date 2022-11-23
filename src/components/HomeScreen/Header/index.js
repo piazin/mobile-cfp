@@ -46,7 +46,7 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
           color="white"
           fontFamily="heading"
           fontWeight="bold"
-          fontSize="lg"
+          fontSize={22}
         >
           Olá, {user?.name}
         </Text>
