@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import api from "../../../config/axios";
 import * as ImagePicker from "expo-image-picker";
 import { Image, TouchableOpacity } from "react-native";
+import { AuthContext } from "../../../contexts/authContext";
 
 import styles from "./styles";
 
 export function SelectAnImage({ user }) {
+  const { setNewData, newData } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: false,
+      allowsEditing: true,
       quality: 1,
     });
 
@@ -34,11 +36,13 @@ export function SelectAnImage({ user }) {
     });
 
     try {
-      await api.post("/user/avatar", data, {
+      var response = await api.post("/user/avatar", data, {
         headers: {
           "Content-Type": `multipart/form-data`,
         },
       });
+
+      if (response) setNewData(!newData);
     } catch (error) {
       console.error(error.response);
     }
@@ -51,7 +55,9 @@ export function SelectAnImage({ user }) {
       ) : (
         <Image
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
+            uri: user.avatar
+              ? user.avatar.url
+              : "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
           }}
           style={styles.profilePic}
         />
