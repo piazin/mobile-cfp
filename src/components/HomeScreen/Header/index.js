@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Image, TouchableOpacity, StatusBar } from "react-native";
+import { TouchableOpacity, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Box, Text } from "native-base";
+import { Box, Text, Avatar } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 
@@ -23,7 +23,8 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
         paddingTop={4}
       >
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
+          <Avatar
+            bg="primary.900"
             source={{
               uri: user.avatar
                 ? user.avatar.url

@@ -10,6 +10,7 @@ import {
 } from "@expo-google-fonts/inter";
 import { StyleSheet, View, StatusBar } from "react-native";
 import LottieView from "lottie-react-native";
+import { FocusAwareStatusBar } from "../components/FocusAwareStatusBar";
 
 export function Splash() {
   const navigation = useNavigation();
@@ -37,7 +38,7 @@ export function Splash() {
           navigation.navigate("Login");
         }}
       />
-      <StatusBar backgroundColor="#7E74F1" />
+      <FocusAwareStatusBar backgroundColor="#7E74F1" />
     </View>
   );
 }

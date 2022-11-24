@@ -16,6 +16,11 @@ export default function AuthRoutes() {
     <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
+        cardStyle: {
+          backgroundColor: "transparent",
+        },
+        detachPreviousScreen: true,
+        presentation: "transparentModal",
       }}
     >
       <AuthStack.Screen name="Splash" component={Splash} />

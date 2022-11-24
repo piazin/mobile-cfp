@@ -10,3 +10,14 @@ export class UserClass {
     }
   }
 }
+
+export class TransactionsClass {
+  async getAllTransactions(user_id) {
+    try {
+      const transactionData = await api.get(`/transaction/${user_id}`);
+      return transactionData;
+    } catch (error) {
+      return null;
+    }
+  }
+}

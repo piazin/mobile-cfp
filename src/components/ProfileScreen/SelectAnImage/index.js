@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import api from "../../../config/axios";
 import * as ImagePicker from "expo-image-picker";
 import { Image, TouchableOpacity } from "react-native";
+import { Avatar } from "native-base";
 import { AuthContext } from "../../../contexts/authContext";
 
 import styles from "./styles";
@@ -51,9 +52,9 @@ export function SelectAnImage({ user }) {
   return (
     <TouchableOpacity onPress={() => pickImageAsync()}>
       {selectedImage ? (
-        <Image source={{ uri: selectedImage }} style={styles.profilePic} />
+        <Avatar source={{ uri: selectedImage }} style={styles.profilePic} />
       ) : (
-        <Image
+        <Avatar
           source={{
             uri: user.avatar
               ? user.avatar.url

@@ -6,12 +6,20 @@ import { NativeBaseProvider } from "native-base";
 import ThemeProvider from "./src/contexts/themeContext";
 import AuthProvider from "./src/contexts/authContext";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { theme } from "./src/styles/styles";
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "transparent",
+  },
+};
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <NativeBaseProvider theme={theme}>
         <AuthProvider>
           <ThemeProvider>

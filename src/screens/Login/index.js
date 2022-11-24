@@ -4,6 +4,7 @@ import {
   Keyboard,
   TouchableNativeFeedback,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { ThemeContext } from "../../contexts/themeContext";
 import { AuthContext } from "../../contexts/authContext";
