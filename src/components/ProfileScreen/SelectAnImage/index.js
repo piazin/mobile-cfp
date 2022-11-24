@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
 import api from "../../../config/axios";
 import * as ImagePicker from "expo-image-picker";
-import { Image, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Avatar } from "native-base";
 import { AuthContext } from "../../../contexts/authContext";
 
 import styles from "./styles";
 
 export function SelectAnImage({ user }) {
-  const { setNewData, newData } = useContext(AuthContext);
+  const { handleNewData } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
@@ -43,7 +43,7 @@ export function SelectAnImage({ user }) {
         },
       });
 
-      if (response) setNewData(!newData);
+      if (response) handleNewData();
     } catch (error) {
       console.error(error.response);
     }

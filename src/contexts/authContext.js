@@ -6,6 +6,7 @@ import { UserClass } from "../services/api";
 export const AuthContext = createContext({});
 
 const getUser = new UserClass();
+
 export default AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
@@ -21,6 +22,10 @@ export default AuthProvider = ({ children }) => {
   useEffect(() => {
     updateUserInfo(user?._id);
   }, [newData]);
+
+  const handleNewData = () => {
+    setNewData(newData ? false : true);
+  };
 
   async function updateUserInfo(user_id) {
     if (!user_id) return;
@@ -101,8 +106,7 @@ export default AuthProvider = ({ children }) => {
         loadingAuth,
         errorLogin,
         errorSignUp,
-        setNewData,
-        newData,
+        handleNewData,
       }}
     >
       {children}

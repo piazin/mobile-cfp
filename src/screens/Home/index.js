@@ -1,10 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, StatusBar, FlatList } from "react-native";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import {
+  View,
+  StatusBar,
+  RefreshControl,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { Text } from "native-base";
 import { AuthContext } from "../../contexts/authContext";
 import { TransactionsClass } from "../../services/api";
 
-import { styles, lightMode } from "./styles";
+import { styles } from "./styles";
 import Header from "../../components/HomeScreen/Header";
 import BoxBalance from "../../components/HomeScreen/BoxBalance";
 import BoxShortcutIcons from "../../components/HomeScreen/BoxShortcutIcons";
@@ -13,10 +19,25 @@ import { FlatListLastTransactions } from "../../components/HomeScreen/FlatListLa
 const transactions = new TransactionsClass();
 
 export default function HomeScreen() {
-  const { user } = useContext(AuthContext);
+  const { user, handleNewData } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(true);
   const [transactionHistory, setTransactionHistory] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    handleNewData();
+    loadListTransactions();
+
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
 
   useEffect(() => {
     loadListTransactions();
@@ -35,12 +56,19 @@ export default function HomeScreen() {
     }
   };
 
-  const renderItem = ({ item }) => (
-    <FlatListLastTransactions desc={item.description} value={item.value} />
-  );
-
   return (
-    <>
+    <ScrollView
+      contentContainerStyle={{ flex: 1 }}
+      refreshControl={
+        <RefreshControl
+          title="pull refresh"
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={["transparent"]}
+          style={{ backgroundColor: "transparent" }}
+        />
+      }
+    >
       <Header
         user={user}
         handleBalanceViewState={handleBalanceViewState}
@@ -57,14 +85,18 @@ export default function HomeScreen() {
           Last Transactions
         </Text>
 
-        {transactionHistory ? (
-          <FlatList
-            data={transactionHistory}
-            renderItem={renderItem}
-            keyExtractor={(item) => item._id}
-          />
+        {transactionHistory?.lenght > 0 ? (
+          transactionHistory
+            .slice(0, 5)
+            .map((transaction) => (
+              <FlatListLastTransactions
+                key={transaction._id}
+                desc={transaction.description}
+                value={transaction.value}
+              />
+            ))
         ) : (
-          <Text>not transactions</Text>
+          <Text style={{ color: "#fff" }}>not transactions</Text>
         )}
       </View>
       <StatusBar
@@ -72,6 +104,6 @@ export default function HomeScreen() {
         barStyle="light-content"
         translucent
       />
-    </>
+    </ScrollView>
   );
 }
