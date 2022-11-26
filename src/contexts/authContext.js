@@ -10,7 +10,6 @@ const getUser = new UserClass();
 export default AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
-  const [newData, setNewData] = useState(false);
 
   const [errorLogin, setErrorLogin] = useState(null);
   const [errorSignUp, setErrorSignUp] = useState(null);
@@ -19,12 +18,8 @@ export default AuthProvider = ({ children }) => {
     loadStorage();
   }, []);
 
-  useEffect(() => {
-    updateUserInfo(user?._id);
-  }, [newData]);
-
   const handleNewData = () => {
-    setNewData(newData ? false : true);
+    updateUserInfo(user?._id);
   };
 
   async function updateUserInfo(user_id) {

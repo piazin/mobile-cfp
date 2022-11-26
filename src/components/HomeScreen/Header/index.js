@@ -49,7 +49,7 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
           fontWeight="bold"
           fontSize={22}
         >
-          Olá, {user?.name}
+          Olá, {user?.name.split(" ")[0]}
         </Text>
       </Box>
     </Box>

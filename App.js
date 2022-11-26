@@ -5,6 +5,7 @@ import { NativeBaseProvider } from "native-base";
 
 import ThemeProvider from "./src/contexts/themeContext";
 import AuthProvider from "./src/contexts/authContext";
+import TransactionProvider from "./src/contexts/transactionsContext";
 
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { theme } from "./src/styles/styles";
@@ -22,9 +23,11 @@ export default function App() {
     <NavigationContainer theme={navTheme}>
       <NativeBaseProvider theme={theme}>
         <AuthProvider>
-          <ThemeProvider>
-            <Routes />
-          </ThemeProvider>
+          <TransactionProvider>
+            <ThemeProvider>
+              <Routes />
+            </ThemeProvider>
+          </TransactionProvider>
         </AuthProvider>
       </NativeBaseProvider>
     </NavigationContainer>

@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     flex: 4,
     backgroundColor: "#1e1e1e",
     paddingHorizontal: 25,
+    position: "relative",
   },
 
   globalTextColor: {

@@ -5,6 +5,7 @@ import {
   RefreshControl,
   ScrollView,
   Platform,
+  BackHandler,
 } from "react-native";
 import { Text } from "native-base";
 import { AuthContext } from "../../contexts/authContext";
@@ -14,6 +15,7 @@ import { styles } from "./styles";
 import Header from "../../components/HomeScreen/Header";
 import BoxBalance from "../../components/HomeScreen/BoxBalance";
 import BoxShortcutIcons from "../../components/HomeScreen/BoxShortcutIcons";
+import { Modal } from "../../components/HomeScreen/Modal";
 import { FlatListLastTransactions } from "../../components/HomeScreen/FlatListLastTransactions";
 
 const transactions = new TransactionsClass();
@@ -22,8 +24,9 @@ export default function HomeScreen() {
   const { user, handleNewData } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(true);
-  const [transactionHistory, setTransactionHistory] = useState(null);
+  const [transactionHistory, setTransactionHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -41,6 +44,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadListTransactions();
+    handleNewData();
   }, []);
 
   const handleBalanceViewState = () => {
@@ -55,6 +59,10 @@ export default function HomeScreen() {
       console.error(error);
     }
   };
+
+  BackHandler.addEventListener("hardwareBackPress", () => {
+    setModal(true);
+  });
 
   return (
     <ScrollView
@@ -85,20 +93,24 @@ export default function HomeScreen() {
           Last Transactions
         </Text>
 
-        {transactionHistory?.lenght > 0 ? (
+        {transactionHistory.length > 0 ? (
           transactionHistory
-            .slice(0, 5)
+            .slice(0, 3)
             .map((transaction) => (
               <FlatListLastTransactions
                 key={transaction._id}
                 desc={transaction.description}
                 value={transaction.value}
+                typeTransaction={transaction.type}
               />
             ))
         ) : (
           <Text style={{ color: "#fff" }}>not transactions</Text>
         )}
       </View>
+
+      <Modal show={modal} close={() => setModal(false)} />
+
       <StatusBar
         backgroundColor="#7E74F1"
         barStyle="light-content"
