@@ -33,6 +33,8 @@ export default AuthProvider = ({ children }) => {
       setStorageUser(response.data.data);
     } catch (error) {
       console.error(error);
+      setUser(null);
+      setStorageUser(null);
     }
   }
 

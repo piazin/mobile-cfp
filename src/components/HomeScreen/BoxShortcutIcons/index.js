@@ -6,8 +6,18 @@ import { ShortcutIcons } from "../ShortcutIcons";
 export default function BoxShortcutIcons() {
   return (
     <View style={styles.container}>
-      <ShortcutIcons iconName="bank-transfer-in" label="Nova receita" />
-      <ShortcutIcons iconName="bank-transfer-out" label="Nova despesa" />
+      <ShortcutIcons
+        iconName="bank-transfer-in"
+        label="Nova receita"
+        routeName="NewTransactionScreen"
+        typeTransaction="income"
+      />
+      <ShortcutIcons
+        iconName="bank-transfer-out"
+        label="Nova despesa"
+        routeName="NewTransactionScreen"
+        typeTransaction="expense"
+      />
       <ShortcutIcons iconName="wallet" label="Wallet" />
     </View>
   );

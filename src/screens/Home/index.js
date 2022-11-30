@@ -1,12 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
-import {
-  View,
-  StatusBar,
-  RefreshControl,
-  ScrollView,
-  Platform,
-  BackHandler,
-} from "react-native";
+import { View, StatusBar, RefreshControl, ScrollView } from "react-native";
 import { Text } from "native-base";
 import { AuthContext } from "../../contexts/authContext";
 import { TransactionsClass } from "../../services/api";
@@ -57,12 +50,9 @@ export default function HomeScreen() {
       setTransactionHistory(response.data.data.transactions);
     } catch (error) {
       console.error(error);
+      setTransactionHistory(null);
     }
   };
-
-  BackHandler.addEventListener("hardwareBackPress", () => {
-    setModal(true);
-  });
 
   return (
     <ScrollView

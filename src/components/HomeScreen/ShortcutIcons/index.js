@@ -1,9 +1,12 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Box, Text } from "native-base";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export function ShortcutIcons({ iconName, label }) {
+export function ShortcutIcons({ iconName, label, routeName, typeTransaction }) {
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity
       style={{
@@ -12,6 +15,11 @@ export function ShortcutIcons({ iconName, label }) {
         justifyContent: "center",
         marginRight: 15,
       }}
+      onPress={() =>
+        navigation.navigate(routeName, {
+          typeTransaction,
+        })
+      }
     >
       <Box
         width={75}

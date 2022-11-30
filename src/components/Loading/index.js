@@ -1,15 +1,17 @@
 import React from "react";
-import { Box, Spinner } from "native-base";
+import { View, ActivityIndicator } from "react-native";
 
 export function Loading() {
   return (
-    <Box
-      flex={1}
-      alignItems="center"
-      justifyContent="center"
-      backgroundColor="primary.900"
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#1e1e1e",
+      }}
     >
-      <Spinner color="purple.600" size="lg" />
-    </Box>
+      <ActivityIndicator color="#7E74F1" size={22} />
+    </View>
   );
 }

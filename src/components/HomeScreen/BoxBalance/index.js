@@ -25,7 +25,7 @@ const BoxBalance = ({ balance, balanceViewState }) => {
           fontSize={22}
           paddingTop="2.5"
         >
-          {balanceViewState ? `R$ ${balance}` : "****"}
+          {balanceViewState ? `R$ ${balance.toFixed(2)}` : "****"}
         </Text>
       </TouchableOpacity>
     </View>

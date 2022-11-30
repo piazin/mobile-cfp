@@ -12,8 +12,10 @@ export function FlatListLastTransactions({ desc, value, typeTransaction }) {
     <View style={styles.container}>
       <Box
         borderRadius={40}
-        width={82}
-        height={82}
+        borderColor="purple.300"
+        borderWidth={1}
+        width={62}
+        height={62}
         backgroundColor="primary.800"
         alignItems="center"
         justifyContent="center"
@@ -24,7 +26,7 @@ export function FlatListLastTransactions({ desc, value, typeTransaction }) {
       <Text
         color="white"
         position="absolute"
-        left={95}
+        left={85}
         numberOfLines={1}
         fontSize="md"
         fontFamily="body"
