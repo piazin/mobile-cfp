@@ -47,6 +47,8 @@ export default function HomeScreen() {
   const loadListTransactions = async () => {
     try {
       const response = await transactions.getAllTransactions(user._id);
+      if (!response) return;
+
       setTransactionHistory(response.data.data.transactions);
     } catch (error) {
       console.error(error);
@@ -83,7 +85,7 @@ export default function HomeScreen() {
           Last Transactions
         </Text>
 
-        {transactionHistory.length > 0 ? (
+        {transactionHistory?.length > 0 ? (
           transactionHistory
             .slice(0, 3)
             .map((transaction) => (

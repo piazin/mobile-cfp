@@ -5,53 +5,105 @@ import {
   StatusBar,
   SafeAreaView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Keyboard,
+  ScrollView,
 } from "react-native";
-import { Text } from "native-base";
+import { Text, Button } from "native-base";
+import BottomSheet from "react-native-easy-bottomsheet";
 
 import styles from "./styles";
-import { Ionicons } from "@expo/vector-icons";
+
 import { FocusAwareStatusBar } from "../../components/FocusAwareStatusBar";
 import { Header } from "../../components/NewTransactionScreen/Header";
-
-import { validateValue } from "../../utils/validateFormFieldsUser";
+import { InputValue } from "../../components/NewTransactionScreen/InputValue";
+import { Input } from "../../components/NewTransactionScreen/Input";
 
 const currentHeight = StatusBar.currentHeight + 10 || 16;
 
 export default function NewTransactionScreen({ route }) {
   const { typeTransaction } = route.params;
-  const [valueTransaction, setValueTransaction] = useState(0);
 
-  const onChangeValueTransaction = (value) => {
-    value = value + "";
-    value = parseInt(value.replace(/[\D]+/g, ""));
-    value = value + "";
-    value = value.replace(/([0-9]{2})$/g, ",$1");
+  const [isVisible, setVisible] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [category, setCategory] = useState("Select category");
 
-    if (value.length > 6) {
-      value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-    }
-
-    if (value == "NaN") return setValueTransaction(0);
-
-    setValueTransaction(value);
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
   };
+
+  const data = [
+    {
+      id: 1,
+      name: "Carro",
+    },
+    {
+      id: 2,
+      name: "Eletronicos",
+    },
+    {
+      id: 3,
+      name: "Outros",
+    },
+  ];
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={[styles.container, { paddingTop: currentHeight }]}>
         <Header typeTransaction={typeTransaction} />
         <SafeAreaView style={styles.containerInputs}>
-          <TextInput
-            style={styles.inputValue}
-            value={String(valueTransaction)}
-            defaultValue={0}
-            returnKeyType="next"
-            keyboardType="decimal-pad"
-            placeholderTextColor="#fff"
-            onChangeText={onChangeValueTransaction}
-            maxLength={10}
+          <InputValue typeTransaction={typeTransaction} />
+
+          <Input
+            iconName="file-document-edit-outline"
+            placeholder="Descrição"
+            typeDate={false}
           />
+
+          <Input
+            iconName="calendar"
+            placeholder="Data"
+            typeInput="date"
+            date={date}
+            onChangeDate={onChangeDate}
+          />
+
+          <BottomSheet
+            bottomSheetTitle="Categoria"
+            bottomSheetIconColor="#7E74F1"
+            bottomSheetStyle={{
+              backgroundColor: "#1e1e1e",
+              maxHeight: "80%",
+              minHeight: "25%",
+            }}
+            bottomSheetTitleStyle={{ color: "#7E74F1" }}
+            onRequestClose={() => setVisible(!isVisible)}
+            bottomSheetVisible={isVisible}
+          >
+            <ScrollView>
+              {data.map((item) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCategory(item);
+                  }}
+                  key={item.id}
+                >
+                  <Text
+                    color="#fff"
+                    fontWeight="medium"
+                    fontFamily="body"
+                    fontSize="2xl"
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </BottomSheet>
+
+          <Input typeInput="select" iconName="bookmark-outline" />
+          <Button onPress={() => setVisible(true)}>title</Button>
         </SafeAreaView>
         <FocusAwareStatusBar
           barStyle="light-content"
