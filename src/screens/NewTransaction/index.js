@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
-  TextInput,
   StatusBar,
   SafeAreaView,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Keyboard,
   ScrollView,
 } from "react-native";
-import { Text, Button } from "native-base";
-import BottomSheet from "react-native-easy-bottomsheet";
+import { Text } from "native-base";
+import { RadioButton } from "react-native-paper";
+
+import { TransactionsClass } from "../../services/api";
+import { AuthContext } from "../../contexts/authContext";
 
 import styles from "./styles";
 
@@ -18,47 +19,60 @@ import { FocusAwareStatusBar } from "../../components/FocusAwareStatusBar";
 import { Header } from "../../components/NewTransactionScreen/Header";
 import { InputValue } from "../../components/NewTransactionScreen/InputValue";
 import { Input } from "../../components/NewTransactionScreen/Input";
+import { Button } from "../../components/NewTransactionScreen/Button";
 
 const currentHeight = StatusBar.currentHeight + 10 || 16;
 
+const transaction = new TransactionsClass();
+
 export default function NewTransactionScreen({ route }) {
+  const { user, jwt } = useContext(AuthContext);
+
   const { typeTransaction } = route.params;
 
-  const [isVisible, setVisible] = useState(false);
+  const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
+
+  const [valueTransaction, setValueTransaction] = useState(0);
   const [date, setDate] = useState(new Date());
-  const [category, setCategory] = useState("Select category");
+  const [category, setCategory] = useState(null);
+  const [type, setType] = useState(typeTransaction);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
   };
 
-  const data = [
-    {
-      id: 1,
-      name: "Carro",
-    },
-    {
-      id: 2,
-      name: "Eletronicos",
-    },
-    {
-      id: 3,
-      name: "Outros",
-    },
-  ];
+  useEffect(() => {
+    setType(typeTransaction);
+  }, [typeTransaction]);
+
+  const onSubmitTransaction = async () => {
+    await transaction.createTransaction(
+      parseFloat(valueTransaction),
+      date,
+      type,
+      "teste do app",
+      category?.id,
+      user._id,
+      jwt
+    );
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={[styles.container, { paddingTop: currentHeight }]}>
-        <Header typeTransaction={typeTransaction} />
+      <ScrollView style={[styles.container, { paddingTop: currentHeight }]}>
+        <Header typeTransaction={type} />
         <SafeAreaView style={styles.containerInputs}>
-          <InputValue typeTransaction={typeTransaction} />
+          <InputValue
+            typeTransaction={type}
+            valueTransaction={valueTransaction}
+            setValueTransaction={setValueTransaction}
+          />
 
           <Input
             iconName="file-document-edit-outline"
             placeholder="Descrição"
-            typeDate={false}
+            typeDate="desc"
           />
 
           <Input
@@ -69,47 +83,56 @@ export default function NewTransactionScreen({ route }) {
             onChangeDate={onChangeDate}
           />
 
-          <BottomSheet
-            bottomSheetTitle="Categoria"
-            bottomSheetIconColor="#7E74F1"
-            bottomSheetStyle={{
-              backgroundColor: "#1e1e1e",
-              maxHeight: "80%",
-              minHeight: "25%",
-            }}
-            bottomSheetTitleStyle={{ color: "#7E74F1" }}
-            onRequestClose={() => setVisible(!isVisible)}
-            bottomSheetVisible={isVisible}
-          >
-            <ScrollView>
-              {data.map((item) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCategory(item);
-                  }}
-                  key={item.id}
-                >
-                  <Text
-                    color="#fff"
-                    fontWeight="medium"
-                    fontFamily="body"
-                    fontSize="2xl"
-                  >
-                    {item.name}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </BottomSheet>
+          <Input
+            typeInput="select"
+            iconName="bookmark-outline"
+            categoryModalIsVisible={categoryModalIsVisible}
+            setCategoryModalIsVisible={setCategoryModalIsVisible}
+            category={category}
+            setCategory={setCategory}
+          />
 
-          <Input typeInput="select" iconName="bookmark-outline" />
-          <Button onPress={() => setVisible(true)}>title</Button>
+          <View style={styles.boxRadioButtons}>
+            <RadioButton
+              value="expense"
+              label="Despesa"
+              status={type === "expense" ? "checked" : "unchecked"}
+              onPress={() => setType("expense")}
+            />
+            <Text
+              color="white"
+              fontWeight="medium"
+              fontFamily="body"
+              fontSize={16}
+              marginRight={6}
+            >
+              Despesa
+            </Text>
+
+            <RadioButton
+              value="income"
+              label="Receita"
+              status={type === "income" ? "checked" : "unchecked"}
+              onPress={() => setType("income")}
+            />
+            <Text
+              color="white"
+              fontWeight="medium"
+              fontFamily="body"
+              fontSize={16}
+              marginRight={6}
+            >
+              Receita
+            </Text>
+          </View>
+
+          <Button title="Salvar" onPress={onSubmitTransaction} />
         </SafeAreaView>
         <FocusAwareStatusBar
           barStyle="light-content"
           backgroundColor="#1e1e1e"
         />
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

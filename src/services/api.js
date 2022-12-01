@@ -20,4 +20,41 @@ export class TransactionsClass {
       return null;
     }
   }
+
+  async createTransaction(
+    value,
+    date,
+    type,
+    description,
+    category,
+    owner,
+    jwt
+  ) {
+    try {
+      const res = await api.post(
+        "/transaction",
+        {
+          value,
+          date,
+          type,
+          description,
+          category,
+          owner,
+        },
+        { headers: { Authorization: `Bearer ${jwt}` } }
+      );
+
+      console.log(res);
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  }
+}
+
+export class Category {
+  async getAllCategories() {
+    try {
+      const categories = await api.get();
+    } catch (error) {}
+  }
 }

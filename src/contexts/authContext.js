@@ -8,6 +8,7 @@ export const AuthContext = createContext({});
 const getUser = new UserClass();
 
 export default AuthProvider = ({ children }) => {
+  const [jwt, setJwt] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
 
@@ -40,9 +41,12 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      // await AsyncStorage.removeItem("@user_auth");
-      const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
-      storageUser ? setUser(storageUser) : setUser(null);
+      await AsyncStorage.removeItem("@user_auth");
+      // const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
+      // storageUser ? setUser(storageUser) : setUser(null);
+
+      // const storageJWT = JSON.parse(await AsyncStorage.getItem("@jwt"));
+      // storageJWT ? setJwt(storageJWT) : setJwt(null);
     } catch (error) {
       setUser(null);
     }
@@ -50,6 +54,10 @@ export default AuthProvider = ({ children }) => {
 
   async function setStorageUser(data) {
     await AsyncStorage.setItem("@user_auth", JSON.stringify(data));
+  }
+
+  async function setStorageJWT(data) {
+    await AsyncStorage.setItem("@jwt", JSON.stringify(data));
   }
 
   async function signIn(email, password) {
@@ -62,6 +70,8 @@ export default AuthProvider = ({ children }) => {
 
       setUser(response.data.data);
       setStorageUser(response.data.data);
+      setJwt(response.data.data.token);
+      setStorageJWT(response.data.data.token);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);
@@ -97,6 +107,7 @@ export default AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         signed: !!user,
+        jwt,
         user,
         signUp,
         signIn,

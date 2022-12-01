@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Text } from "native-base";
 
-export function InputValue({ typeTransaction }) {
-  const [valueTransaction, setValueTransaction] = useState(0);
+export function InputValue({
+  typeTransaction,
+  valueTransaction,
+  setValueTransaction,
+}) {
+  // const onChangeValueTransaction = (value) => {
+  //   value = value + "";
+  //   value = parseInt(value.replace(/[\D]+/g, ""));
+  //   value = value + "";
+  //   value = value.replace(/([0-9]{2})$/g, ",$1");
 
-  const onChangeValueTransaction = (value) => {
-    value = value + "";
-    value = parseInt(value.replace(/[\D]+/g, ""));
-    value = value + "";
-    value = value.replace(/([0-9]{2})$/g, ",$1");
+  //   if (value.length > 6) {
+  //     value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1.$2");
+  //   }
 
-    if (value.length > 6) {
-      value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-    }
+  //   if (value == "NaN") return setValueTransaction("");
 
-    if (value == "NaN") return setValueTransaction("");
-
-    setValueTransaction(value);
-  };
+  //   setValueTransaction(value);
+  // };
 
   return (
     <>
@@ -32,7 +34,7 @@ export function InputValue({ typeTransaction }) {
         Valor da {typeTransaction == "expense" ? "despesa" : "receita"}
       </Text>
       <View style={styles.boxInputValue}>
-        <Text color="white" fontFamily="body" fontSize={22} fontWeight="medium">
+        <Text color="#ccc" fontFamily="body" fontSize={22} fontWeight="medium">
           R$
         </Text>
         <TextInput
@@ -41,8 +43,8 @@ export function InputValue({ typeTransaction }) {
           defaultValue={0}
           returnKeyType="next"
           keyboardType="decimal-pad"
-          placeholderTextColor="#fff"
-          onChangeText={onChangeValueTransaction}
+          placeholderTextColor="#ccc"
+          onChangeText={(value) => setValueTransaction(value)}
           maxLength={10}
         />
       </View>
@@ -52,7 +54,7 @@ export function InputValue({ typeTransaction }) {
 
 const styles = StyleSheet.create({
   boxInputValue: {
-    borderBottomColor: "#fff",
+    borderBottomColor: "#ccc",
     alignItems: "center",
     borderBottomWidth: 1,
     flexDirection: "row",
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     width: "65%",
   },
   inputValue: {
-    color: "#fff",
+    color: "#ccc",
     fontSize: 32,
     marginLeft: 10,
     minWidth: 80,

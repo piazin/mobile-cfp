@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 16,
   },
+  boxRadioButtons: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 25,
+  },
 });
 
 export default styles;

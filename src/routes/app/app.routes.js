@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeRoutes from "./home.routes";
 import ProfileRoutes from "./profile.routes";
+import NewTransactionScreen from "../../screens/NewTransaction";
 
 const AppTab = createBottomTabNavigator();
 import { ThemeContext } from "../../contexts/themeContext";
@@ -22,6 +23,8 @@ export default function AppRoutes() {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name == "Profile") {
             iconName = focused ? "person" : "person-outline";
+          } else {
+            iconName = focused ? "add" : "add-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -36,6 +39,16 @@ export default function AppRoutes() {
       })}
     >
       <AppTab.Screen name="Home" component={HomeRoutes} />
+      <AppTab.Screen
+        name="NewTransactionScreen"
+        component={NewTransactionScreen}
+        initialParams={{ typeTransaction: "expense" }}
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+        }}
+      />
       <AppTab.Screen name="Profile" component={ProfileRoutes} />
     </AppTab.Navigator>
   );

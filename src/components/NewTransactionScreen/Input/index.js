@@ -3,6 +3,7 @@ import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { BottomSheetComponent } from "./BottomSheet";
 
 export function Input({
   iconName,
@@ -10,6 +11,10 @@ export function Input({
   typeInput,
   date,
   onChangeDate,
+  category,
+  setCategory,
+  categoryModalIsVisible,
+  setCategoryModalIsVisible,
 }) {
   const [dateView, setDateView] = useState(null);
 
@@ -37,14 +42,43 @@ export function Input({
     setDateView(formatDate);
   };
 
+  const data = [
+    {
+      id: "6368746df08c14f318473b14",
+      title: "Car",
+      iconName: "car-outline",
+    },
+  ];
+
   if (typeInput == "select")
     return (
       <View style={styles.viewInput}>
         <MaterialCommunityIcons
-          name={iconName}
-          color="#fff"
+          name={category?.iconName ? category.iconName : iconName}
+          color="#ccc"
           size={32}
           style={styles.iconDescription}
+        />
+
+        <TouchableOpacity onPress={() => setCategoryModalIsVisible(true)}>
+          <Text
+            color="white"
+            fontWeight="medium"
+            fontFamily="body"
+            fontSize={16}
+            paddingBottom={3}
+            marginLeft={2}
+          >
+            {category ? category?.title : "Selecionar Categoria"}
+          </Text>
+        </TouchableOpacity>
+
+        <BottomSheetComponent
+          data={data}
+          categoryModalIsVisible={categoryModalIsVisible}
+          setCategoryModalIsVisible={setCategoryModalIsVisible}
+          category={category}
+          setCategory={setCategory}
         />
       </View>
     );
@@ -54,7 +88,7 @@ export function Input({
       <View style={styles.viewInput}>
         <MaterialCommunityIcons
           name={iconName}
-          color="#fff"
+          color="#ccc"
           size={32}
           style={styles.iconDescription}
         />
@@ -69,7 +103,7 @@ export function Input({
           </TouchableOpacity>
         ) : (
           <TextInput
-            placeholderTextColor="#fff"
+            placeholderTextColor="#ccc"
             placeholder={placeholder}
             style={styles.inputDescription}
             maxLength={32}
