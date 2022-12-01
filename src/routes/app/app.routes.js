@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeRoutes from "./home.routes";
 import ProfileRoutes from "./profile.routes";
 import NewTransactionScreen from "../../screens/NewTransaction";
+
+import { ButtonNew } from "../../components/ButtonNew";
 
 const AppTab = createBottomTabNavigator();
 import { ThemeContext } from "../../contexts/themeContext";
@@ -23,8 +24,6 @@ export default function AppRoutes() {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name == "Profile") {
             iconName = focused ? "person" : "person-outline";
-          } else {
-            iconName = focused ? "add" : "add-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -47,6 +46,9 @@ export default function AppRoutes() {
           tabBarStyle: {
             display: "none",
           },
+          tabBarIcon: ({ size, color }) => (
+            <ButtonNew color={color} size={size} />
+          ),
         }}
       />
       <AppTab.Screen name="Profile" component={ProfileRoutes} />

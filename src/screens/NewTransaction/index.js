@@ -12,6 +12,7 @@ import { RadioButton } from "react-native-paper";
 
 import { TransactionsClass } from "../../services/api";
 import { AuthContext } from "../../contexts/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
 
@@ -26,8 +27,9 @@ const currentHeight = StatusBar.currentHeight + 10 || 16;
 const transaction = new TransactionsClass();
 
 export default function NewTransactionScreen({ route }) {
-  const { user, jwt } = useContext(AuthContext);
+  const navigation = useNavigation();
 
+  const { user, jwt } = useContext(AuthContext);
   const { typeTransaction } = route.params;
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
@@ -56,6 +58,7 @@ export default function NewTransactionScreen({ route }) {
       user._id,
       jwt
     );
+    navigation.navigate("Home");
   };
 
   return (

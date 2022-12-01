@@ -41,12 +41,12 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      await AsyncStorage.removeItem("@user_auth");
-      // const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
-      // storageUser ? setUser(storageUser) : setUser(null);
+      // await AsyncStorage.removeItem("@user_auth");
+      const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
+      storageUser ? setUser(storageUser) : setUser(null);
 
-      // const storageJWT = JSON.parse(await AsyncStorage.getItem("@jwt"));
-      // storageJWT ? setJwt(storageJWT) : setJwt(null);
+      const storageJWT = JSON.parse(await AsyncStorage.getItem("@jwt"));
+      storageJWT ? setJwt(storageJWT) : setJwt(null);
     } catch (error) {
       setUser(null);
     }
