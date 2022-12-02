@@ -34,7 +34,10 @@ export default function NewTransactionScreen({ route }) {
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
 
-  const [valueTransaction, setValueTransaction] = useState(0);
+  const [valueTransaction, setValueTransaction] = useState("0");
+  const [valueTransactionFormat, setValueTransactionFormat] =
+    useState(valueTransaction);
+  const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(typeTransaction);
@@ -48,9 +51,22 @@ export default function NewTransactionScreen({ route }) {
     setType(typeTransaction);
   }, [typeTransaction]);
 
+  useEffect(() => {
+    formatValue();
+  }, [valueTransaction]);
+
+  const formatValue = () => {
+    let formatValue;
+    formatValue = valueTransaction.replace(".", "");
+    formatValue = formatValue.replace(",", ".");
+
+    if (formatValue.length == 3) formatValue = `0${formatValue}`;
+    setValueTransactionFormat(formatValue);
+  };
+
   const onSubmitTransaction = async () => {
     await transaction.createTransaction(
-      parseFloat(valueTransaction),
+      valueTransactionFormat,
       date,
       type,
       "teste do app",
@@ -76,6 +92,8 @@ export default function NewTransactionScreen({ route }) {
             iconName="file-document-edit-outline"
             placeholder="Descrição"
             typeDate="desc"
+            onChangeDescription={setDescription}
+            description={description}
           />
 
           <Input

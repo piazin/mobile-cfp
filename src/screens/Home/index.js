@@ -78,6 +78,7 @@ export default function HomeScreen() {
         <BoxBalance
           balance={user?.balance}
           balanceViewState={balanceViewState}
+          setBalanceViewState={setBalanceViewState}
         />
         <BoxShortcutIcons />
 

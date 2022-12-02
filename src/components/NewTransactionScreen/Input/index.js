@@ -9,6 +9,8 @@ export function Input({
   iconName,
   placeholder,
   typeInput,
+  description,
+  onChangeDescription,
   date,
   onChangeDate,
   category,
@@ -107,6 +109,8 @@ export function Input({
             placeholder={placeholder}
             style={styles.inputDescription}
             maxLength={32}
+            onChange={onChangeDescription}
+            value={description}
           />
         )}
       </View>

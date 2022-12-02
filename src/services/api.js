@@ -31,7 +31,7 @@ export class TransactionsClass {
     jwt
   ) {
     try {
-      const res = await api.post(
+      await api.post(
         "/transaction",
         {
           value,
@@ -43,8 +43,6 @@ export class TransactionsClass {
         },
         { headers: { Authorization: `Bearer ${jwt}` } }
       );
-
-      console.log(res);
     } catch (error) {
       console.error(error.response.data);
     }

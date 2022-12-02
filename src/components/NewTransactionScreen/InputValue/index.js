@@ -7,20 +7,20 @@ export function InputValue({
   valueTransaction,
   setValueTransaction,
 }) {
-  // const onChangeValueTransaction = (value) => {
-  //   value = value + "";
-  //   value = parseInt(value.replace(/[\D]+/g, ""));
-  //   value = value + "";
-  //   value = value.replace(/([0-9]{2})$/g, ",$1");
+  const onChangeValueTransaction = (value) => {
+    value = value + "";
+    value = parseInt(value.replace(/[\D]+/g, ""));
+    value = value + "";
+    value = value.replace(/([0-9]{2})$/g, ",$1");
 
-  //   if (value.length > 6) {
-  //     value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1.$2");
-  //   }
+    if (value.length > 6) {
+      value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+    }
 
-  //   if (value == "NaN") return setValueTransaction("");
+    if (value == "NaN") return setValueTransaction("");
 
-  //   setValueTransaction(value);
-  // };
+    setValueTransaction(value);
+  };
 
   return (
     <>
@@ -44,7 +44,7 @@ export function InputValue({
           returnKeyType="next"
           keyboardType="decimal-pad"
           placeholderTextColor="#ccc"
-          onChangeText={(value) => setValueTransaction(value)}
+          onChangeText={onChangeValueTransaction}
           maxLength={10}
         />
       </View>
