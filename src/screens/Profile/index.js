@@ -12,7 +12,11 @@ import { Modal } from "../../components/HomeScreen/Modal";
 const statusBarHeight = StatusBar.currentHeight;
 
 export default function ProfileScreen() {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const logOutUser = () => {
+    logOut();
+  };
 
   return (
     <View style={[styles.container, { paddingTop: statusBarHeight }]}>
@@ -27,7 +31,7 @@ export default function ProfileScreen() {
         >
           {user.name}
         </Text>
-        <Button>change pic</Button>
+        <Button onPress={() => logOutUser()}>sair</Button>
         <Text
           color="muted.400"
           fontFamily="heading"

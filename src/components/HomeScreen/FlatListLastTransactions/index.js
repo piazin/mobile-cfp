@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Image } from "react-native";
 import { Text, Box } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +7,32 @@ import styles from "./styles";
 import ExpenseIcon from "../../../assets/expense-icon.png";
 import IncomeIcon from "../../../assets/income-icon.png";
 
-export function FlatListLastTransactions({ desc, value, typeTransaction }) {
+import { TransactionContext } from "../../../contexts/transactionsContext";
+
+export function FlatListLastTransactions({
+  desc,
+  value,
+  typeTransaction,
+  categoryId,
+}) {
+  const { categories } = useContext(TransactionContext);
+
+  const [iconCategory, setIconCategory] = useState({});
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  const getCategory = () => {
+    if (!categories) return;
+
+    categories.forEach((category) => {
+      if (category._id != categoryId) return;
+
+      setIconCategory(category);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Box
@@ -20,7 +45,7 @@ export function FlatListLastTransactions({ desc, value, typeTransaction }) {
         alignItems="center"
         justifyContent="center"
       >
-        <Ionicons name="car" size={42} color="#D6d6d6" />
+        <Ionicons name={iconCategory.iconName} size={42} color="#D6d6d6" />
       </Box>
 
       <Text

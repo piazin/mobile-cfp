@@ -11,6 +11,7 @@ export function BottomSheetComponent({
   category,
   data,
 }) {
+  console.log(category);
   return (
     <BottomSheet
       bottomSheetTitle="Categoria"
@@ -26,7 +27,7 @@ export function BottomSheetComponent({
     >
       <ScrollView>
         {data.map((item) => (
-          <View key={item.id}>
+          <View key={item._id}>
             <TouchableOpacity
               onPress={() => {
                 setCategory(item);

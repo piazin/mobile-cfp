@@ -41,7 +41,6 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      // await AsyncStorage.removeItem("@user_auth");
       const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
       storageUser ? setUser(storageUser) : setUser(null);
 
@@ -49,6 +48,18 @@ export default AuthProvider = ({ children }) => {
       storageJWT ? setJwt(storageJWT) : setJwt(null);
     } catch (error) {
       setUser(null);
+    }
+  }
+
+  async function logOut() {
+    try {
+      await AsyncStorage.removeItem("@user_auth");
+      await AsyncStorage.removeItem("@jwt");
+      setUser(null);
+      setJwt(null);
+    } catch (error) {
+      setUser(null);
+      setJwt(null);
     }
   }
 
@@ -111,6 +122,7 @@ export default AuthProvider = ({ children }) => {
         user,
         signUp,
         signIn,
+        logOut,
         loadingAuth,
         errorLogin,
         errorSignUp,

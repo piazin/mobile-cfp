@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text } from "native-base";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { BottomSheetComponent } from "./BottomSheet";
+
+import { TransactionContext } from "../../../contexts/transactionsContext";
 
 export function Input({
   iconName,
   placeholder,
   typeInput,
   description,
-  onChangeDescription,
+  setDescription,
   date,
   onChangeDate,
   category,
@@ -18,6 +20,8 @@ export function Input({
   categoryModalIsVisible,
   setCategoryModalIsVisible,
 }) {
+  const { categories } = useContext(TransactionContext);
+
   const [dateView, setDateView] = useState(null);
 
   const showDatePicker = () => {
@@ -44,18 +48,15 @@ export function Input({
     setDateView(formatDate);
   };
 
-  const data = [
-    {
-      id: "6368746df08c14f318473b14",
-      title: "Car",
-      iconName: "car-outline",
-    },
-  ];
+  const onChangeDescription = (value) => {
+    setDescription(value);
+    console.log(description);
+  };
 
   if (typeInput == "select")
     return (
       <View style={styles.viewInput}>
-        <MaterialCommunityIcons
+        <Ionicons
           name={category?.iconName ? category.iconName : iconName}
           color="#ccc"
           size={32}
@@ -76,7 +77,7 @@ export function Input({
         </TouchableOpacity>
 
         <BottomSheetComponent
-          data={data}
+          data={categories}
           categoryModalIsVisible={categoryModalIsVisible}
           setCategoryModalIsVisible={setCategoryModalIsVisible}
           category={category}
@@ -109,7 +110,7 @@ export function Input({
             placeholder={placeholder}
             style={styles.inputDescription}
             maxLength={32}
-            onChange={onChangeDescription}
+            onChangeText={onChangeDescription}
             value={description}
           />
         )}

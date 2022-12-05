@@ -69,8 +69,8 @@ export default function NewTransactionScreen({ route }) {
       valueTransactionFormat,
       date,
       type,
-      "teste do app",
-      category?.id,
+      description,
+      category?._id,
       user._id,
       jwt
     );
@@ -92,7 +92,7 @@ export default function NewTransactionScreen({ route }) {
             iconName="file-document-edit-outline"
             placeholder="Descrição"
             typeDate="desc"
-            onChangeDescription={setDescription}
+            setDescription={setDescription}
             description={description}
           />
 
