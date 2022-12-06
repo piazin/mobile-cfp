@@ -11,7 +11,6 @@ export function BottomSheetComponent({
   category,
   data,
 }) {
-  console.log(category);
   return (
     <BottomSheet
       bottomSheetTitle="Categoria"

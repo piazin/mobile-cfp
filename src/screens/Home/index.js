@@ -83,7 +83,7 @@ export default function HomeScreen() {
         <BoxShortcutIcons />
 
         <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
-          Last Transactions
+          Movimentações recentes
         </Text>
 
         {transactionHistory?.length > 0 ? (

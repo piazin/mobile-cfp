@@ -19,11 +19,12 @@ export function Input({
   setCategory,
   categoryModalIsVisible,
   setCategoryModalIsVisible,
+  setButtonDisabled,
 }) {
   const { categories } = useContext(TransactionContext);
 
+  ///////////////////////////////////////////////
   const [dateView, setDateView] = useState(null);
-
   const showDatePicker = () => {
     DateTimePickerAndroid.open({
       value: date,
@@ -31,11 +32,6 @@ export function Input({
       mode: "date",
     });
   };
-
-  useEffect(() => {
-    changeDateView(date);
-  }, [date]);
-
   const changeDateView = (date) => {
     if (!date) return;
 
@@ -48,9 +44,26 @@ export function Input({
     setDateView(formatDate);
   };
 
+  useEffect(() => {
+    changeDateView(date);
+  }, [date]);
+  ///////////////////////////////////////////////
+
+  //////////////////////////////////////////////
+  const [validEntry, setValidEntry] = useState(true);
   const onChangeDescription = (value) => {
     setDescription(value);
-    console.log(description);
+    validationEntry(value);
+  };
+
+  const validationEntry = (value) => {
+    if (!value || value.length < 1) {
+      setValidEntry(false);
+      setButtonDisabled(true);
+    } else {
+      setValidEntry(true);
+      setButtonDisabled(false);
+    }
   };
 
   if (typeInput == "select")
@@ -88,7 +101,12 @@ export function Input({
 
   return (
     <>
-      <View style={styles.viewInput}>
+      <View
+        style={[
+          styles.viewInput,
+          { borderBottomColor: validEntry ? "#d2d2d2" : "red" },
+        ]}
+      >
         <MaterialCommunityIcons
           name={iconName}
           color="#ccc"

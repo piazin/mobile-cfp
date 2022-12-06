@@ -31,7 +31,7 @@ export default function ProfileScreen() {
         >
           {user.name}
         </Text>
-        <Button onPress={() => logOutUser()}>sair</Button>
+
         <Text
           color="muted.400"
           fontFamily="heading"
@@ -106,6 +106,17 @@ export default function ProfileScreen() {
             </Box>
           </Box>
         </Box>
+
+        <Text
+          color="purple.600"
+          fontFamily="body"
+          fontWeight="bold"
+          fontSize="lg"
+          marginTop="5"
+          onPress={() => logOutUser()}
+        >
+          Sair
+        </Text>
       </Box>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
     </View>

@@ -33,7 +33,11 @@ export default function NewTransactionScreen({ route }) {
   const { typeTransaction } = route.params;
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  ////////////////////////////////////////////////
+  // Form states
+  ////////////////////////////////////////////////
   const [valueTransaction, setValueTransaction] = useState("0");
   const [valueTransactionFormat, setValueTransactionFormat] =
     useState(valueTransaction);
@@ -42,6 +46,9 @@ export default function NewTransactionScreen({ route }) {
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(typeTransaction);
 
+  ////////////////////////////////////////////////
+  // Change Date
+  ////////////////////////////////////////////////
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
@@ -51,6 +58,9 @@ export default function NewTransactionScreen({ route }) {
     setType(typeTransaction);
   }, [typeTransaction]);
 
+  ////////////////////////////////////////////////
+  // set and format value transaction
+  ////////////////////////////////////////////////
   useEffect(() => {
     formatValue();
   }, [valueTransaction]);
@@ -64,6 +74,13 @@ export default function NewTransactionScreen({ route }) {
     setValueTransactionFormat(formatValue);
   };
 
+  ////////////////////////////////////////////////
+  // handle form information
+  ////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////
+  // Submit form
+  ////////////////////////////////////////////////
   const onSubmitTransaction = async () => {
     await transaction.createTransaction(
       valueTransactionFormat,
@@ -86,6 +103,7 @@ export default function NewTransactionScreen({ route }) {
             typeTransaction={type}
             valueTransaction={valueTransaction}
             setValueTransaction={setValueTransaction}
+            setButtonDisabled={setIsButtonDisabled}
           />
 
           <Input
@@ -94,6 +112,7 @@ export default function NewTransactionScreen({ route }) {
             typeDate="desc"
             setDescription={setDescription}
             description={description}
+            setButtonDisabled={setIsButtonDisabled}
           />
 
           <Input
@@ -102,6 +121,7 @@ export default function NewTransactionScreen({ route }) {
             typeInput="date"
             date={date}
             onChangeDate={onChangeDate}
+            setButtonDisabled={setIsButtonDisabled}
           />
 
           <Input
@@ -111,6 +131,7 @@ export default function NewTransactionScreen({ route }) {
             setCategoryModalIsVisible={setCategoryModalIsVisible}
             category={category}
             setCategory={setCategory}
+            setButtonDisabled={setIsButtonDisabled}
           />
 
           <View style={styles.boxRadioButtons}>
@@ -147,7 +168,11 @@ export default function NewTransactionScreen({ route }) {
             </Text>
           </View>
 
-          <Button title="Salvar" onPress={onSubmitTransaction} />
+          <Button
+            title="Salvar"
+            onPress={onSubmitTransaction}
+            isDisabled={isButtonDisabled}
+          />
         </SafeAreaView>
         <FocusAwareStatusBar
           barStyle="light-content"

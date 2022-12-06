@@ -6,7 +6,10 @@ export function InputValue({
   typeTransaction,
   valueTransaction,
   setValueTransaction,
+  setButtonDisabled,
 }) {
+  const [validEntry, setValidEntry] = useState(true);
+
   const onChangeValueTransaction = (value) => {
     value = value + "";
     value = parseInt(value.replace(/[\D]+/g, ""));
@@ -16,10 +19,21 @@ export function InputValue({
     if (value.length > 6) {
       value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
     }
+    validationEntry(value);
 
     if (value == "NaN") return setValueTransaction("");
 
     setValueTransaction(value);
+  };
+
+  const validationEntry = (value) => {
+    if (value == "NaN" || value.length < 1) {
+      setValidEntry(false);
+      setButtonDisabled(true);
+    } else {
+      setValidEntry(true);
+      setButtonDisabled(false);
+    }
   };
 
   return (
@@ -33,7 +47,12 @@ export function InputValue({
       >
         Valor da {typeTransaction == "expense" ? "despesa" : "receita"}
       </Text>
-      <View style={styles.boxInputValue}>
+      <View
+        style={[
+          styles.boxInputValue,
+          { borderBottomColor: validEntry ? "#ccc" : "red" },
+        ]}
+      >
         <Text color="#ccc" fontFamily="body" fontSize={22} fontWeight="medium">
           R$
         </Text>
@@ -54,7 +73,6 @@ export function InputValue({
 
 const styles = StyleSheet.create({
   boxInputValue: {
-    borderBottomColor: "#ccc",
     alignItems: "center",
     borderBottomWidth: 1,
     flexDirection: "row",

@@ -1,10 +1,14 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "native-base";
 
-export function Button({ title, onPress }) {
+export function Button({ title, onPress, isDisabled }) {
   return (
-    <TouchableOpacity onPress={() => onPress()} style={styles.button}>
+    <TouchableOpacity
+      onPress={() => onPress()}
+      style={[styles.button, { opacity: isDisabled ? 0.6 : 1 }]}
+      disabled={isDisabled ? true : false}
+    >
       <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
         {title}
       </Text>

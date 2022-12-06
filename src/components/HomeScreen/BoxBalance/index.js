@@ -33,7 +33,7 @@ const BoxBalance = ({ balance, balanceViewState }) => {
           justifyContent="space-between"
         >
           <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
-            Wallet
+            Carteira
           </Text>
           <Ionicons name="chevron-forward" color="#ffffff" size={22} />
         </Box>
