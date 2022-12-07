@@ -30,7 +30,7 @@ export default function HomeScreen() {
     handleNewData();
     loadListTransactions();
 
-    wait(2000).then(() => {
+    wait(500).then(() => {
       setRefreshing(false);
     });
   }, []);

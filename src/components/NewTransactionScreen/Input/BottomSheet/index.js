@@ -25,7 +25,7 @@ export function BottomSheetComponent({
       bottomSheetVisible={categoryModalIsVisible}
     >
       <ScrollView>
-        {data.map((item) => (
+        {data?.map((item) => (
           <View key={item._id}>
             <TouchableOpacity
               onPress={() => {

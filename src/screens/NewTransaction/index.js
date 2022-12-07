@@ -15,6 +15,7 @@ import { AuthContext } from "../../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 import { FocusAwareStatusBar } from "../../components/FocusAwareStatusBar";
 import { Header } from "../../components/NewTransactionScreen/Header";
@@ -29,11 +30,13 @@ const transaction = new TransactionsClass();
 export default function NewTransactionScreen({ route }) {
   const navigation = useNavigation();
 
-  const { user, jwt } = useContext(AuthContext);
+  const { user, jwt, handleNewData } = useContext(AuthContext);
   const { typeTransaction } = route.params;
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   ////////////////////////////////////////////////
   // Form states
@@ -75,13 +78,37 @@ export default function NewTransactionScreen({ route }) {
   };
 
   ////////////////////////////////////////////////
-  // handle form information
+  // check form information
   ////////////////////////////////////////////////
+  const checkFormInfo = () => {
+    if (valueTransaction.length < 1 || valueTransaction == "0") {
+      setIsButtonDisabled(true);
+      setErrorMessage("O valor deve ser valido");
+      setShowAlert(true);
+      return false;
+    }
+    if (description.length < 1) {
+      setIsButtonDisabled(true);
+      setErrorMessage("Insira uma descrição");
+      setShowAlert(true);
+      return false;
+    }
+    if (!category) {
+      setErrorMessage("Selecione uma categoria");
+      setShowAlert(true);
+      return false;
+    }
 
+    setShowAlert(false);
+    setIsButtonDisabled(false);
+    return true;
+  };
   ////////////////////////////////////////////////
   // Submit form
   ////////////////////////////////////////////////
   const onSubmitTransaction = async () => {
+    if (!checkFormInfo()) return;
+
     await transaction.createTransaction(
       valueTransactionFormat,
       date,
@@ -91,6 +118,12 @@ export default function NewTransactionScreen({ route }) {
       user._id,
       jwt
     );
+    handleNewData();
+
+    setValueTransaction("0");
+    setDescription("");
+    setCategory(null);
+
     navigation.navigate("Home");
   };
 
@@ -177,6 +210,23 @@ export default function NewTransactionScreen({ route }) {
         <FocusAwareStatusBar
           barStyle="light-content"
           backgroundColor="#1e1e1e"
+        />
+        {/* Alerts */}
+
+        <AwesomeAlert
+          show={showAlert}
+          title="Alert"
+          showProgress={false}
+          message={errorMessage}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          confirmText="OK"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            setShowAlert(!showAlert);
+          }}
         />
       </ScrollView>
     </TouchableWithoutFeedback>
