@@ -5,6 +5,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 10,
+    backgroundColor: '#1e1e1e',
   },
   inputCode: {
     width: '75%',

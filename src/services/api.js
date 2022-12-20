@@ -12,13 +12,23 @@ export class UserClass {
 
   async requestRecoveryCode(email) {
     try {
-      const responseData = await api.post('/user/password-reset-request', {
+      var response = await api.post('/user/password-reset-request', {
         email,
       });
-      return responseData.data;
+      return response.data;
     } catch (e) {
       console.error(e);
       return e.data.message;
+    }
+  }
+
+  async verifyCode(code) {
+    try {
+      var response = await api.post('/user/verify-reset-code', { code });
+      return response.data;
+    } catch (e) {
+      console.error(e);
+      return e.data;
     }
   }
 }

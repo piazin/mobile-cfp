@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput } from 'react-native';
-import { Box, Text } from 'native-base';
+import { Text, KeyboardAvoidingView } from 'native-base';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import { styles } from './styles';
 
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar';
+import { VerifyCode } from './VerifyCode';
 import { RequestCodeForm } from './RequestCodeForm';
+
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar';
 
 export default function ForgotPasswordScreen() {
   const stages = {
@@ -15,6 +17,7 @@ export default function ForgotPasswordScreen() {
   };
 
   const [email, setEmail] = useState('');
+  const [msgState, setMsgState] = useState('');
   const [stage, setStage] = useState(stages.REQUEST_LINK);
 
   const switchStage = (stage) => {
@@ -22,21 +25,27 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <Box bg="primary.900" style={styles.container}>
-      <Text color="white" fontSize="lg" fontFamily="body">
-        Redefinir senha
-      </Text>
-      {stage === 'REQUEST_LINK' && (
-        <RequestCodeForm
-          email={email}
-          setEmail={setEmail}
-          switchStage={switchStage}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView style={styles.container}>
+        {stage === 'REQUEST_LINK' && (
+          <RequestCodeForm
+            setMsgState={setMsgState}
+            setEmail={setEmail}
+            switchStage={switchStage}
+          />
+        )}
+
+        {stage === 'VERIFY' && (
+          <VerifyCode note={msgState} switchStage={switchStage} />
+        )}
+
+        {stage === 'RESET' && <Text>Hello</Text>}
+
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#1e1e1e"
         />
-      )}
-
-      {stage === 'VERIFY' && <Text>Hello from VERIFY</Text>}
-
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
-    </Box>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
