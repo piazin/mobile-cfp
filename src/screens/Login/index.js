@@ -1,22 +1,23 @@
-import React, { useState, useContext } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   Keyboard,
   TouchableNativeFeedback,
   TouchableOpacity,
   StatusBar,
-} from "react-native";
-import { ThemeContext } from "../../contexts/themeContext";
-import { AuthContext } from "../../contexts/authContext";
-import { Box, View, Text } from "native-base";
+} from 'react-native';
+import { ThemeContext } from '../../contexts/themeContext';
+import { AuthContext } from '../../contexts/authContext';
+import { Box, View, Text } from 'native-base';
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
-import Header from "../../components/LoginScreen/Header";
-import InputComponent from "../../components/LoginScreen/Input";
-import Button from "../../components/LoginScreen/Button";
+import Header from '../../components/LoginScreen/Header';
+import Button from '../../components/LoginScreen/Button';
+import InputComponent from '../../components/LoginScreen/Input';
+import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 
-import { validateEmail } from "../../utils/validateFormFieldsUser";
+import { validateEmail } from '../../utils/validateFormFieldsUser';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -24,8 +25,8 @@ export default function LoginScreen() {
   const { signIn, loadingAuth, errorLogin } = useContext(AuthContext);
   const { deviceTheme } = useContext(ThemeContext);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [stateSecureText, setStateSecureText] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
 
@@ -47,11 +48,11 @@ export default function LoginScreen() {
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
       <Box
-        bg={deviceTheme === "dark" ? "primary.900" : "white"}
+        bg={deviceTheme === 'dark' ? 'primary.900' : 'white'}
         style={styles.container}
       >
         <Header title="CFP" subtitle="acesse sua conta" />
-        {errorLogin ? <Text style={{ color: "red" }}>{errorLogin}</Text> : null}
+        {errorLogin ? <Text style={{ color: 'red' }}>{errorLogin}</Text> : null}
         <View style={styles.inputBox}>
           <InputComponent
             placeholder="Digite seu e-mail"
@@ -66,7 +67,10 @@ export default function LoginScreen() {
             typeInput={stateSecureText}
             changeTypeInput={setStateSecureText}
           />
-          <TouchableOpacity style={styles.btnForgotPassword}>
+          <TouchableOpacity
+            style={styles.btnForgotPassword}
+            onPress={() => navigation.navigate('ForgotPassword')}
+          >
             <Text color="purple.600">esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
@@ -78,14 +82,18 @@ export default function LoginScreen() {
             isLoading={loadingAuth}
           />
           <View style={styles.boxHelpAcount}>
-            <Text color={deviceTheme === "dark" ? "muted.300" : "primary.900"}>
+            <Text color={deviceTheme === 'dark' ? 'muted.300' : 'primary.900'}>
               não tem uma conta?
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text color="purple.600">criar conta</Text>
             </TouchableOpacity>
           </View>
         </View>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#1e1e1e"
+        />
       </Box>
     </TouchableNativeFeedback>
   );

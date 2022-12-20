@@ -1,4 +1,4 @@
-import api from "../config/axios";
+import api from '../config/axios';
 
 export class UserClass {
   async updateUserInfo(user_id) {
@@ -7,6 +7,18 @@ export class UserClass {
       return userData;
     } catch (error) {
       return null;
+    }
+  }
+
+  async requestRecoveryCode(email) {
+    try {
+      const responseData = await api.post('/user/password-reset-request', {
+        email,
+      });
+      return responseData.data;
+    } catch (e) {
+      console.error(e);
+      return e.data.message;
     }
   }
 }
@@ -32,7 +44,7 @@ export class TransactionsClass {
   ) {
     try {
       await api.post(
-        "/transaction",
+        '/transaction',
         {
           value,
           date,

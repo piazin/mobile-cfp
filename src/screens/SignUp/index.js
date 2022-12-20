@@ -1,24 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Keyboard,
   TouchableNativeFeedback,
   TouchableOpacity,
-} from "react-native";
-import { AuthContext } from "../../contexts/authContext";
-import { ThemeContext } from "../../contexts/themeContext";
-import { useNavigation } from "@react-navigation/native";
-import { Box, View, Text, Progress } from "native-base";
+} from 'react-native';
+import { AuthContext } from '../../contexts/authContext';
+import { ThemeContext } from '../../contexts/themeContext';
+import { useNavigation } from '@react-navigation/native';
+import { Box, View, Text, Progress } from 'native-base';
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
-import Header from "../../components/LoginScreen/Header";
-import InputComponent from "../../components/LoginScreen/Input";
-import Button from "../../components/LoginScreen/Button";
+import Header from '../../components/LoginScreen/Header';
+import InputComponent from '../../components/LoginScreen/Input';
+import Button from '../../components/LoginScreen/Button';
 
 import {
   validateEmail,
   validatePassword,
-} from "../../utils/validateFormFieldsUser";
+} from '../../utils/validateFormFieldsUser';
+import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -26,9 +27,9 @@ export default function SignUpScreen() {
   const { deviceTheme } = useContext(ThemeContext);
   const { signUp, loadingAuth, errorSignUp } = useContext(AuthContext);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [stateSecureText, setStateSecureText] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
   const [progressForm, setProgressForm] = useState(0);
@@ -77,12 +78,12 @@ export default function SignUpScreen() {
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
       <Box
-        bg={deviceTheme === "dark" ? "primary.900" : "white"}
+        bg={deviceTheme === 'dark' ? 'primary.900' : 'white'}
         style={styles.container}
       >
         <Header title="Sign Up" subtitle="crie sua conta" />
         {errorSignUp ? (
-          <Text style={{ color: "red" }}>{errorSignUp}</Text>
+          <Text style={{ color: 'red' }}>{errorSignUp}</Text>
         ) : null}
         <View style={styles.inputBox}>
           <InputComponent
@@ -107,7 +108,7 @@ export default function SignUpScreen() {
             mx={1}
             size="xs"
             value={progressForm}
-            _filledTrack={{ bg: "purple.600" }}
+            _filledTrack={{ bg: 'purple.600' }}
           />
         </View>
         <View style={styles.btnBox}>
@@ -118,14 +119,18 @@ export default function SignUpScreen() {
             buttonState={validateForm}
           />
           <View style={styles.boxHelpAcount}>
-            <Text color={deviceTheme === "dark" ? "muted.300" : "primary.900"}>
+            <Text color={deviceTheme === 'dark' ? 'muted.300' : 'primary.900'}>
               tem uma conta?
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text color="purple.600">faça login</Text>
             </TouchableOpacity>
           </View>
         </View>
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#1e1e1e"
+        />
       </Box>
     </TouchableNativeFeedback>
   );

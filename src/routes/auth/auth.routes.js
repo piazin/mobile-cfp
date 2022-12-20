@@ -1,8 +1,9 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import LoginScreen from "../../screens/Login";
-import SignUpScreen from "../../screens/SignUp";
+import LoginScreen from '../../screens/Login';
+import SignUpScreen from '../../screens/SignUp';
+import ForgotPasswordScreen from '../../screens/Login/ForgotPassword';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -12,13 +13,17 @@ export default function AuthRoutes() {
       screenOptions={{
         headerShown: false,
         cardStyle: {
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
         },
         detachPreviousScreen: true,
-        presentation: "transparentModal",
+        presentation: 'transparentModal',
       }}
     >
       <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+      />
       <AuthStack.Screen name="Signup" component={SignUpScreen} />
     </AuthStack.Navigator>
   );

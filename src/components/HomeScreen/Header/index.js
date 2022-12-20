@@ -1,9 +1,9 @@
-import React from "react";
-import { TouchableOpacity, StatusBar } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Box, Text, Avatar } from "native-base";
-import { useNavigation } from "@react-navigation/native";
-import styles from "./styles";
+import React from 'react';
+import { TouchableOpacity, StatusBar } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Box, Text, Avatar } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import styles from './styles';
 
 const statusBarHeight = StatusBar.currentHeight;
 
@@ -22,13 +22,13 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
         justifyContent="space-between"
         paddingTop={4}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Avatar
             bg="primary.900"
             source={{
               uri: user.avatar
                 ? user.avatar.url
-                : "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
+                : 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png',
             }}
             style={styles.profilePic}
           />
@@ -36,7 +36,7 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
 
         <TouchableOpacity onPress={() => handleBalanceViewState()}>
           <Ionicons
-            name={balanceViewState ? "eye-outline" : "eye-off-outline"}
+            name={balanceViewState ? 'eye-outline' : 'eye-off-outline'}
             color="#ffffff"
             size={30}
           />
@@ -49,7 +49,7 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
           fontWeight="bold"
           fontSize={22}
         >
-          Olá, {user?.name.split(" ")[0]}
+          Olá, {user?.name?.split(' ')[0]}
         </Text>
       </Box>
     </Box>
