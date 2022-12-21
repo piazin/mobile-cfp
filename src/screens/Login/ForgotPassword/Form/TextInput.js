@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     flexGrow: 1,
+    width: '100%',
   },
 });
 

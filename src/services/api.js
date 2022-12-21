@@ -17,8 +17,7 @@ export class UserClass {
       });
       return response.data;
     } catch (e) {
-      console.error(e);
-      return e.data.message;
+      return e.response.data;
     }
   }
 
@@ -27,8 +26,19 @@ export class UserClass {
       var response = await api.post('/user/verify-reset-code', { code });
       return response.data;
     } catch (e) {
-      console.error(e);
-      return e.data;
+      return e.response.data;
+    }
+  }
+
+  async resetPassword(email, password) {
+    try {
+      var response = await api.patch('/user/change-password', {
+        email,
+        password,
+      });
+      return response.data;
+    } catch (e) {
+      return e.response.data;
     }
   }
 }

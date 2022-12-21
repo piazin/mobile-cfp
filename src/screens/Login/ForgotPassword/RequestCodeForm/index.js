@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Keyboard } from 'react-native';
+import { Text } from 'native-base';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -15,20 +17,34 @@ import ForgotPasswordImg from '../../../../assets/forgotpass.png';
 
 export function RequestCodeForm({ setMsgState, setEmail, switchStage }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [msgServerError, setMsgServerError] = useState(null);
 
-  const onSubmitCode = async (values) => {
+  const onSubmitCode = (values) => {
     setIsLoading(true);
+    Keyboard.dismiss();
 
-    try {
-      const data = await requestRecoveryCode(values.email);
-      setEmail(values.email);
-      setMsgState(data?.message);
-      setIsLoading(false);
-      switchStage('VERIFY');
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
+    requestRecoveryCode(values.email)
+      .then((data) => {
+        setIsLoading(false);
+        if (data?.status !== 200) {
+          setErr(data.message);
+          return;
+        }
+        setEmail(values.email);
+        setMsgState(data?.message);
+        switchStage('VERIFY');
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        setErr(e.message);
+      });
+  };
+
+  const setErr = (msg) => {
+    setMsgServerError(msg);
+    setTimeout(() => {
+      setMsgServerError(null);
+    }, 4000);
   };
 
   return (
@@ -46,6 +62,10 @@ export function RequestCodeForm({ setMsgState, setEmail, switchStage }) {
           <Illustration source={ForgotPasswordImg} alt="fogot password img" />
           <Title title="Esqueceu a senha?" />
           <Note note="Não se preocupe, isso acontece com o melhor de nós." />
+
+          {msgServerError ? (
+            <Text color="red.400">{msgServerError}</Text>
+          ) : null}
 
           <TextInput
             placeholder="Digite seu email"

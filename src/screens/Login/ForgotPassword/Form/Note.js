@@ -8,9 +8,9 @@ export function Note({ note }) {
       lineHeight={20}
       fontSize={14}
       textAlign="center"
-      paddingX={16}
+      paddingX={5}
       marginBottom="10"
-      marginTop="2"
+      marginTop="4"
       fontWeight="light"
     >
       {note}

@@ -5,6 +5,7 @@ import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { styles } from './styles';
 
 import { VerifyCode } from './VerifyCode';
+import { ResetPassForm } from './ResetPassForm';
 import { RequestCodeForm } from './RequestCodeForm';
 
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar';
@@ -39,7 +40,9 @@ export default function ForgotPasswordScreen() {
           <VerifyCode note={msgState} switchStage={switchStage} />
         )}
 
-        {stage === 'RESET' && <Text>Hello</Text>}
+        {stage === 'RESET' && (
+          <ResetPassForm switchStage={switchStage} email={email} />
+        )}
 
         <FocusAwareStatusBar
           barStyle="light-content"

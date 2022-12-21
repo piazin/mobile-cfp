@@ -1,7 +1,7 @@
-import React from "react";
-import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
-import { Spinner } from "native-base";
-import { Text } from "native-base";
+import React from 'react';
+import { TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { Spinner } from 'native-base';
+import { Text } from 'native-base';
 
 const Button = ({ title, onPressFunction, isLoading, buttonState }) => {
   return (
@@ -23,9 +23,9 @@ const Button = ({ title, onPressFunction, isLoading, buttonState }) => {
 
 const styles = StyleSheet.create({
   btnLogin: {
-    backgroundColor: "#7E74F1",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#7E74F1',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
     padding: 1,
     height: 52,
