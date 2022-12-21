@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../config/axios";
-import { UserClass } from "../services/api";
+import React, { createContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../config/axios';
+import { UserClass } from '../services/api';
 
 export const AuthContext = createContext({});
 
@@ -41,10 +41,10 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      const storageUser = JSON.parse(await AsyncStorage.getItem("@user_auth"));
+      const storageUser = JSON.parse(await AsyncStorage.getItem('@user_auth'));
       storageUser ? setUser(storageUser) : setUser(null);
 
-      const storageJWT = JSON.parse(await AsyncStorage.getItem("@jwt"));
+      const storageJWT = JSON.parse(await AsyncStorage.getItem('@jwt'));
       storageJWT ? setJwt(storageJWT) : setJwt(null);
     } catch (error) {
       setUser(null);
@@ -53,8 +53,8 @@ export default AuthProvider = ({ children }) => {
 
   async function logOut() {
     try {
-      await AsyncStorage.removeItem("@user_auth");
-      await AsyncStorage.removeItem("@jwt");
+      await AsyncStorage.removeItem('@user_auth');
+      await AsyncStorage.removeItem('@jwt');
       setUser(null);
       setJwt(null);
     } catch (error) {
@@ -64,17 +64,17 @@ export default AuthProvider = ({ children }) => {
   }
 
   async function setStorageUser(data) {
-    await AsyncStorage.setItem("@user_auth", JSON.stringify(data));
+    await AsyncStorage.setItem('@user_auth', JSON.stringify(data));
   }
 
   async function setStorageJWT(data) {
-    await AsyncStorage.setItem("@jwt", JSON.stringify(data));
+    await AsyncStorage.setItem('@jwt', JSON.stringify(data));
   }
 
   async function signIn(email, password) {
     setLoadingAuth(true);
     try {
-      var response = await api.post("/user/authenticate", {
+      var response = await api.post('/user/authenticate', {
         email,
         password,
       });
@@ -96,7 +96,7 @@ export default AuthProvider = ({ children }) => {
   async function signUp({ name, email, password }) {
     setLoadingAuth(true);
     try {
-      var response = await api.post("/user", {
+      var response = await api.post('/user', {
         name: name,
         email: email,
         password: password,
@@ -104,6 +104,8 @@ export default AuthProvider = ({ children }) => {
 
       setUser(response.data.data);
       setStorageUser(response.data.data);
+      setJwt(response.data.data.token);
+      setStorageJWT(response.data.data.token);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);
