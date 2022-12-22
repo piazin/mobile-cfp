@@ -51,6 +51,7 @@ export default function SignUpScreen() {
   };
 
   const handleEmail = (email) => {
+    var email = email.replace(' ', '');
     if (!validateEmail(email)) {
       setEmail(email);
     } else {

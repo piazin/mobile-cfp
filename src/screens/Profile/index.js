@@ -23,20 +23,11 @@ export default function ProfileScreen() {
       <Box width="100%" alignItems="center" paddingTop="6">
         <SelectAnImage user={user} />
         <Text
-          color="muted.400"
-          fontFamily="heading"
-          fontWeight="bold"
-          fontSize={18}
-          marginTop="3"
-        >
-          Olá
-        </Text>
-        <Text
           color="white"
           fontFamily="heading"
           fontWeight="bold"
           fontSize={22}
-          marginTop="1"
+          marginTop="4"
         >
           {user.name}
         </Text>

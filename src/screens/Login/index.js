@@ -31,6 +31,7 @@ export default function LoginScreen() {
   const [validateForm, setValidateForm] = useState(false);
 
   const handleEmail = (email) => {
+    var email = email.replace(' ', '');
     if (!validateEmail(email)) {
       setEmail(email);
       setValidateForm(false);

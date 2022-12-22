@@ -14,6 +14,8 @@ import ImgNotFound from '../../assets/not_found.png';
 
 const transactions = new TransactionsClass();
 
+const statusBarHeight = StatusBar.currentHeight || 20;
+
 export default function HomeScreen() {
   const { user, handleNewData } = useContext(AuthContext);
 
@@ -67,6 +69,7 @@ export default function HomeScreen() {
           onRefresh={onRefresh}
           colors={['transparent']}
           style={{ backgroundColor: 'transparent' }}
+          progressViewOffset={statusBarHeight}
         />
       }
     >

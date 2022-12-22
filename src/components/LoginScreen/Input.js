@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { Box } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import React from 'react';
+import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Box } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 
 const InputComponent = ({
   placeholder,
@@ -22,14 +22,17 @@ const InputComponent = ({
         keyboardType="default"
         secureTextEntry={typeInput ? typeInput : false}
         autoCapitalize="none"
+        clearButtonMode="while-editing"
+        keyboardAppearance="dark"
+        onEndEditing={(value) => changeText(value.nativeEvent.text)}
       />
-      {type == "pass" ? (
+      {type == 'pass' ? (
         <TouchableOpacity
           style={styles.btnChangeSecureText}
           onPress={() => changeTypeInput(typeInput ? false : true)}
         >
           <Ionicons
-            name={typeInput ? "eye-off" : "eye"}
+            name={typeInput ? 'eye-off' : 'eye'}
             size={30}
             color="#7E74F1"
           />
@@ -41,10 +44,10 @@ const InputComponent = ({
 
 const styles = StyleSheet.create({
   boxInput: {
-    position: "relative",
+    position: 'relative',
   },
   input: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: '#F5F5F5',
     borderRadius: 10,
     fontSize: 16,
     padding: 15,
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
     width: 332,
   },
   btnChangeSecureText: {
-    position: "absolute",
+    position: 'absolute',
     top: 20,
     right: 20,
   },
