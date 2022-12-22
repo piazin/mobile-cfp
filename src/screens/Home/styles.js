@@ -1,15 +1,20 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 4,
-    backgroundColor: "#1e1e1e",
+    backgroundColor: '#1e1e1e',
     paddingHorizontal: 25,
-    position: "relative",
+    position: 'relative',
+  },
+
+  containerImgNotFoundTransactions: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   globalTextColor: {
-    color: "#ffffff",
+    color: '#ffffff',
   },
 });
 
@@ -17,21 +22,21 @@ export const styles = StyleSheet.create({
 export const lightMode = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     paddingHorizontal: 25,
   },
   headerBox: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   welcomeText: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   userNameText: {
-    color: "#656D72",
+    color: '#656D72',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   profilePic: {
     borderRadius: 10,
@@ -40,48 +45,48 @@ export const lightMode = StyleSheet.create({
     marginRight: 15,
   },
   balanceBox: {
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: 30,
   },
   balanceInfo: {
-    alignItems: "center",
-    backgroundColor: "#7E74F1",
+    alignItems: 'center',
+    backgroundColor: '#7E74F1',
     borderRadius: 20,
-    justifyContent: "center",
-    width: "100%",
+    justifyContent: 'center',
+    width: '100%',
     height: 200,
-    overflow: "hidden",
-    position: "relative",
+    overflow: 'hidden',
+    position: 'relative',
   },
   currentBalance: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   balanceAmount: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 30,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   waveBalanceRight: {
     borderRadius: 50,
-    backgroundColor: "#fff",
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    right: "-95%",
+    backgroundColor: '#fff',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    right: '-95%',
     opacity: 0.8,
   },
   waveBalanceLeft: {
     borderRadius: 50,
-    backgroundColor: "#fff",
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    left: "-95%",
+    backgroundColor: '#fff',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: '-95%',
     opacity: 0.8,
   },
   globalTextColor: {
-    color: "#1e1e1e",
+    color: '#1e1e1e',
   },
 });

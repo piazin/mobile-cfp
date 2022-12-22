@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import { View, Image } from "react-native";
-import { Text, Box } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Image } from 'react-native';
+import { Text, Box } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import styles from "./styles";
-import ExpenseIcon from "../../../assets/expense-icon.png";
-import IncomeIcon from "../../../assets/income-icon.png";
+import styles from './styles';
+import ExpenseIcon from '../../../assets/expense-icon.png';
+import IncomeIcon from '../../../assets/income-icon.png';
 
-import { TransactionContext } from "../../../contexts/transactionsContext";
+import { TransactionContext } from '../../../contexts/transactionsContext';
 
 export function FlatListLastTransactions({
   desc,
@@ -45,7 +45,11 @@ export function FlatListLastTransactions({
         alignItems="center"
         justifyContent="center"
       >
-        <Ionicons name={iconCategory.iconName} size={42} color="#D6d6d6" />
+        <MaterialCommunityIcons
+          name={iconCategory.iconName}
+          size={42}
+          color="#D6d6d6"
+        />
       </Box>
 
       <Text
@@ -62,13 +66,13 @@ export function FlatListLastTransactions({
       </Text>
 
       <Image
-        source={typeTransaction == "expense" ? ExpenseIcon : IncomeIcon}
+        source={typeTransaction == 'expense' ? ExpenseIcon : IncomeIcon}
         style={styles.iconType}
       />
       <Text color="white" position="absolute" right={5} fontSize="md">
-        R$ {typeTransaction == "expense" ? "-" : "+"}
+        R$ {typeTransaction == 'expense' ? '-' : '+'}
         {String(value).length > 5
-          ? String(value).substring(0, 4) + "..."
+          ? String(value).substring(0, 4) + '...'
           : value}
       </Text>
     </View>

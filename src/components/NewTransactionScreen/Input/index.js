@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { Text } from "native-base";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { BottomSheetComponent } from "./BottomSheet";
+import React, { useEffect, useState, useContext } from 'react';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Text } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { BottomSheetComponent } from './BottomSheet';
 
-import { TransactionContext } from "../../../contexts/transactionsContext";
+import { TransactionContext } from '../../../contexts/transactionsContext';
 
 export function Input({
   iconName,
@@ -20,16 +20,16 @@ export function Input({
   categoryModalIsVisible,
   setCategoryModalIsVisible,
   setButtonDisabled,
+  type,
 }) {
   const { categories } = useContext(TransactionContext);
-
   ///////////////////////////////////////////////
   const [dateView, setDateView] = useState(null);
   const showDatePicker = () => {
     DateTimePickerAndroid.open({
       value: date,
       onChange: onChangeDate,
-      mode: "date",
+      mode: 'date',
     });
   };
   const changeDateView = (date) => {
@@ -66,10 +66,10 @@ export function Input({
     }
   };
 
-  if (typeInput == "select")
+  if (typeInput == 'select')
     return (
       <View style={styles.viewInput}>
-        <Ionicons
+        <MaterialCommunityIcons
           name={category?.iconName ? category.iconName : iconName}
           color="#ccc"
           size={32}
@@ -85,7 +85,7 @@ export function Input({
             paddingBottom={3}
             marginLeft={2}
           >
-            {category ? category?.title : "Selecionar Categoria"}
+            {category ? category?.title : 'Selecionar Categoria'}
           </Text>
         </TouchableOpacity>
 
@@ -95,6 +95,7 @@ export function Input({
           setCategoryModalIsVisible={setCategoryModalIsVisible}
           category={category}
           setCategory={setCategory}
+          type={type}
         />
       </View>
     );
@@ -104,7 +105,7 @@ export function Input({
       <View
         style={[
           styles.viewInput,
-          { borderBottomColor: validEntry ? "#d2d2d2" : "red" },
+          { borderBottomColor: validEntry ? '#d2d2d2' : 'red' },
         ]}
       >
         <MaterialCommunityIcons
@@ -113,10 +114,10 @@ export function Input({
           size={32}
           style={styles.iconDescription}
         />
-        {typeInput == "date" ? (
+        {typeInput == 'date' ? (
           <TouchableOpacity
             onPress={() => showDatePicker()}
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
             <Text color="white" fontSize={16} paddingBottom={3} marginLeft={2}>
               {dateView}
@@ -139,22 +140,22 @@ export function Input({
 
 const styles = StyleSheet.create({
   viewInput: {
-    borderBottomColor: "#d2d2d2",
+    borderBottomColor: '#d2d2d2',
     borderBottomWidth: 1,
-    color: "#fff",
+    color: '#fff',
     fontSize: 22,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 50,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 42,
     width: 330,
   },
   inputDescription: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
     paddingBottom: 10,
-    width: "100%",
+    width: '100%',
     marginLeft: 6,
   },
   iconDescription: {

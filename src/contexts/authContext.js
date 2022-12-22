@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import * as Network from 'expo-network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/axios';
 import { UserClass } from '../services/api';
@@ -17,6 +18,7 @@ export default AuthProvider = ({ children }) => {
 
   useEffect(() => {
     loadStorage();
+    verifyStatusNetwork();
   }, []);
 
   const handleNewData = () => {
@@ -49,6 +51,11 @@ export default AuthProvider = ({ children }) => {
     } catch (error) {
       setUser(null);
     }
+  }
+
+  async function verifyStatusNetwork() {
+    const status = await Network.getNetworkStateAsync();
+    !status.isConnected ?? logOut();
   }
 
   async function logOut() {

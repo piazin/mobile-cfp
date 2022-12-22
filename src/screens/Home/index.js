@@ -1,15 +1,16 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
-import { View, StatusBar, RefreshControl, ScrollView } from "react-native";
-import { Text } from "native-base";
-import { AuthContext } from "../../contexts/authContext";
-import { TransactionsClass } from "../../services/api";
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { View, StatusBar, RefreshControl, ScrollView } from 'react-native';
+import { Text, Image } from 'native-base';
+import { AuthContext } from '../../contexts/authContext';
+import { TransactionsClass } from '../../services/api';
 
-import { styles } from "./styles";
-import Header from "../../components/HomeScreen/Header";
-import BoxBalance from "../../components/HomeScreen/BoxBalance";
-import BoxShortcutIcons from "../../components/HomeScreen/BoxShortcutIcons";
-import { Modal } from "../../components/HomeScreen/Modal";
-import { FlatListLastTransactions } from "../../components/HomeScreen/FlatListLastTransactions";
+import { styles } from './styles';
+import Header from '../../components/HomeScreen/Header';
+import BoxBalance from '../../components/HomeScreen/BoxBalance';
+import BoxShortcutIcons from '../../components/HomeScreen/BoxShortcutIcons';
+import { Modal } from '../../components/HomeScreen/Modal';
+import { FlatListLastTransactions } from '../../components/HomeScreen/FlatListLastTransactions';
+import ImgNotFound from '../../assets/not_found.png';
 
 const transactions = new TransactionsClass();
 
@@ -64,8 +65,8 @@ export default function HomeScreen() {
           title="pull refresh"
           refreshing={refreshing}
           onRefresh={onRefresh}
-          colors={["transparent"]}
-          style={{ backgroundColor: "transparent" }}
+          colors={['transparent']}
+          style={{ backgroundColor: 'transparent' }}
         />
       }
     >
@@ -82,9 +83,11 @@ export default function HomeScreen() {
         />
         <BoxShortcutIcons />
 
-        <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
-          Movimentações recentes
-        </Text>
+        {transactionHistory?.length >= 0 && (
+          <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
+            Movimentações recentes
+          </Text>
+        )}
 
         {transactionHistory?.length > 0 ? (
           transactionHistory
@@ -99,7 +102,21 @@ export default function HomeScreen() {
               />
             ))
         ) : (
-          <Text style={{ color: "#fff" }}>not transactions</Text>
+          <View style={styles.containerImgNotFoundTransactions}>
+            <Image
+              source={ImgNotFound}
+              size="2xl"
+              alt="not found transactions"
+            />
+            <Text
+              color="muted.400"
+              fontSize="lg"
+              fontWeight="light"
+              fontFamily="body"
+            >
+              Não há movimentações recentes
+            </Text>
+          </View>
         )}
       </View>
 

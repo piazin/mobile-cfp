@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
-import { ShortcutIcons } from "../ShortcutIcons";
+import { ShortcutIcons } from '../ShortcutIcons';
 
 export default function BoxShortcutIcons() {
   return (
@@ -18,15 +18,15 @@ export default function BoxShortcutIcons() {
         routeName="NewTransactionScreen"
         typeTransaction="expense"
       />
-      <ShortcutIcons iconName="wallet" label="Wallet" />
+      <ShortcutIcons iconName="wallet" label="Carteira" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     marginBottom: 32,
   },
 });

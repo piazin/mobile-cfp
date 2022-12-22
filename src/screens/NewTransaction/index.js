@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 import {
   View,
   StatusBar,
@@ -6,22 +6,22 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
-} from "react-native";
-import { Text } from "native-base";
-import { RadioButton } from "react-native-paper";
+} from 'react-native';
+import { Text } from 'native-base';
+import { RadioButton } from 'react-native-paper';
 
-import { TransactionsClass } from "../../services/api";
-import { AuthContext } from "../../contexts/authContext";
-import { useNavigation } from "@react-navigation/native";
+import { TransactionsClass } from '../../services/api';
+import { AuthContext } from '../../contexts/authContext';
+import { useNavigation } from '@react-navigation/native';
 
-import styles from "./styles";
-import AwesomeAlert from "react-native-awesome-alerts";
+import styles from './styles';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-import { FocusAwareStatusBar } from "../../components/FocusAwareStatusBar";
-import { Header } from "../../components/NewTransactionScreen/Header";
-import { InputValue } from "../../components/NewTransactionScreen/InputValue";
-import { Input } from "../../components/NewTransactionScreen/Input";
-import { Button } from "../../components/NewTransactionScreen/Button";
+import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
+import { Header } from '../../components/NewTransactionScreen/Header';
+import { InputValue } from '../../components/NewTransactionScreen/InputValue';
+import { Input } from '../../components/NewTransactionScreen/Input';
+import { Button } from '../../components/NewTransactionScreen/Button';
 
 const currentHeight = StatusBar.currentHeight + 10 || 16;
 
@@ -36,15 +36,15 @@ export default function NewTransactionScreen({ route }) {
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   ////////////////////////////////////////////////
   // Form states
   ////////////////////////////////////////////////
-  const [valueTransaction, setValueTransaction] = useState("0");
+  const [valueTransaction, setValueTransaction] = useState('0');
   const [valueTransactionFormat, setValueTransactionFormat] =
     useState(valueTransaction);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(typeTransaction);
@@ -70,8 +70,8 @@ export default function NewTransactionScreen({ route }) {
 
   const formatValue = () => {
     let formatValue;
-    formatValue = valueTransaction.replace(".", "");
-    formatValue = formatValue.replace(",", ".");
+    formatValue = valueTransaction.replace('.', '');
+    formatValue = formatValue.replace(',', '.');
 
     if (formatValue.length == 3) formatValue = `0${formatValue}`;
     setValueTransactionFormat(formatValue);
@@ -81,20 +81,20 @@ export default function NewTransactionScreen({ route }) {
   // check form information
   ////////////////////////////////////////////////
   const checkFormInfo = () => {
-    if (valueTransaction.length < 1 || valueTransaction == "0") {
+    if (valueTransaction.length < 1 || valueTransaction == '0') {
       setIsButtonDisabled(true);
-      setErrorMessage("O valor deve ser valido");
+      setErrorMessage('O valor deve ser valido');
       setShowAlert(true);
       return false;
     }
     if (description.length < 1) {
       setIsButtonDisabled(true);
-      setErrorMessage("Insira uma descrição");
+      setErrorMessage('Insira uma descrição');
       setShowAlert(true);
       return false;
     }
     if (!category) {
-      setErrorMessage("Selecione uma categoria");
+      setErrorMessage('Selecione uma categoria');
       setShowAlert(true);
       return false;
     }
@@ -120,11 +120,11 @@ export default function NewTransactionScreen({ route }) {
     );
     handleNewData();
 
-    setValueTransaction("0");
-    setDescription("");
+    setValueTransaction('0');
+    setDescription('');
     setCategory(null);
 
-    navigation.navigate("Home");
+    navigation.navigate('Home');
   };
 
   return (
@@ -165,14 +165,15 @@ export default function NewTransactionScreen({ route }) {
             category={category}
             setCategory={setCategory}
             setButtonDisabled={setIsButtonDisabled}
+            type={type}
           />
 
           <View style={styles.boxRadioButtons}>
             <RadioButton
               value="expense"
               label="Despesa"
-              status={type === "expense" ? "checked" : "unchecked"}
-              onPress={() => setType("expense")}
+              status={type === 'expense' ? 'checked' : 'unchecked'}
+              onPress={() => setType('expense')}
             />
             <Text
               color="white"
@@ -187,8 +188,8 @@ export default function NewTransactionScreen({ route }) {
             <RadioButton
               value="income"
               label="Receita"
-              status={type === "income" ? "checked" : "unchecked"}
-              onPress={() => setType("income")}
+              status={type === 'income' ? 'checked' : 'unchecked'}
+              onPress={() => setType('income')}
             />
             <Text
               color="white"
