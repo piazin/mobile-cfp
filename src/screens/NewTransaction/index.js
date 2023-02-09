@@ -115,7 +115,6 @@ export default function NewTransactionScreen({ route }) {
       type,
       description,
       category?._id,
-      user._id,
       jwt
     );
     handleNewData();

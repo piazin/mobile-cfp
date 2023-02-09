@@ -44,24 +44,22 @@ export class UserClass {
 }
 
 export class TransactionsClass {
-  async getAllTransactions(user_id) {
+  async getAllTransactions(user_id, jwt) {
     try {
-      const transactionData = await api.get(`/transaction/${user_id}`);
+      const transactionData = await api.get(`/transaction/${user_id}`, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
       return transactionData;
     } catch (error) {
       return null;
     }
   }
 
-  async createTransaction(
-    value,
-    date,
-    type,
-    description,
-    category,
-    owner,
-    jwt
-  ) {
+  async createTransaction(value, date, type, description, category, jwt) {
+    console.log(
+      '🚀 ~ file: api.js:57 ~ TransactionsClass ~ createTransaction ~ jwt',
+      jwt
+    );
     try {
       await api.post(
         '/transaction',
@@ -71,7 +69,6 @@ export class TransactionsClass {
           type,
           description,
           category,
-          owner,
         },
         { headers: { Authorization: `Bearer ${jwt}` } }
       );

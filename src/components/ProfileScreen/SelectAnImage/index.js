@@ -8,7 +8,7 @@ import { AuthContext } from "../../../contexts/authContext";
 import styles from "./styles";
 
 export function SelectAnImage({ user }) {
-  const { handleNewData } = useContext(AuthContext);
+  const { handleNewData, jwt } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
@@ -37,9 +37,10 @@ export function SelectAnImage({ user }) {
     });
 
     try {
-      var response = await api.post("/user/avatar", data, {
+      var response = await api.post('/user/avatar', data, {
         headers: {
-          "Content-Type": `multipart/form-data`,
+          Authorization: `Bearer ${jwt}`,
+          'Content-Type': `multipart/form-data`,
         },
       });
 

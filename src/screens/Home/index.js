@@ -17,7 +17,7 @@ const transactions = new TransactionsClass();
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function HomeScreen() {
-  const { user, handleNewData } = useContext(AuthContext);
+  const { user, handleNewData, jwt } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(true);
   const [transactionHistory, setTransactionHistory] = useState([]);
@@ -33,14 +33,16 @@ export default function HomeScreen() {
     handleNewData();
     loadListTransactions();
 
-    wait(500).then(() => {
+    wait(200).then(() => {
       setRefreshing(false);
     });
   }, []);
 
   useEffect(() => {
-    loadListTransactions();
-    handleNewData();
+    setTimeout(() => {
+      loadListTransactions();
+      handleNewData();
+    }, 5000);
   }, []);
 
   const handleBalanceViewState = () => {
@@ -49,7 +51,7 @@ export default function HomeScreen() {
 
   const loadListTransactions = async () => {
     try {
-      const response = await transactions.getAllTransactions(user._id);
+      const response = await transactions.getAllTransactions(user._id, jwt);
       if (!response) return;
 
       setTransactionHistory(response.data.data.transactions);

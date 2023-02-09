@@ -43,13 +43,14 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      const storageUser = JSON.parse(await AsyncStorage.getItem('@user_auth'));
-      storageUser ? setUser(storageUser) : setUser(null);
-
       const storageJWT = JSON.parse(await AsyncStorage.getItem('@jwt'));
       storageJWT ? setJwt(storageJWT) : setJwt(null);
+
+      const storageUser = JSON.parse(await AsyncStorage.getItem('@user_auth'));
+      storageUser ? setUser(storageUser) : setUser(null);
     } catch (error) {
       setUser(null);
+      setJwt(null);
     }
   }
 
@@ -81,7 +82,7 @@ export default AuthProvider = ({ children }) => {
   async function signIn(email, password) {
     setLoadingAuth(true);
     try {
-      var response = await api.post('/user/authenticate', {
+      var response = await api.post('/auth/login', {
         email,
         password,
       });
@@ -103,7 +104,7 @@ export default AuthProvider = ({ children }) => {
   async function signUp({ name, email, password }) {
     setLoadingAuth(true);
     try {
-      var response = await api.post('/user', {
+      var response = await api.post('/auth/register', {
         name: name,
         email: email,
         password: password,
