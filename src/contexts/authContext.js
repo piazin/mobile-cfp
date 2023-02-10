@@ -87,10 +87,11 @@ export default AuthProvider = ({ children }) => {
         password,
       });
 
-      setUser(response.data.data);
-      setStorageUser(response.data.data);
       setJwt(response.data.data.token);
-      setStorageJWT(response.data.data.token);
+      setUser(response.data.data);
+
+      await setStorageUser(response.data.data);
+      await setStorageJWT(response.data.data.token);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);
@@ -111,9 +112,10 @@ export default AuthProvider = ({ children }) => {
       });
 
       setUser(response.data.data);
-      setStorageUser(response.data.data);
       setJwt(response.data.data.token);
-      setStorageJWT(response.data.data.token);
+
+      await setStorageUser(response.data.data);
+      await setStorageJWT(response.data.data.token);
       setLoadingAuth(false);
     } catch (error) {
       setLoadingAuth(false);

@@ -19,30 +19,21 @@ const statusBarHeight = StatusBar.currentHeight || 20;
 export default function HomeScreen() {
   const { user, handleNewData, jwt } = useContext(AuthContext);
 
-  const [balanceViewState, setBalanceViewState] = useState(true);
+  const [balanceViewState, setBalanceViewState] = useState(false);
   const [transactionHistory, setTransactionHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [modal, setModal] = useState(false);
-
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     handleNewData();
     loadListTransactions();
-
-    wait(200).then(() => {
-      setRefreshing(false);
-    });
+    setRefreshing(false);
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      loadListTransactions();
-      handleNewData();
-    }, 5000);
+    loadListTransactions();
+    handleNewData();
   }, []);
 
   const handleBalanceViewState = () => {
