@@ -27,7 +27,7 @@ export function VerifyCode({ note, switchStage }) {
     try {
       setIsLoading(false);
       const data = await verifyCode(code);
-      if (!data?.status) {
+      if (data?.status != 200) {
         setErr(data.message);
         return;
       }
@@ -57,8 +57,8 @@ export function VerifyCode({ note, switchStage }) {
     return () => clearInterval(timer);
   }, []);
 
-  const minutes = Math.floor(codeExpiredIn / 60);
-  const seconds = codeExpiredIn % 60;
+  const minutes = String(Math.floor(codeExpiredIn / 60)).padStart(2, '0');
+  const seconds = String(codeExpiredIn % 60).padStart(2, '0');
 
   return (
     <Formik

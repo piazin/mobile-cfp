@@ -10,7 +10,7 @@ import {
 import { Text } from 'native-base';
 import { RadioButton } from 'react-native-paper';
 
-import { TransactionsClass } from '../../services/api';
+import { transactionService } from '../../services/transaction';
 import { AuthContext } from '../../contexts/authContext';
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,12 +25,10 @@ import { Button } from '../../components/NewTransactionScreen/Button';
 
 const currentHeight = StatusBar.currentHeight + 10 || 16;
 
-const transaction = new TransactionsClass();
-
 export default function NewTransactionScreen({ route }) {
   const navigation = useNavigation();
 
-  const { user, jwt, handleNewData } = useContext(AuthContext);
+  const { user, handleNewData } = useContext(AuthContext);
   const { typeTransaction } = route.params;
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
@@ -49,9 +47,6 @@ export default function NewTransactionScreen({ route }) {
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(typeTransaction);
 
-  ////////////////////////////////////////////////
-  // Change Date
-  ////////////////////////////////////////////////
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
@@ -61,33 +56,33 @@ export default function NewTransactionScreen({ route }) {
     setType(typeTransaction);
   }, [typeTransaction]);
 
-  ////////////////////////////////////////////////
-  // set and format value transaction
-  ////////////////////////////////////////////////
   useEffect(() => {
     formatValue();
   }, [valueTransaction]);
 
-  const formatValue = () => {
-    let formatValue;
-    formatValue = valueTransaction.replace('.', '');
-    formatValue = formatValue.replace(',', '.');
 
-    if (formatValue.length == 3) formatValue = `0${formatValue}`;
-    setValueTransactionFormat(formatValue);
+  const formatValue = () => {
+    let chars = {
+      ',': '.',
+      '[^\\d.-]': '',
+      '^(-?\\d*\\.\\d{0,2})\\d*$': '$1'
+    };
+
+    const formattedValue = Object.entries(chars).reduce(
+      (value, [pattern, replacement]) => value.replace(new RegExp(pattern, 'g'), replacement),
+      valueTransaction
+    );
+    setValueTransactionFormat(formattedValue);
   };
 
-  ////////////////////////////////////////////////
-  // check form information
-  ////////////////////////////////////////////////
-  const checkFormInfo = () => {
-    if (valueTransaction.length < 1 || valueTransaction == '0') {
+  const validateFormData = () => {
+    if (valueTransaction.trim().length < 1 || valueTransaction == '0') {
       setIsButtonDisabled(true);
       setErrorMessage('O valor deve ser valido');
       setShowAlert(true);
       return false;
     }
-    if (description.length < 1) {
+    if (description.trim().length < 1) {
       setIsButtonDisabled(true);
       setErrorMessage('Insira uma descrição');
       setShowAlert(true);
@@ -98,32 +93,30 @@ export default function NewTransactionScreen({ route }) {
       setShowAlert(true);
       return false;
     }
-
-    setShowAlert(false);
-    setIsButtonDisabled(false);
     return true;
   };
-  ////////////////////////////////////////////////
-  // Submit form
-  ////////////////////////////////////////////////
+
   const onSubmitTransaction = async () => {
-    if (!checkFormInfo()) return;
+    if (!validateFormData()) return;
 
-    await transaction.createTransaction(
-      valueTransactionFormat,
-      date,
-      type,
-      description,
-      category?._id,
-      jwt
-    );
-    handleNewData();
+    try {
+      await transactionService.createTransaction(
+        valueTransactionFormat,
+        date,
+        type,
+        description,
+        category?._id
+      );
+      handleNewData();
 
-    setValueTransaction('0');
-    setDescription('');
-    setCategory(null);
+      setValueTransaction('0');
+      setDescription('');
+      setCategory(null);
 
-    navigation.navigate('Home');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log('🚀 ~ file: index.js:124 ~ onSubmitTransaction ~ error:', error);
+    }
   };
 
   return (

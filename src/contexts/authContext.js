@@ -1,12 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as Network from 'expo-network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/axios';
-import { UserClass } from '../services/api';
+import { authService } from '../services/auth';
+import { userService } from '../services/user';
 
 export const AuthContext = createContext({});
-
-const getUser = new UserClass();
 
 export default AuthProvider = ({ children }) => {
   const [jwt, setJwt] = useState(null);
@@ -22,20 +20,18 @@ export default AuthProvider = ({ children }) => {
   }, []);
 
   const handleNewData = () => {
-    updateUserInfo(user?._id);
+    updateUserData(user?._id);
   };
 
-  async function updateUserInfo(user_id) {
-    if (!user_id) return;
+  async function updateUserData(userId) {
+    if (!userId) return;
 
     try {
-      const response = await getUser.updateUserInfo(user_id);
-      if (!response) return;
+      const { data } = await userService.refreshUserData(userId);
 
-      setUser(response.data.data);
-      setStorageUser(response.data.data);
+      setUser(data);
+      setStorageUser(data);
     } catch (error) {
-      console.error(error);
       setUser(null);
       setStorageUser(null);
     }
@@ -43,11 +39,13 @@ export default AuthProvider = ({ children }) => {
 
   async function loadStorage() {
     try {
-      const storageJWT = JSON.parse(await AsyncStorage.getItem('@jwt'));
-      storageJWT ? setJwt(storageJWT) : setJwt(null);
+      var [[, user], [, token]] = await AsyncStorage.multiGet([
+        '@user_auth',
+        '@jwt',
+      ]);
 
-      const storageUser = JSON.parse(await AsyncStorage.getItem('@user_auth'));
-      storageUser ? setUser(storageUser) : setUser(null);
+      setJwt(token || null);
+      setUser(user ? JSON.parse(user) : null);
     } catch (error) {
       setUser(null);
       setJwt(null);
@@ -55,17 +53,20 @@ export default AuthProvider = ({ children }) => {
   }
 
   async function verifyStatusNetwork() {
-    const status = await Network.getNetworkStateAsync();
-    !status.isConnected ?? logOut();
+    try {
+      const { isConnected } = await Network.getNetworkStateAsync();
+      !isConnected ?? logOut();
+    } catch (error) {
+      logOut();
+    }
   }
 
   async function logOut() {
     try {
-      await AsyncStorage.removeItem('@user_auth');
-      await AsyncStorage.removeItem('@jwt');
-      setUser(null);
-      setJwt(null);
-    } catch (error) {
+      await AsyncStorage.multiRemove(['@user_auth', '@jwt']);
+    } catch (err) {
+      console.log(err);
+    } finally {
       setUser(null);
       setJwt(null);
     }
@@ -80,49 +81,40 @@ export default AuthProvider = ({ children }) => {
   }
 
   async function signIn(email, password) {
-    setLoadingAuth(true);
     try {
-      var response = await api.post('/auth/login', {
-        email,
-        password,
-      });
+      setLoadingAuth(true);
+      const { data } = await authService.signIn(email, password);
 
-      setJwt(response.data.data.token);
-      setUser(response.data.data);
+      setJwt(data.token);
+      setUser(data);
 
-      await setStorageUser(response.data.data);
-      await setStorageJWT(response.data.data.token);
-      setLoadingAuth(false);
+      await Promise.all([setStorageUser(data), setStorageJWT(data.token)]);
     } catch (error) {
-      setLoadingAuth(false);
-      setErrorLogin(error.response.data.message);
+      setErrorLogin(error.response?.data?.message || 'Erro ao realizar login');
       setTimeout(() => {
         setErrorLogin(null);
       }, 5000);
+    } finally {
+      setLoadingAuth(false);
     }
   }
 
   async function signUp({ name, email, password }) {
-    setLoadingAuth(true);
     try {
-      var response = await api.post('/auth/register', {
-        name: name,
-        email: email,
-        password: password,
-      });
+      setLoadingAuth(true);
+      const { data } = await authService.signUp(name, email, password);
 
-      setUser(response.data.data);
-      setJwt(response.data.data.token);
+      setUser(data);
+      setJwt(data.token);
 
-      await setStorageUser(response.data.data);
-      await setStorageJWT(response.data.data.token);
-      setLoadingAuth(false);
+      await Promise.all(setStorageUser(data), setStorageJWT(data.token));
     } catch (error) {
-      setLoadingAuth(false);
-      setErrorSignUp(error.response.data.message);
+      setErrorSignUp(error.response?.data?.message || 'Erro ao criar conta');
       setTimeout(() => {
         setErrorSignUp(null);
       }, 5000);
+    } finally {
+      setLoadingAuth(false);
     }
   }
 

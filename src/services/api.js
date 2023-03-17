@@ -56,10 +56,6 @@ export class TransactionsClass {
   }
 
   async createTransaction(value, date, type, description, category, jwt) {
-    console.log(
-      '🚀 ~ file: api.js:57 ~ TransactionsClass ~ createTransaction ~ jwt',
-      jwt
-    );
     try {
       await api.post(
         '/transaction',
@@ -75,13 +71,5 @@ export class TransactionsClass {
     } catch (error) {
       console.error(error.response.data);
     }
-  }
-}
-
-export class Category {
-  async getAllCategories() {
-    try {
-      const categories = await api.get();
-    } catch (error) {}
   }
 }
