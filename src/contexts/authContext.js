@@ -55,7 +55,7 @@ export default AuthProvider = ({ children }) => {
   async function verifyStatusNetwork() {
     try {
       const { isConnected } = await Network.getNetworkStateAsync();
-      !isConnected ?? logOut();
+      !isConnected ?? (await logOut());
     } catch (error) {
       logOut();
     }
@@ -77,7 +77,7 @@ export default AuthProvider = ({ children }) => {
   }
 
   async function setStorageJWT(data) {
-    await AsyncStorage.setItem('@jwt', JSON.stringify(data));
+    await AsyncStorage.setItem('@jwt', JSON.stringify(data).replace(/"/g, ''));
   }
 
   async function signIn(email, password) {
@@ -85,7 +85,7 @@ export default AuthProvider = ({ children }) => {
       setLoadingAuth(true);
       const { data } = await authService.signIn(email, password);
 
-      setJwt(data.token);
+      setJwt(data.token.replace(/"/g, ''));
       setUser(data);
 
       await Promise.all([setStorageUser(data), setStorageJWT(data.token)]);
@@ -105,7 +105,7 @@ export default AuthProvider = ({ children }) => {
       const { data } = await authService.signUp(name, email, password);
 
       setUser(data);
-      setJwt(data.token);
+      setJwt(data.token.replace(/"/g, ''));
 
       await Promise.all(setStorageUser(data), setStorageJWT(data.token));
     } catch (error) {

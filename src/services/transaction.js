@@ -7,9 +7,10 @@ class TransactionService {
   }
 
   async getAllTransactionsById(userId) {
-    const jwt = await AsyncStorage.getItem('@jwt');
+    let jwt = await AsyncStorage.getItem('@jwt');
+    jwt = jwt.replace(/"/g, '');
 
-    const response = await api.get(`/transaction/${userId}`, {
+    const response = await this.api.get(`/transaction/${userId}`, {
       headers: { Authorization: `Bearer ${jwt}` },
     });
 
@@ -19,7 +20,7 @@ class TransactionService {
   createTransaction = async (value, date, type, description, category) => {
     const jwt = await AsyncStorage.getItem('@jwt');
 
-    const response = await api.post(
+    const response = await this.api.post(
       '/transaction',
       {
         value,

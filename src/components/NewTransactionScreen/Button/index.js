@@ -1,13 +1,13 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text } from "native-base";
+import React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Text } from 'native-base';
 
-export function Button({ title, onPress, isDisabled }) {
+export function Button({ title, onPress, isDisabled, isLoading }) {
   return (
     <TouchableOpacity
       onPress={() => onPress()}
-      style={[styles.button, { opacity: isDisabled ? 0.6 : 1 }]}
-      disabled={isDisabled ? true : false}
+      style={[styles.button, { opacity: isDisabled || isLoading ? 0.6 : 1 }]}
+      disabled={isDisabled || isLoading ? true : false}
     >
       <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
         {title}
@@ -18,8 +18,8 @@ export function Button({ title, onPress, isDisabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
-    backgroundColor: "#7E74F1",
+    alignItems: 'center',
+    backgroundColor: '#7E74F1',
     borderRadius: 5,
     padding: 8,
     width: 320,

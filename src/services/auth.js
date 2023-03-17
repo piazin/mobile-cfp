@@ -5,24 +5,24 @@ class AuthService {
     this.api = api;
   }
 
-  signIn = async (email, password) => {
-    const { data } = await api.post('/auth/login', {
+  async signIn(email, password) {
+    const { data } = await this.api.post('/auth/login', {
       email,
       password,
     });
 
     return data;
-  };
+  }
 
-  signUp = async (name, email, password) => {
-    const { data } = await api.post('/auth/register', {
+  async signUp(name, email, password) {
+    const { data } = await this.api.post('/auth/register', {
       name,
       email,
       password,
     });
 
     return data;
-  };
+  }
 }
 
-export const authService = new AuthService();
+export const authService = new AuthService(api);

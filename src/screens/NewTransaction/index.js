@@ -28,13 +28,14 @@ const currentHeight = StatusBar.currentHeight + 10 || 16;
 export default function NewTransactionScreen({ route }) {
   const navigation = useNavigation();
 
-  const { user, handleNewData } = useContext(AuthContext);
+  const { handleNewData } = useContext(AuthContext);
   const { typeTransaction } = route.params;
 
   const [categoryModalIsVisible, setCategoryModalIsVisible] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   ////////////////////////////////////////////////
   // Form states
@@ -97,9 +98,13 @@ export default function NewTransactionScreen({ route }) {
   };
 
   const onSubmitTransaction = async () => {
-    if (!validateFormData()) return;
+    if (!validateFormData()) {
+      return;
+    };
 
     try {
+      setLoading(true);
+
       await transactionService.createTransaction(
         valueTransactionFormat,
         date,
@@ -112,10 +117,11 @@ export default function NewTransactionScreen({ route }) {
       setValueTransaction('0');
       setDescription('');
       setCategory(null);
-
       navigation.navigate('Home');
     } catch (error) {
       console.log('🚀 ~ file: index.js:124 ~ onSubmitTransaction ~ error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -198,6 +204,7 @@ export default function NewTransactionScreen({ route }) {
             title="Salvar"
             onPress={onSubmitTransaction}
             isDisabled={isButtonDisabled}
+            isLoading={loading}
           />
         </SafeAreaView>
         <FocusAwareStatusBar

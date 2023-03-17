@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { View, StatusBar, RefreshControl, ScrollView } from 'react-native';
 import { Text, Image } from 'native-base';
 import { AuthContext } from '../../contexts/authContext';
-import { TransactionsClass } from '../../services/api';
 
 import { styles } from './styles';
 import Header from '../../components/HomeScreen/Header';
@@ -11,13 +10,12 @@ import BoxShortcutIcons from '../../components/HomeScreen/BoxShortcutIcons';
 import { Modal } from '../../components/HomeScreen/Modal';
 import { FlatListLastTransactions } from '../../components/HomeScreen/FlatListLastTransactions';
 import ImgNotFound from '../../assets/not_found.png';
-
-const transactions = new TransactionsClass();
+import { transactionService } from '../../services/transaction';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function HomeScreen() {
-  const { user, handleNewData, jwt } = useContext(AuthContext);
+  const { user, handleNewData } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(false);
   const [transactionHistory, setTransactionHistory] = useState([]);
@@ -42,10 +40,10 @@ export default function HomeScreen() {
 
   const loadListTransactions = async () => {
     try {
-      const response = await transactions.getAllTransactions(user._id, jwt);
-      if (!response) return;
-
-      setTransactionHistory(response.data.data.transactions);
+      const response = await transactionService.getAllTransactionsById(
+        user._id
+      );
+      setTransactionHistory(response.data.transactions);
     } catch (error) {
       console.error(error);
       setTransactionHistory(null);
