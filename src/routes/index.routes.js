@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import { StatusBar } from "react-native";
-import AppRoutes from "./app/app.routes";
-import AuthRoutes from "../routes/auth/auth.routes";
+import React, { useContext, useState, useEffect } from 'react';
+import AppRoutes from './app/app.routes';
+import AuthRoutes from '../routes/auth/auth.routes';
 
 import {
   useFonts,
@@ -9,16 +8,14 @@ import {
   Inter_700Bold,
   Inter_500Medium,
   Inter_400Regular,
-} from "@expo-google-fonts/inter";
+} from '@expo-google-fonts/inter';
 
-import { AuthContext } from "../contexts/authContext";
-import { ThemeContext } from "../contexts/themeContext";
+import { AuthContext } from '../contexts/authContext';
 
-import { Loading } from "../components/Loading";
+import { Loading } from '../components/Loading';
 
 export default function Routes() {
   const { signed } = useContext(AuthContext);
-  const { deviceTheme } = useContext(ThemeContext);
 
   const [fontLoad, setFontLoad] = useState(true);
 

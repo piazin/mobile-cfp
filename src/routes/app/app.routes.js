@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
 import HomeRoutes from './home.routes';
+import React, { useContext } from 'react';
 import ProfileRoutes from './profile.routes';
-import NewTransactionScreen from '../../screens/NewTransaction';
-
+import { Ionicons } from '@expo/vector-icons';
 import { ButtonNew } from '../../components/ButtonNew';
+import { ThemeContext } from '../../contexts/themeContext';
+import NewTransactionScreen from '../../screens/NewTransaction';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const AppTab = createBottomTabNavigator();
-import { ThemeContext } from '../../contexts/themeContext';
 
 export default function AppRoutes() {
   const { deviceTheme } = useContext(ThemeContext);
@@ -51,6 +50,7 @@ export default function AppRoutes() {
           ),
         }}
       />
+
       <AppTab.Screen name="Profile" component={ProfileRoutes} />
     </AppTab.Navigator>
   );
