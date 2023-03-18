@@ -4,7 +4,6 @@ import {
   Keyboard,
   TouchableNativeFeedback,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import { ThemeContext } from '../../contexts/themeContext';
 import { AuthContext } from '../../contexts/authContext';
@@ -27,18 +26,13 @@ export default function LoginScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [stateSecureText, setStateSecureText] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
 
-  const handleEmail = (email) => {
-    var email = email.replace(' ', '');
-    if (!validateEmail(email)) {
-      setEmail(email);
-      setValidateForm(false);
-    } else {
-      setEmail(email);
-      setValidateForm(true);
-    }
+  const handleEmailChange = (value) => {
+    const isValidEmail = validateEmail(value.trim());
+    setValidateForm(isValidEmail);
+    setEmail(value.trim());
   };
 
   const handleLogin = async () => {
@@ -58,15 +52,15 @@ export default function LoginScreen() {
           <InputComponent
             placeholder="Digite seu e-mail"
             value={email}
-            changeText={handleEmail}
+            changeText={handleEmailChange}
           />
           <InputComponent
-            placeholder="******"
+            placeholder="Digite sua senha"
             value={password}
             changeText={setPassword}
             type="pass"
-            typeInput={stateSecureText}
-            changeTypeInput={setStateSecureText}
+            typeInput={showPassword}
+            changeTypeInput={setShowPassword}
           />
           <TouchableOpacity
             style={styles.btnForgotPassword}

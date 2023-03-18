@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { Text } from 'native-base';
 import { Formik } from 'formik';
@@ -7,38 +7,35 @@ import * as Yup from 'yup';
 import { Note } from '../Form/Note';
 import Title from '../Form/Title';
 
-import { UserClass } from '../../../../services/api';
-const { resetPassword } = new UserClass();
-
 import Button from '../Form/Button';
 import { Illustration } from '../Form/Illustration';
 import changePass from '../../../../assets/changepass.png';
 import TextInput from '../Form/TextInput';
 
 import { Sucess } from '../Form/Sucess';
+import { userService } from '../../../../services/user';
 
 export function ResetPassForm({ switchStage, email }) {
   const [isLoading, setIsLoading] = useState(false);
   const [msgServerError, setMsgServerError] = useState(null);
-  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [passwordHasBeenChanged, setPasswordHasBeenChanged] = useState(false);
 
-  const sendCode = async (password) => {
-    setIsLoading(true);
-    Keyboard.dismiss();
+  const onSubmitPasswordChangeForm = useCallback(
+    async (password) => {
+      setIsLoading(true);
+      Keyboard.dismiss();
 
-    try {
-      setIsLoading(false);
-      const data = await resetPassword(email, password);
-      if (data?.status !== 200) {
-        setErr(data.message);
-        return;
+      try {
+        await userService.resetPassword(email, password);
+        setPasswordHasBeenChanged(true);
+      } catch (error) {
+        setErr(error.response.data.message);
+      } finally {
+        setIsLoading(false);
       }
-      setPasswordChanged(true);
-    } catch (error) {
-      setIsLoading(false);
-      setErr(error.message);
-    }
-  };
+    },
+    [userService]
+  );
 
   const setErr = (msg) => {
     setMsgServerError(msg);
@@ -47,12 +44,12 @@ export function ResetPassForm({ switchStage, email }) {
     }, 4000);
   };
 
-  if (passwordChanged) return <Sucess />;
+  if (passwordHasBeenChanged) return <Sucess />;
 
   return (
     <Formik
       initialValues={{ password: '' }}
-      onSubmit={(values) => sendCode(values.password)}
+      onSubmit={(values) => onSubmitPasswordChangeForm(values.password)}
       validationSchema={Yup.object({
         password: Yup.string()
           .min(6, 'A senha deve ter no minimo 6 digitos')

@@ -2,12 +2,11 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/authContext';
 
 import { View, StatusBar } from 'react-native';
-import { Box, Text, Divider, Button } from 'native-base';
+import { Box, Text, Divider } from 'native-base';
 import styles from './styles';
 
 import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 import { SelectAnImage } from '../../components/ProfileScreen/SelectAnImage';
-import { Modal } from '../../components/HomeScreen/Modal';
 
 const statusBarHeight = StatusBar.currentHeight;
 

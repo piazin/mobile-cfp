@@ -37,9 +37,6 @@ export default function NewTransactionScreen({ route }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  ////////////////////////////////////////////////
-  // Form states
-  ////////////////////////////////////////////////
   const [valueTransaction, setValueTransaction] = useState('0');
   const [valueTransactionFormat, setValueTransactionFormat] =
     useState(valueTransaction);

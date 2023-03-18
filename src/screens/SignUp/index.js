@@ -30,50 +30,31 @@ export default function SignUpScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [stateSecureText, setStateSecureText] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
-  const [progressForm, setProgressForm] = useState(0);
+  const [formProgress, setFormProgress] = useState(0);
 
-  async function handleSignUp() {
+  async function onSubmitForm() {
     await signUp({ name, email, password });
   }
 
   useEffect(() => {
-    handleProgressForm();
-  }, [name, email, password, progressForm]);
+    handleFormProgress();
+  }, [name, email, password, formProgress]);
 
-  const handleName = (name) => {
-    if (name.length <= 1) {
-      setName(name);
-    } else {
-      setName(name);
-    }
-  };
+  const handleNameChange = (value) => setName(value);
 
-  const handleEmail = (email) => {
-    var email = email.replace(' ', '');
-    if (!validateEmail(email)) {
-      setEmail(email);
-    } else {
-      setEmail(email);
-    }
-  };
+  const handleEmailChange = (value) => setEmail(value.trim());
 
-  const handlePassword = (password) => {
-    if (!validatePassword(password)) {
-      setPassword(password);
-    } else {
-      setPassword(password);
-    }
-  };
+  const handlePasswordChange = (value) => setPassword(value.trim());
 
-  const handleProgressForm = () => {
-    var progressName = name.length <= 0 ? 0 : 20;
-    var progressEmail = !validateEmail(email) ? 0 : 40;
-    var progressPass = !validatePassword(password) ? 0 : 40;
+  const handleFormProgress = () => {
+    var nameProgress = name.length <= 0 ? 0 : 20;
+    var emailProgress = !validateEmail(email) ? 0 : 40;
+    var passProgress = !validatePassword(password) ? 0 : 40;
 
-    setProgressForm(progressName + progressEmail + progressPass);
-    progressForm == 100 ? setValidateForm(true) : setValidateForm(false);
+    setFormProgress(nameProgress + emailProgress + passProgress);
+    formProgress == 100 ? setValidateForm(true) : setValidateForm(false);
   };
 
   return (
@@ -90,32 +71,32 @@ export default function SignUpScreen() {
           <InputComponent
             placeholder="Digite seu nome"
             value={name}
-            changeText={handleName}
+            changeText={handleNameChange}
           />
           <InputComponent
             placeholder="Digite seu e-mail"
             value={email}
-            changeText={handleEmail}
+            changeText={handleEmailChange}
           />
           <InputComponent
-            placeholder="******"
+            placeholder="Crie uma senha forte"
             value={password}
-            changeText={handlePassword}
+            changeText={handlePasswordChange}
             type="pass"
-            typeInput={stateSecureText}
-            changeTypeInput={setStateSecureText}
+            typeInput={showPassword}
+            changeTypeInput={setShowPassword}
           />
           <Progress
             mx={1}
             size="xs"
-            value={progressForm}
+            value={formProgress}
             _filledTrack={{ bg: 'purple.600' }}
           />
         </View>
         <View style={styles.btnBox}>
           <Button
             title="Criar conta"
-            onPressFunction={handleSignUp}
+            onPressFunction={onSubmitForm}
             isLoading={loadingAuth}
             buttonState={validateForm}
           />

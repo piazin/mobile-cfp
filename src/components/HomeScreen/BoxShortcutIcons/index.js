@@ -18,7 +18,7 @@ export default function BoxShortcutIcons() {
         routeName="NewTransactionScreen"
         typeTransaction="expense"
       />
-      <ShortcutIcons iconName="wallet" label="Carteira" />
+      <ShortcutIcons iconName="wallet" label="Carteira" routeName="Wallet" />
     </View>
   );
 }

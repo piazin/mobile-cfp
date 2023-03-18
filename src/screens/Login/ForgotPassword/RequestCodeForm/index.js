@@ -1,44 +1,39 @@
-import React, { useState } from 'react';
-import { Keyboard } from 'react-native';
-import { Text } from 'native-base';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { Formik } from 'formik';
+import { Text } from 'native-base';
+import { Keyboard } from 'react-native';
+import React, { useState, useCallback } from 'react';
 
-import { Note } from '../Form/Note';
 import Title from '../Form/Title';
-
-import { UserClass } from '../../../../services/api';
-const { requestRecoveryCode } = new UserClass();
-
-import TextInput from '../Form/TextInput';
+import { Note } from '../Form/Note';
 import Button from '../Form/Button';
+import TextInput from '../Form/TextInput';
 import { Illustration } from '../Form/Illustration';
+import { userService } from '../../../../services/user';
 import ForgotPasswordImg from '../../../../assets/forgotpass.png';
 
 export function RequestCodeForm({ setMsgState, setEmail, switchStage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [msgServerError, setMsgServerError] = useState(null);
 
-  const onSubmitCode = (values) => {
-    setIsLoading(true);
-    Keyboard.dismiss();
+  const onSubmitCode = useCallback(
+    async ({ email }) => {
+      setIsLoading(true);
+      Keyboard.dismiss();
 
-    requestRecoveryCode(values.email)
-      .then((data) => {
-        setIsLoading(false);
-        if (data?.status !== 200) {
-          setErr(data.message);
-          return;
-        }
-        setEmail(values.email);
-        setMsgState(data?.message);
+      try {
+        const response = await userService.requestRecoveryCode(email);
+        setEmail(email);
+        setMsgState(response?.message);
         switchStage('VERIFY');
-      })
-      .catch((e) => {
+      } catch (error) {
+        setErr(error.response.data.message);
+      } finally {
         setIsLoading(false);
-        setErr(e.message);
-      });
-  };
+      }
+    },
+    [userService]
+  );
 
   const setErr = (msg) => {
     setMsgServerError(msg);

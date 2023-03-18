@@ -1,42 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { Keyboard } from 'react-native';
-import { Text } from 'native-base';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { Formik } from 'formik';
+import { Text } from 'native-base';
+import { Keyboard } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Note } from '../Form/Note';
 import Title from '../Form/Title';
-
-import { UserClass } from '../../../../services/api';
-const { verifyCode } = new UserClass();
-
+import { Note } from '../Form/Note';
 import Button from '../Form/Button';
+import TextInput from '../Form/TextInput';
 import { Illustration } from '../Form/Illustration';
 import checkEmailImg from '../../../../assets/checkemail.png';
-import TextInput from '../Form/TextInput';
+
+import { userService } from '../../../../services/user';
 
 export function VerifyCode({ note, switchStage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [msgServerError, setMsgServerError] = useState(null);
   const [codeExpiredIn, setCodeExpiredIn] = useState(300);
 
-  const sendCode = async (code) => {
-    setIsLoading(true);
-    Keyboard.dismiss();
+  const onSubmitCode = useCallback(
+    async (code) => {
+      setIsLoading(true);
+      Keyboard.dismiss();
 
-    try {
-      setIsLoading(false);
-      const data = await verifyCode(code);
-      if (data?.status != 200) {
-        setErr(data.message);
-        return;
+      try {
+        await userService.verifyCode(code);
+        switchStage('RESET');
+      } catch (error) {
+        setErr(error.response.data.message);
+      } finally {
+        setIsLoading(false);
       }
-      switchStage('RESET');
-    } catch (error) {
-      setIsLoading(false);
-      setErr(error.message);
-    }
-  };
+    },
+    [userService]
+  );
 
   const setErr = (msg) => {
     setMsgServerError(msg);
@@ -63,7 +60,7 @@ export function VerifyCode({ note, switchStage }) {
   return (
     <Formik
       initialValues={{ code: '' }}
-      onSubmit={(values) => sendCode(values.code)}
+      onSubmit={(values) => onSubmitCode(values.code)}
       validationSchema={Yup.object({
         code: Yup.string()
           .min(5, 'O codigo deve conter no minimo 5 digitos')
