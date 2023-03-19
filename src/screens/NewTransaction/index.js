@@ -102,25 +102,35 @@ export default function NewTransactionScreen({ route }) {
     try {
       setLoading(true);
 
+      const value = valueTransactionFormat.replace('.', '').replace(',', '.');
+
       await transactionService.createTransaction(
-        valueTransactionFormat,
+        value,
         date,
         type,
         description,
         category?._id
       );
       handleNewData();
-
-      setValueTransaction('0');
-      setDescription('');
-      setCategory(null);
+      resetFormData();
       navigation.navigate('Home');
     } catch (error) {
-      console.log('🚀 ~ file: index.js:124 ~ onSubmitTransaction ~ error:', error);
+      handleSubmissionError(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const resetFormData = () => {
+    setCategory(null)
+    setDescription('');
+    setValueTransaction('0');
+  }
+
+  const handleSubmissionError = (error) => {
+    setShowAlert(true);
+    setErrorMessage(error);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

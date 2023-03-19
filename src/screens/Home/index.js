@@ -1,5 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { View, StatusBar, RefreshControl, ScrollView } from 'react-native';
+import {
+  View,
+  StatusBar,
+  RefreshControl,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { Text, Image } from 'native-base';
 import { AuthContext } from '../../contexts/authContext';
 
@@ -11,10 +17,12 @@ import { Modal } from '../../components/HomeScreen/Modal';
 import { FlatListLastTransactions } from '../../components/HomeScreen/FlatListLastTransactions';
 import ImgNotFound from '../../assets/not_found.png';
 import { transactionService } from '../../services/transaction';
+import { useNavigation } from '@react-navigation/native';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const { user, handleNewData } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(false);
@@ -78,9 +86,34 @@ export default function HomeScreen() {
         <BoxShortcutIcons />
 
         {transactionHistory?.length >= 0 && (
-          <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
-            Movimentações recentes
-          </Text>
+          <>
+            <View style={styles.lastTransactionsHeader}>
+              <Text
+                color="white"
+                fontFamily="body"
+                fontWeight="bold"
+                fontSize="md"
+              >
+                Movimentações recentes
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Wallet');
+                }}
+              >
+                <Text
+                  color="light.300"
+                  fontFamily="body"
+                  fontWeight="medium"
+                  fontSize="sm"
+                  marginLeft="5"
+                >
+                  ver todas
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </>
         )}
 
         {transactionHistory?.length > 0 ? (

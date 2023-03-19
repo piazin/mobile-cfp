@@ -37,7 +37,9 @@ export function FlatListLastTransactions({
     <View style={styles.container}>
       <Box
         borderRadius={40}
-        borderColor="purple.300"
+        borderColor={
+          typeTransaction == 'expense' ? 'danger.600' : 'success.600'
+        }
         borderWidth={1}
         width={62}
         height={62}
@@ -55,23 +57,19 @@ export function FlatListLastTransactions({
       <Text
         color="white"
         position="absolute"
-        left={85}
+        left={75}
         numberOfLines={1}
-        fontSize="md"
+        fontSize="sm"
         fontFamily="body"
-        fontWeight="medium"
-        width={68}
+        fontWeight="light"
+        width={100}
       >
         {desc}
       </Text>
 
-      <Image
-        source={typeTransaction == 'expense' ? ExpenseIcon : IncomeIcon}
-        style={styles.iconType}
-      />
       <Text color="white" position="absolute" right={5} fontSize="md">
         R$ {typeTransaction == 'expense' ? '-' : '+'}
-        {String(value).length > 5
+        {String(value).length > 8
           ? String(value).substring(0, 4) + '...'
           : value}
       </Text>

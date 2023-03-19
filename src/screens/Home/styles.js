@@ -16,6 +16,12 @@ export const styles = StyleSheet.create({
   globalTextColor: {
     color: '#ffffff',
   },
+
+  lastTransactionsHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
 });
 
 // feature
