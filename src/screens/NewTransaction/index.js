@@ -102,8 +102,7 @@ export default function NewTransactionScreen({ route }) {
     try {
       setLoading(true);
 
-      const value = valueTransactionFormat.replace('.', '').replace(',', '.');
-
+      const value = valueTransaction.replace('.', '').replace(',', '.');
       await transactionService.createTransaction(
         value,
         date,

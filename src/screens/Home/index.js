@@ -86,34 +86,9 @@ export default function HomeScreen() {
         <BoxShortcutIcons />
 
         {transactionHistory?.length >= 0 && (
-          <>
-            <View style={styles.lastTransactionsHeader}>
-              <Text
-                color="white"
-                fontFamily="body"
-                fontWeight="bold"
-                fontSize="md"
-              >
-                Movimentações recentes
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Wallet');
-                }}
-              >
-                <Text
-                  color="light.300"
-                  fontFamily="body"
-                  fontWeight="medium"
-                  fontSize="sm"
-                  marginLeft="5"
-                >
-                  ver todas
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </>
+          <Text color="white" fontFamily="body" fontWeight="bold" fontSize="md">
+            Movimentações recentes
+          </Text>
         )}
 
         {transactionHistory?.length > 0 ? (

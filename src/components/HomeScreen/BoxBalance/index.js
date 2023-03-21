@@ -4,26 +4,19 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-import 'intl';
-import 'intl/locale-data/jsonp/pt-BR';
+import { formatBalance } from '../../../utils/formatBalance';
 
 const BoxBalance = ({ balance, balanceViewState }) => {
   const navigation = useNavigation();
   const [balanceState, setBalanceState] = useState(null);
 
   useEffect(() => {
-    formatBalance();
+    handleFormatBalance();
   }, [balance]);
 
-  const formatBalance = () => {
-    let formatBalance = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(balance);
-
-    formatBalance = formatBalance.replace('R$', '');
-    setBalanceState(formatBalance);
+  const handleFormatBalance = () => {
+    const formattedBalance = formatBalance(balance);
+    setBalanceState(formattedBalance);
   };
 
   return (
