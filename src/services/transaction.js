@@ -6,11 +6,11 @@ class TransactionService {
     this.api = api;
   }
 
-  async getAllTransactionsById(userId) {
+  async getAllTransactionsById(chartType) {
     let jwt = await AsyncStorage.getItem('@jwt');
     jwt = jwt.replace(/"/g, '');
 
-    const response = await this.api.get(`/transaction/${userId}`, {
+    const response = await this.api.get(`/transaction?chart=${chartType}`, {
       headers: { Authorization: `Bearer ${jwt}` },
     });
 

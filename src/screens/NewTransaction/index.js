@@ -47,6 +47,7 @@ export default function NewTransactionScreen({ route }) {
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
+    console.log("🚀 ~ file: index.js:50 ~ onChangeDate ~ currentDate:", currentDate)
     setDate(currentDate);
   };
 
@@ -110,6 +111,7 @@ export default function NewTransactionScreen({ route }) {
         description,
         category?._id
       );
+      console.log(date);
       handleNewData();
       resetFormData();
       navigation.navigate('Home');

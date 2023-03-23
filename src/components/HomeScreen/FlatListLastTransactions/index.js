@@ -27,7 +27,7 @@ export function FlatListLastTransactions({
     if (!categories) return;
 
     categories.forEach((category) => {
-      if (category._id != categoryId) return;
+      if (category._id != categoryId._id) return;
 
       setIconCategory(category);
     });

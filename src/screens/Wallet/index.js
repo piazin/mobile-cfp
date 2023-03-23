@@ -1,5 +1,5 @@
 import { styles } from './styles';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, ScrollView } from 'react-native';
 import {
   VictoryBar,
   VictoryChart,
@@ -18,13 +18,7 @@ const statusBarHeight = StatusBar.currentHeight + 20;
 export default function Wallet() {
   const { user } = useContext(AuthContext);
   const [balance, setBalance] = useState(0);
-  const [transactionHistory, setTransactionHistory] = useState([]);
-
-  const data = [
-    { x: 'Entreterimento', y: 35 },
-    { x: 'Roupas', y: 40 },
-    { x: 'Comida e bebida', y: 55 },
-  ];
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     handleFormatBalance();
@@ -33,15 +27,9 @@ export default function Wallet() {
 
   const loadListTransactions = async () => {
     try {
-      const response = await transactionService.getAllTransactionsById(
-        user?._id
-      );
-      console.log(
-        '🚀 ~ file: index.js:36 ~ loadListTransactions ~ response:',
-        response.data.transactions
-      );
+      const response = await transactionService.getAllTransactionsById('pie');
 
-      setTransactionHistory(response.data.transactions);
+      setData(response.data.transactions);
     } catch (error) {
       console.error(error);
       setTransactionHistory(null);
@@ -54,7 +42,7 @@ export default function Wallet() {
   };
 
   return (
-    <View style={[styles.container, { paddingTop: statusBarHeight }]}>
+    <ScrollView style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Header />
 
       <View
@@ -82,19 +70,22 @@ export default function Wallet() {
 
       <View
         style={{
-          justifyContent: 'center',
           alignItems: 'center',
+          marginTop: -25,
         }}
       >
         <VictoryPie
-          data={transactionHistory}
-          x="category"
+          data={data}
+          x="type"
           y="value"
-          width={400}
+          width={320}
+          innerRadius={50}
+          colorScale={data.map((element) =>
+            element.type == 'Receitas' ? '#118C4F' : '#B22222'
+          )}
           style={{
             labels: {
-              fill: 'white',
-              fontSize: 10,
+              display: 'none',
             },
           }}
         />
@@ -109,6 +100,6 @@ export default function Wallet() {
         barStyle="light-content"
         translucent
       />
-    </View>
+    </ScrollView>
   );
 }
