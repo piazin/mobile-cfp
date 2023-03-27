@@ -16,7 +16,7 @@ export function Input({
   date,
   onChangeDate,
   category,
-  setCategory,
+  handleChangeCategory,
   categoryModalIsVisible,
   setCategoryModalIsVisible,
   setButtonDisabled,
@@ -77,14 +77,7 @@ export function Input({
         />
 
         <TouchableOpacity onPress={() => setCategoryModalIsVisible(true)}>
-          <Text
-            color="white"
-            fontWeight="medium"
-            fontFamily="body"
-            fontSize={16}
-            paddingBottom={3}
-            marginLeft={2}
-          >
+          <Text color="white" fontWeight="medium" fontFamily="body" fontSize={16} paddingBottom={3} marginLeft={2}>
             {category ? category?.title : 'Selecionar Categoria'}
           </Text>
         </TouchableOpacity>
@@ -94,7 +87,7 @@ export function Input({
           categoryModalIsVisible={categoryModalIsVisible}
           setCategoryModalIsVisible={setCategoryModalIsVisible}
           category={category}
-          setCategory={setCategory}
+          handleChangeCategory={handleChangeCategory}
           type={type}
         />
       </View>
@@ -102,23 +95,10 @@ export function Input({
 
   return (
     <>
-      <View
-        style={[
-          styles.viewInput,
-          { borderBottomColor: validEntry ? '#d2d2d2' : 'red' },
-        ]}
-      >
-        <MaterialCommunityIcons
-          name={iconName}
-          color="#ccc"
-          size={32}
-          style={styles.iconDescription}
-        />
+      <View style={[styles.viewInput, { borderBottomColor: validEntry ? '#d2d2d2' : 'red' }]}>
+        <MaterialCommunityIcons name={iconName} color="#ccc" size={32} style={styles.iconDescription} />
         {typeInput == 'date' ? (
-          <TouchableOpacity
-            onPress={() => showDatePicker()}
-            style={{ width: '100%' }}
-          >
+          <TouchableOpacity onPress={() => showDatePicker()} style={{ width: '100%' }}>
             <Text color="white" fontSize={16} paddingBottom={3} marginLeft={2}>
               {dateView}
             </Text>

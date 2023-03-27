@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export function BottomSheetComponent({
   categoryModalIsVisible,
   setCategoryModalIsVisible,
-  setCategory,
+  handleChangeCategory,
   category,
   data,
   type,
@@ -31,23 +31,13 @@ export function BottomSheetComponent({
             <View key={item._id}>
               <TouchableOpacity
                 onPress={() => {
-                  setCategory(item);
+                  handleChangeCategory(item);
                   setCategoryModalIsVisible(false);
                 }}
                 style={styles.buttonSelectCategory}
               >
-                <MaterialCommunityIcons
-                  name={item.iconName}
-                  color="#ccc"
-                  size={22}
-                />
-                <Text
-                  color="#fff"
-                  fontWeight="medium"
-                  fontFamily="body"
-                  fontSize="lg"
-                  marginLeft={18}
-                >
+                <MaterialCommunityIcons name={item.iconName} color="#ccc" size={22} />
+                <Text color="#fff" fontWeight="medium" fontFamily="body" fontSize="lg" marginLeft={18}>
                   {item.title}
                 </Text>
               </TouchableOpacity>

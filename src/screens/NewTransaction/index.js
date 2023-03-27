@@ -133,6 +133,15 @@ export default function NewTransactionScreen({ route }) {
     setErrorMessage(error);
   }
 
+  const handleChangeCategory = (category) => {
+    setCategory(category);
+  }
+
+  const handleChangeType = (type) => {
+    setType(type);
+    setCategory(null);
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ScrollView style={[styles.container, { paddingTop: currentHeight }]}>
@@ -169,7 +178,7 @@ export default function NewTransactionScreen({ route }) {
             categoryModalIsVisible={categoryModalIsVisible}
             setCategoryModalIsVisible={setCategoryModalIsVisible}
             category={category}
-            setCategory={setCategory}
+            handleChangeCategory={handleChangeCategory}
             setButtonDisabled={setIsButtonDisabled}
             type={type}
           />
@@ -179,7 +188,7 @@ export default function NewTransactionScreen({ route }) {
               value="expense"
               label="Despesa"
               status={type === 'expense' ? 'checked' : 'unchecked'}
-              onPress={() => setType('expense')}
+              onPress={() =>handleChangeType('expense') }
             />
             <Text
               color="white"
@@ -195,7 +204,7 @@ export default function NewTransactionScreen({ route }) {
               value="income"
               label="Receita"
               status={type === 'income' ? 'checked' : 'unchecked'}
-              onPress={() => setType('income')}
+              onPress={() => handleChangeType('income')}
             />
             <Text
               color="white"
