@@ -12,13 +12,7 @@ export function Header() {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={32} color="#fff" />
       </TouchableOpacity>
-      <Text
-        color="white"
-        fontFamily="heading"
-        fontSize="lg"
-        fontWeight="medium"
-        marginLeft={6}
-      >
+      <Text color="white" fontFamily="heading" fontSize="lg" fontWeight="medium" marginLeft={6}>
         Income & Expenses
       </Text>
     </View>

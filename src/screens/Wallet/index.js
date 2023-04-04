@@ -1,10 +1,10 @@
 import { styles } from './styles';
-import { View, StatusBar, ScrollView } from 'react-native';
-import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryTooltip } from 'victory-native';
-import { Button, CheckIcon, Select, Text } from 'native-base';
+import { AntDesign } from '@expo/vector-icons';
+import { View, StatusBar, ScrollView, SafeAreaView } from 'react-native';
+import { VictoryPie, VictoryTooltip } from 'victory-native';
+import { CheckIcon, Select, Text } from 'native-base';
 import { Header } from '../../components/Wallet/Header';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/authContext';
+import { useEffect, useState } from 'react';
 import { formatBalance } from '../../utils/formatBalance';
 import { transactionService } from '../../services/transaction';
 
@@ -26,27 +26,49 @@ const months = [
 ];
 
 export default function Wallet() {
-  const { user } = useContext(AuthContext);
   const [balance, setBalance] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toLocaleString('pt-BR', { month: 'long' }));
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toLocaleString('pt-BR', { month: 'long' })
+  );
   const [transactions, setTransactions] = useState([]);
+  const [infoTransactions, setInfoTransactions] = useState([]);
 
   useEffect(() => {
     loadListTransactions();
+    loadListInfoTransactions();
   }, [selectedMonth]);
 
-  const loadListTransactions = async () => {
+  const loadListInfoTransactions = async () => {
     try {
       const response = await transactionService.getAllTransactionsById('chart-pie');
       const transactionsByMonth = response.data.transactions[selectedMonth];
 
       if (transactionsByMonth) {
-        const filteredTransactions = transactionsByMonth.filter((transaction) => transaction.type !== 'Saldo');
-        setTransactions(filteredTransactions);
+        const filteredTransactions = transactionsByMonth.filter(
+          (transaction) => transaction.type !== 'Saldo'
+        );
+        setInfoTransactions(filteredTransactions);
         handleFormatBalance(transactionsByMonth[2]?.value);
       } else {
-        setTransactions(null);
+        setInfoTransactions(null);
         handleFormatBalance(0);
+      }
+    } catch (error) {
+      console.error(error);
+      setInfoTransactions(null);
+    }
+  };
+
+  const loadListTransactions = async () => {
+    try {
+      const response = await transactionService.getAllTransactionsById('month');
+      const transactionsByMonth = response.data.transactions[selectedMonth];
+
+      if (transactionsByMonth) {
+        const filteredTransactions = transactionsByMonth.filter(
+          (transaction) => transaction.type !== 'Saldo'
+        );
+        setTransactions(filteredTransactions);
       }
     } catch (error) {
       console.error(error);
@@ -73,16 +95,19 @@ export default function Wallet() {
           marginTop: 25,
         }}
       >
-        <Text color="muted.400" fontFamily="body" fontWeight="bold" fontSize="lg">
-          {selectedMonth}
+        <Text color="white" fontFamily="body" fontWeight="bold" fontSize="3xl">
+          R$ {balance}
         </Text>
 
         <Select
           selectedValue={months.findIndex((m) => m == selectedMonth)}
-          minWidth="200"
+          minWidth="300"
           accessibilityLabel="Choose Service"
           placeholder="Choose Service"
-          backgroundColor="muted.100"
+          background="primary.900"
+          color="muted.400"
+          marginTop="5"
+          fontSize="xl"
           _selectedItem={{
             bg: 'muted.200',
             endIcon: <CheckIcon size="5" color="emerald.500" />,
@@ -96,31 +121,30 @@ export default function Wallet() {
             <Select.Item label={month} value={index} key={index} />
           ))}
         </Select>
-        <Text color="white" fontFamily="body" fontWeight="bold" fontSize="3xl">
-          R$ {balance}
-        </Text>
       </View>
 
       <View
         style={{
           alignItems: 'center',
           marginTop: -25,
-          minHeight: 400,
+          minHeight: 350,
         }}
       >
-        {transactions && (
+        {infoTransactions && (
           <VictoryPie
-            data={transactions}
+            data={infoTransactions}
             x="type"
             y="value"
-            width={380}
-            innerRadius={75}
+            width={350}
+            innerRadius={70}
             padAngle={5}
             animate={{
               duration: 2000,
               easing: 'bounce',
             }}
-            colorScale={transactions.map((element) => (element.type == 'Receitas' ? '#40B67A' : '#FF5555'))}
+            colorScale={infoTransactions.map((element) =>
+              element.type == 'Receitas' ? '#40B67A' : '#FF5555'
+            )}
             style={{
               labels: {
                 fill: 'red',
@@ -134,12 +158,37 @@ export default function Wallet() {
           />
         )}
       </View>
+      <View style={styles.chartLabel}>
+        <View style={styles.valueContainerByType}>
+          <AntDesign color="#40B67A" size={24} name="arrowup" />
+          <Text color="white" fontSize="lg">
+            R${' '}
+            {infoTransactions.map(
+              (element) => element.type == 'Receitas' && formatBalance(element.value)
+            )}
+          </Text>
+        </View>
+        <View style={styles.valueContainerByType}>
+          <AntDesign color="#FF5555" size={24} name="arrowdown" />
+          <Text color="white" fontSize="lg">
+            R${' '}
+            {infoTransactions.map(
+              (element) => element.type == 'Despesas' && formatBalance(element.value)
+            )}
+          </Text>
+        </View>
+      </View>
 
       <View>
         <Text color="white">Lista de movimentações</Text>
+        {transactions.map((transaction) => (
+          <Text key={transaction._id} color="white">
+            R$ {formatBalance(transaction.value)}
+          </Text>
+        ))}
       </View>
 
-      <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
+      <StatusBar backgroundColor="#1e1e1e" barStyle="light-content" translucent />
     </ScrollView>
   );
 }

@@ -1,11 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import {
-  View,
-  StatusBar,
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StatusBar, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Image } from 'native-base';
 import { AuthContext } from '../../contexts/authContext';
 
@@ -25,7 +19,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const { user, handleNewData } = useContext(AuthContext);
 
-  const [balanceViewState, setBalanceViewState] = useState(false);
+  const [balanceViewState, setBalanceViewState] = useState(true);
   const [transactionHistory, setTransactionHistory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [modal, setModal] = useState(false);
@@ -48,9 +42,7 @@ export default function HomeScreen() {
 
   const loadListTransactions = async () => {
     try {
-      const response = await transactionService.getAllTransactionsById(
-        user._id
-      );
+      const response = await transactionService.getAllTransactionsById(user._id);
       setTransactionHistory(response.data.transactions);
     } catch (error) {
       console.error(error);
@@ -105,17 +97,8 @@ export default function HomeScreen() {
             ))
         ) : (
           <View style={styles.containerImgNotFoundTransactions}>
-            <Image
-              source={ImgNotFound}
-              size="2xl"
-              alt="not found transactions"
-            />
-            <Text
-              color="muted.400"
-              fontSize="lg"
-              fontWeight="light"
-              fontFamily="body"
-            >
+            <Image source={ImgNotFound} size="2xl" alt="not found transactions" />
+            <Text color="muted.400" fontSize="lg" fontWeight="light" fontFamily="body">
               Não há movimentações recentes
             </Text>
           </View>
@@ -124,11 +107,7 @@ export default function HomeScreen() {
 
       <Modal show={modal} close={() => setModal(false)} />
 
-      <StatusBar
-        backgroundColor="#7E74F1"
-        barStyle="light-content"
-        translucent
-      />
+      <StatusBar backgroundColor="#7E74F1" barStyle="light-content" translucent />
     </ScrollView>
   );
 }
