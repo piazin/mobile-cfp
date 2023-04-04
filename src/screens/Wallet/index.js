@@ -1,29 +1,18 @@
 import { styles } from './styles';
-import { AntDesign } from '@expo/vector-icons';
-import { View, StatusBar, ScrollView, SafeAreaView } from 'react-native';
-import { VictoryPie, VictoryTooltip } from 'victory-native';
-import { CheckIcon, Select, Text } from 'native-base';
-import { Header } from '../../components/Wallet/Header';
+import { Text } from 'native-base';
+import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
+import { AntDesign } from '@expo/vector-icons';
+import { View, StatusBar, ScrollView } from 'react-native';
+
+import { Header } from '../../components/Wallet/Header';
 import { formatBalance } from '../../utils/formatBalance';
 import { transactionService } from '../../services/transaction';
+import { ChartContainer } from '../../components/Wallet/ChartContainer';
+import { SelectedMonthContainer } from '../../components/Wallet/SelectedMonthContainer';
+import { Loading } from '../../components/Loading';
 
 const statusBarHeight = StatusBar.currentHeight + 20;
-
-const months = [
-  'janeiro',
-  'fevereiro',
-  'março',
-  'abril',
-  'maio',
-  'junho',
-  'julho',
-  'agosto',
-  'setembro',
-  'outubro',
-  'novembro',
-  'dezembro',
-];
 
 export default function Wallet() {
   const [balance, setBalance] = useState(0);
@@ -81,83 +70,18 @@ export default function Wallet() {
     setBalance(formattedBalance);
   };
 
-  const handleChangeMonth = (itemValue) => {
-    setSelectedMonth(months[itemValue]);
-  };
-
   return (
     <ScrollView style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Header />
 
-      <View
-        style={{
-          alignItems: 'center',
-          marginTop: 25,
-        }}
-      >
-        <Text color="white" fontFamily="body" fontWeight="bold" fontSize="3xl">
-          R$ {balance}
-        </Text>
+      <SelectedMonthContainer
+        balance={balance}
+        setSelectedMonth={setSelectedMonth}
+        selectedMonth={selectedMonth}
+      />
 
-        <Select
-          selectedValue={months.findIndex((m) => m == selectedMonth)}
-          minWidth="300"
-          accessibilityLabel="Choose Service"
-          placeholder="Choose Service"
-          background="primary.900"
-          color="muted.400"
-          marginTop="5"
-          fontSize="xl"
-          _selectedItem={{
-            bg: 'muted.200',
-            endIcon: <CheckIcon size="5" color="emerald.500" />,
-            _focus: { borderColor: 'muted.500' },
-          }}
-          placeholderTextColor="muted.400"
-          mt={1}
-          onValueChange={(itemValue) => handleChangeMonth(itemValue)}
-        >
-          {months.map((month, index) => (
-            <Select.Item label={month} value={index} key={index} />
-          ))}
-        </Select>
-      </View>
+      <ChartContainer infoTransactions={infoTransactions} />
 
-      <View
-        style={{
-          alignItems: 'center',
-          marginTop: -25,
-          minHeight: 350,
-        }}
-      >
-        {infoTransactions && (
-          <VictoryPie
-            data={infoTransactions}
-            x="type"
-            y="value"
-            width={350}
-            innerRadius={70}
-            padAngle={5}
-            animate={{
-              duration: 2000,
-              easing: 'bounce',
-            }}
-            colorScale={infoTransactions.map((element) =>
-              element.type == 'Receitas' ? '#40B67A' : '#FF5555'
-            )}
-            style={{
-              labels: {
-                fill: 'red',
-              },
-              data: {
-                stroke: ({ datum }) => (datum.type == 'Receitas' ? '#40B67A' : '#FF5555'),
-                strokeWidth: 5,
-              },
-            }}
-            labelComponent={<VictoryTooltip renderInPortal={false} />}
-          />
-        )}
-      </View>
       <View style={styles.chartLabel}>
         <View style={styles.valueContainerByType}>
           <AntDesign color="#40B67A" size={24} name="arrowup" />
