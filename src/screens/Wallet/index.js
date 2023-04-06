@@ -1,8 +1,6 @@
 import { styles } from './styles';
 import { Text } from 'native-base';
-import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
-import { AntDesign } from '@expo/vector-icons';
 import { View, StatusBar, ScrollView } from 'react-native';
 
 import { Header } from '../../components/Wallet/Header';
@@ -11,6 +9,8 @@ import { transactionService } from '../../services/transaction';
 import { ChartContainer } from '../../components/Wallet/ChartContainer';
 import { SelectedMonthContainer } from '../../components/Wallet/SelectedMonthContainer';
 import { Loading } from '../../components/Loading';
+import { ChartLabel } from '../../components/Wallet/ChartLabel';
+import { ListTransactions } from '../../components/Wallet/ListTransactions';
 
 const statusBarHeight = StatusBar.currentHeight + 20;
 
@@ -21,6 +21,7 @@ export default function Wallet() {
   );
   const [transactions, setTransactions] = useState([]);
   const [infoTransactions, setInfoTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadListTransactions();
@@ -28,6 +29,7 @@ export default function Wallet() {
   }, [selectedMonth]);
 
   const loadListInfoTransactions = async () => {
+    setLoading(true);
     try {
       const response = await transactionService.getAllTransactionsById('chart-pie');
       const transactionsByMonth = response.data.transactions[selectedMonth];
@@ -45,23 +47,23 @@ export default function Wallet() {
     } catch (error) {
       console.error(error);
       setInfoTransactions(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   const loadListTransactions = async () => {
+    setLoading(true);
     try {
       const response = await transactionService.getAllTransactionsById('month');
       const transactionsByMonth = response.data.transactions[selectedMonth];
 
-      if (transactionsByMonth) {
-        const filteredTransactions = transactionsByMonth.filter(
-          (transaction) => transaction.type !== 'Saldo'
-        );
-        setTransactions(filteredTransactions);
-      }
+      setTransactions(transactionsByMonth);
     } catch (error) {
       console.error(error);
       setTransactions(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,6 +71,8 @@ export default function Wallet() {
     const formattedBalance = formatBalance(value);
     setBalance(formattedBalance);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <ScrollView style={[styles.container, { paddingTop: statusBarHeight }]}>
@@ -82,34 +86,17 @@ export default function Wallet() {
 
       <ChartContainer infoTransactions={infoTransactions} />
 
-      <View style={styles.chartLabel}>
-        <View style={styles.valueContainerByType}>
-          <AntDesign color="#40B67A" size={24} name="arrowup" />
-          <Text color="white" fontSize="lg">
-            R${' '}
-            {infoTransactions.map(
-              (element) => element.type == 'Receitas' && formatBalance(element.value)
-            )}
-          </Text>
-        </View>
-        <View style={styles.valueContainerByType}>
-          <AntDesign color="#FF5555" size={24} name="arrowdown" />
-          <Text color="white" fontSize="lg">
-            R${' '}
-            {infoTransactions.map(
-              (element) => element.type == 'Despesas' && formatBalance(element.value)
-            )}
-          </Text>
-        </View>
-      </View>
+      <ChartLabel infoTransactions={infoTransactions} />
 
-      <View>
-        <Text color="white">Lista de movimentações</Text>
-        {transactions.map((transaction) => (
-          <Text key={transaction._id} color="white">
-            R$ {formatBalance(transaction.value)}
-          </Text>
-        ))}
+      <View style={{ padding: 30, marginBottom: 50 }}>
+        <Text color="white" fontWeight="medium" marginBottom="2.5">
+          Lista de movimentações
+        </Text>
+
+        {transactions &&
+          transactions.map((transaction) => (
+            <ListTransactions key={transaction._id} transaction={transaction} />
+          ))}
       </View>
 
       <StatusBar backgroundColor="#1e1e1e" barStyle="light-content" translucent />

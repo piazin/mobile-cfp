@@ -1,22 +1,22 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { View, StatusBar, RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Image } from 'native-base';
 import { AuthContext } from '../../contexts/authContext';
+import { View, StatusBar, RefreshControl, ScrollView } from 'react-native';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 
 import { styles } from './styles';
-import Header from '../../components/HomeScreen/Header';
-import BoxBalance from '../../components/HomeScreen/BoxBalance';
-import BoxShortcutIcons from '../../components/HomeScreen/BoxShortcutIcons';
-import { Modal } from '../../components/HomeScreen/Modal';
-import { FlatListLastTransactions } from '../../components/HomeScreen/FlatListLastTransactions';
 import ImgNotFound from '../../assets/not_found.png';
+import Header from '../../components/HomeScreen/Header';
+import { Modal } from '../../components/HomeScreen/Modal';
+import BoxBalance from '../../components/HomeScreen/BoxBalance';
 import { transactionService } from '../../services/transaction';
-import { useNavigation } from '@react-navigation/native';
+import BoxShortcutIcons from '../../components/HomeScreen/BoxShortcutIcons';
+import { FlatListLastTransactions } from '../../components/HomeScreen/FlatListLastTransactions';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
   const { user, handleNewData } = useContext(AuthContext);
 
   const [balanceViewState, setBalanceViewState] = useState(true);
@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
   const loadListTransactions = async () => {
     try {
-      const response = await transactionService.getAllTransactionsById(user._id);
+      const response = await transactionService.getAllTransactionsById();
       setTransactionHistory(response.data.transactions);
     } catch (error) {
       console.error(error);

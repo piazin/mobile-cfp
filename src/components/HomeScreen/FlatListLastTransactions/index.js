@@ -1,20 +1,12 @@
+import { View } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Image } from 'react-native';
 import { Text, Box } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import styles from './styles';
-import ExpenseIcon from '../../../assets/expense-icon.png';
-import IncomeIcon from '../../../assets/income-icon.png';
 
 import { TransactionContext } from '../../../contexts/transactionsContext';
 
-export function FlatListLastTransactions({
-  desc,
-  value,
-  typeTransaction,
-  categoryId,
-}) {
+export function FlatListLastTransactions({ desc, value, typeTransaction, categoryId }) {
   const { categories } = useContext(TransactionContext);
 
   const [iconCategory, setIconCategory] = useState({});
@@ -37,9 +29,7 @@ export function FlatListLastTransactions({
     <View style={styles.container}>
       <Box
         borderRadius={40}
-        borderColor={
-          typeTransaction == 'expense' ? 'danger.600' : 'success.600'
-        }
+        borderColor={typeTransaction == 'expense' ? 'danger.600' : 'success.600'}
         borderWidth={1}
         width={62}
         height={62}
@@ -47,11 +37,7 @@ export function FlatListLastTransactions({
         alignItems="center"
         justifyContent="center"
       >
-        <MaterialCommunityIcons
-          name={iconCategory.iconName}
-          size={42}
-          color="#D6d6d6"
-        />
+        <MaterialCommunityIcons name={iconCategory.iconName} size={42} color="#D6d6d6" />
       </Box>
 
       <Text
@@ -69,9 +55,7 @@ export function FlatListLastTransactions({
 
       <Text color="white" position="absolute" right={5} fontSize="md">
         R$ {typeTransaction == 'expense' ? '-' : '+'}
-        {String(value).length > 8
-          ? String(value).substring(0, 4) + '...'
-          : value}
+        {String(value).length > 8 ? String(value).substring(0, 4) + '...' : value}
       </Text>
     </View>
   );

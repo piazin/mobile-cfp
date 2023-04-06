@@ -1,3 +1,4 @@
+import { Text } from 'native-base';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { VictoryPie, VictoryTooltip } from 'victory-native';
@@ -5,7 +6,7 @@ import { VictoryPie, VictoryTooltip } from 'victory-native';
 export const ChartContainer = ({ infoTransactions }) => {
   return (
     <View style={styles.chartContainer}>
-      {infoTransactions && (
+      {infoTransactions?.length > 0 ? (
         <VictoryPie
           data={infoTransactions}
           x="type"
@@ -31,6 +32,8 @@ export const ChartContainer = ({ infoTransactions }) => {
           }}
           labelComponent={<VictoryTooltip renderInPortal={false} />}
         />
+      ) : (
+        <Text></Text>
       )}
     </View>
   );
@@ -41,5 +44,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: -25,
     minHeight: 350,
+    justifyContent: 'center',
   },
 });

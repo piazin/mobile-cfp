@@ -18,8 +18,8 @@ const months = [
 ];
 
 export const SelectedMonthContainer = ({ balance, selectedMonth, setSelectedMonth }) => {
-  const handleChangeMonth = (itemValue) => {
-    setSelectedMonth(months[itemValue]);
+  const handleChangeMonth = (itemIndex) => {
+    setSelectedMonth(months[itemIndex]);
   };
 
   return (
@@ -29,22 +29,22 @@ export const SelectedMonthContainer = ({ balance, selectedMonth, setSelectedMont
       </Text>
 
       <Select
-        selectedValue={months.findIndex((m) => m == selectedMonth)}
-        minWidth="300"
+        selectedValue={months.findIndex((month) => month == selectedMonth)}
         accessibilityLabel="Choose Service"
         placeholder="Choose Service"
         background="primary.900"
         color="muted.400"
         marginTop="5"
         fontSize="xl"
+        minWidth="200"
         _selectedItem={{
           bg: 'muted.200',
           endIcon: <CheckIcon size="5" color="emerald.500" />,
           _focus: { borderColor: 'muted.500' },
         }}
         placeholderTextColor="muted.400"
-        mt={1}
         onValueChange={(itemValue) => handleChangeMonth(itemValue)}
+        mt={1}
       >
         {months.map((month, index) => (
           <Select.Item label={month} value={index} key={index} />

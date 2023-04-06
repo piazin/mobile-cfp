@@ -13,7 +13,7 @@ export function Header() {
         <Ionicons name="arrow-back" size={32} color="#fff" />
       </TouchableOpacity>
       <Text color="white" fontFamily="heading" fontSize="lg" fontWeight="medium" marginLeft={6}>
-        Income & Expenses
+        Receitas e Despesas
       </Text>
     </View>
   );

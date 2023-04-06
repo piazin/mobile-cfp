@@ -48,8 +48,8 @@ export default function App() {
 
   return (
     <NavigationContainer theme={navTheme}>
-      <QueryClientProvider client={queryClient}>
-        <NativeBaseProvider theme={theme}>
+      <NativeBaseProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TransactionProvider>
               <ThemeProvider>
@@ -57,8 +57,8 @@ export default function App() {
               </ThemeProvider>
             </TransactionProvider>
           </AuthProvider>
-        </NativeBaseProvider>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 }
