@@ -1,10 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {
-  Keyboard,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from 'react-native';
+import { Keyboard, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import { ThemeContext } from '../../contexts/themeContext';
 import { AuthContext } from '../../contexts/authContext';
 import { Box, View, Text } from 'native-base';
@@ -42,10 +38,7 @@ export default function LoginScreen() {
 
   return (
     <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-      <Box
-        bg={deviceTheme === 'dark' ? 'primary.900' : 'white'}
-        style={styles.container}
-      >
+      <Box bg={deviceTheme === 'dark' ? 'primary.900' : 'white'} style={styles.container}>
         <Header title="CFP" subtitle="acesse sua conta" />
         {errorLogin ? <Text style={{ color: 'red' }}>{errorLogin}</Text> : null}
         <View style={styles.inputBox}>
@@ -85,10 +78,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        <FocusAwareStatusBar
-          barStyle="light-content"
-          backgroundColor="#1e1e1e"
-        />
+        <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
       </Box>
     </TouchableNativeFeedback>
   );

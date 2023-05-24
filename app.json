@@ -7,9 +7,9 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
+      "backgroundColor": "#1e1e1e",
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#1E1E1E"
+      "resizeMode": "contain"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1e1e1e"
-      }
+      },
+      "package": "com.lucassouza.f.mobilecfp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2b245385-d0a9-4b51-b28d-d14737ab84b6"
+      }
     }
   }
 }

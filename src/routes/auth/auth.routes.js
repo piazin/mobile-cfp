@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../../screens/Login';
 import SignUpScreen from '../../screens/SignUp';
 import ForgotPasswordScreen from '../../screens/Login/ForgotPassword';
+import { SplashScreen } from '../../screens/splash';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -19,11 +20,13 @@ export default function AuthRoutes() {
         presentation: 'transparentModal',
       }}
     >
-      <AuthStack.Screen name="Login" component={LoginScreen} />
       <AuthStack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
+        name="SplashScreen"
+        component={SplashScreen}
+        initialParams={{ nextScreenName: 'Login' }}
       />
+      <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <AuthStack.Screen name="Signup" component={SignUpScreen} />
     </AuthStack.Navigator>
   );

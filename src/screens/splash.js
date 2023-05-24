@@ -1,25 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from 'react';
 
-import { StyleSheet, View, StatusBar, BackHandler } from "react-native";
-import LottieView from "lottie-react-native";
-import { FocusAwareStatusBar } from "../components/FocusAwareStatusBar";
+import { StyleSheet, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 
-export function Splash() {
-  const navigation = useNavigation();
+import {
+  useFonts,
+  Inter_900Black,
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_400Regular,
+} from '@expo-google-fonts/inter';
+
+export function SplashScreen({ route, navigation }) {
+  const { nextScreenName } = route.params;
+
+  const [fontLoad, setFontLoad] = useState(true);
+  const [fontsLoaded] = useFonts({
+    Inter_900Black,
+    Inter_700Bold,
+    Inter_500Medium,
+    Inter_400Regular,
+  });
+
+  useEffect(() => {
+    setFontLoad(fontsLoaded ? false : true);
+  }, [fontsLoaded]);
+
+  const handleFinishAnimation = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: nextScreenName }],
+    });
+  };
 
   return (
     <View style={styles.container}>
       <LottieView
-        source={require("../assets/splashscreen.json")}
-        autoPlay
+        source={require('../assets/splashscreen.json')}
+        autoPlay={true}
         loop={fontLoad}
-        speed={1.0}
-        onAnimationFinish={() => {
-          navigation.navigate("Login");
-        }}
+        duration={1500}
+        onAnimationFinish={handleFinishAnimation}
       />
-      <FocusAwareStatusBar backgroundColor="#7E74F1" />
     </View>
   );
 }
@@ -27,7 +49,8 @@ export function Splash() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#7E74F1",
+    justifyContent: 'center',
+    backgroundColor: '#7E74F1',
+    alignItems: 'center',
   },
 });

@@ -6,9 +6,9 @@ import { Text } from 'native-base';
 const Button = ({ title, onPressFunction, isLoading, buttonState }) => {
   return (
     <TouchableOpacity
-      style={[styles.btnLogin, { opacity: buttonState ? 1 : 0.5 }]}
+      style={[styles.btnLogin, { opacity: buttonState && !isLoading ? 1 : 0.5 }]}
       onPress={() => onPressFunction()}
-      disabled={!buttonState}
+      disabled={!buttonState && !isLoading}
     >
       {isLoading ? (
         <Spinner color="white" size="sm" />
