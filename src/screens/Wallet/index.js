@@ -72,8 +72,6 @@ export default function Wallet() {
     setBalance(formattedBalance);
   };
 
-  if (loading) return <Loading />;
-
   return (
     <ScrollView style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Header />
