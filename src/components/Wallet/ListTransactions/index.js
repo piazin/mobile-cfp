@@ -5,8 +5,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { formatBalance } from '../../../utils/formatBalance';
 import { transactionService } from '../../../services/transaction';
 import { AuthContext } from '../../../contexts/authContext';
+import { useNavigation } from '@react-navigation/native';
 
 export const ListTransactions = ({ transaction, handleTransactionLoading }) => {
+  const navigation = useNavigation();
   const { handleNewData } = useContext(AuthContext);
 
   const createButtonAlert = () => {
@@ -32,7 +34,10 @@ export const ListTransactions = ({ transaction, handleTransactionLoading }) => {
   };
 
   return (
-    <TouchableOpacity onLongPress={() => createButtonAlert()}>
+    <TouchableOpacity
+      onLongPress={() => createButtonAlert()}
+      onPress={() => navigation.navigate('EditTransaction', transaction)}
+    >
       {transaction ? (
         <View style={styles.transactionListContainer}>
           <MaterialCommunityIcons name={transaction.category.iconName} size={42} color="#D6d6d6" />

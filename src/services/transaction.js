@@ -35,6 +35,24 @@ class TransactionService {
     return response.data;
   };
 
+  updateTransaction = async ({ id, value, date, type, description, category }) => {
+    const jwt = await AsyncStorage.getItem('@jwt');
+
+    const response = await this.api.put(
+      `/transaction/${id}`,
+      {
+        value,
+        date,
+        type,
+        description,
+        category,
+      },
+      { headers: { Authorization: `Bearer ${jwt}` } }
+    );
+
+    return response.data;
+  };
+
   deleteTransaction = async (id) => {
     const jwt = await AsyncStorage.getItem('@jwt');
 
