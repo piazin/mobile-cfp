@@ -17,7 +17,7 @@ import { ChartLabelShimmerEffect } from '../../components/Wallet/ChartLabelShimm
 
 const statusBarHeight = StatusBar.currentHeight + 20;
 
-export default function Wallet() {
+export default function Wallet({ route }) {
   const [balance, setBalance] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('pt-BR', { month: 'long' })
@@ -27,13 +27,17 @@ export default function Wallet() {
   const [loading, setLoading] = useState(true);
   const [firstLoading, setFirstLoading] = useState(true);
 
+  const updateTransactionData = route.params?.updateTransactionData;
+
   useEffect(() => {
     handleTransactionLoading();
-  }, [selectedMonth]);
+  }, [selectedMonth, updateTransactionData]);
 
   const handleTransactionLoading = async () => {
     setLoading(true);
-    await Promise.all([loadListInfoTransactions(), loadListTransactions()]);
+    await Promise.all([loadListTransactions()]);
+    // possivel bug está na função loadListInfoTransactions
+    // await Promise.all([loadListInfoTransactions(), loadListTransactions()]);
     setLoading(false);
     setFirstLoading(false);
   };
