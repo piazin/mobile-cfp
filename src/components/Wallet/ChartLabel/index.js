@@ -6,7 +6,7 @@ import { formatBalance } from '../../../utils/formatBalance';
 export const ChartLabel = ({ infoTransactions }) => {
   return (
     <>
-      {infoTransactions && (
+      {infoTransactions ? (
         <View style={styles.chartLabel}>
           <View style={styles.valueContainerByType}>
             <AntDesign color="#40B67A" size={24} name="arrowup" />
@@ -24,6 +24,21 @@ export const ChartLabel = ({ infoTransactions }) => {
               {infoTransactions.map(
                 (element) => element.type == 'Despesas' && formatBalance(element.value)
               )}
+            </Text>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.chartLabel}>
+          <View style={styles.valueContainerByType}>
+            <AntDesign color="#40B67A" size={24} name="arrowup" />
+            <Text color="white" fontSize="lg">
+              R$ 0,00
+            </Text>
+          </View>
+          <View style={styles.valueContainerByType}>
+            <AntDesign color="#FF5555" size={24} name="arrowdown" />
+            <Text color="white" fontSize="lg">
+              R$ 0,00
             </Text>
           </View>
         </View>

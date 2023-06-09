@@ -1,12 +1,14 @@
 import api from '../config/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class UserService {
   constructor(api) {
     this.api = api;
   }
 
-  async refreshUserData(userId) {
-    const { data } = await this.api.get(`/user/${userId}`);
+  async refreshUserData() {
+    const jwt = await AsyncStorage.getItem('@jwt');
+    const { data } = await this.api.get('/user', { headers: { Authorization: `Bearer ${jwt}` } });
     return data;
   }
 

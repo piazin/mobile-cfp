@@ -1,7 +1,8 @@
-import { Text } from 'native-base';
+import { Text, Image } from 'native-base';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { VictoryPie, VictoryTooltip } from 'victory-native';
+import { VictoryPie } from 'victory-native';
+import ImgNotFound from '../../../assets/not_found.png';
 
 export const ChartContainer = ({ infoTransactions }) => {
   return (
@@ -15,7 +16,7 @@ export const ChartContainer = ({ infoTransactions }) => {
           innerRadius={70}
           padAngle={5}
           animate={{
-            duration: 2000,
+            duration: 2500,
             easing: 'bounce',
           }}
           colorScale={infoTransactions.map((element) =>
@@ -30,10 +31,15 @@ export const ChartContainer = ({ infoTransactions }) => {
               strokeWidth: 5,
             },
           }}
-          labelComponent={<VictoryTooltip renderInPortal={false} />}
+          labels={() => null}
         />
       ) : (
-        <Text></Text>
+        <View style={styles.chartContainer}>
+          <Image source={ImgNotFound} size="2xl" alt="not found transactions" />
+          <Text color="muted.400" fontSize="lg" fontWeight="light" fontFamily="body">
+            Nada encontrado neste mês.
+          </Text>
+        </View>
       )}
     </View>
   );

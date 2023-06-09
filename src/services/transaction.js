@@ -34,6 +34,16 @@ class TransactionService {
 
     return response.data;
   };
+
+  deleteTransaction = async (id) => {
+    const jwt = await AsyncStorage.getItem('@jwt');
+
+    const response = await this.api.delete(`/transaction/${id}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    });
+
+    return response;
+  };
 }
 
 export const transactionService = new TransactionService(api);

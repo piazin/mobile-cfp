@@ -20,29 +20,23 @@ export default AuthProvider = ({ children }) => {
   }, []);
 
   const handleNewData = () => {
-    updateUserData(user?._id);
+    updateUserData();
   };
 
-  async function updateUserData(userId) {
-    if (!userId) return;
-
+  async function updateUserData() {
     try {
-      const { data } = await userService.refreshUserData(userId);
+      const { data } = await userService.refreshUserData();
 
       setUser(data);
       setStorageUser(data);
     } catch (error) {
-      setUser(null);
-      setStorageUser(null);
+      console.error(error);
     }
   }
 
   async function loadStorage() {
     try {
-      var [[, user], [, token]] = await AsyncStorage.multiGet([
-        '@user_auth',
-        '@jwt',
-      ]);
+      var [[, user], [, token]] = await AsyncStorage.multiGet(['@user_auth', '@jwt']);
 
       setJwt(token || null);
       setUser(user ? JSON.parse(user) : null);

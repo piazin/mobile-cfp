@@ -8,9 +8,12 @@ import { formatBalance } from '../../utils/formatBalance';
 import { transactionService } from '../../services/transaction';
 import { ChartContainer } from '../../components/Wallet/ChartContainer';
 import { SelectedMonthContainer } from '../../components/Wallet/SelectedMonthContainer';
-import { Loading } from '../../components/Loading';
 import { ChartLabel } from '../../components/Wallet/ChartLabel';
 import { ListTransactions } from '../../components/Wallet/ListTransactions';
+import { ListTransactionsShimmerEffect } from '../../components/Wallet/ListTransactionsShimmerEffect';
+import { ChartContainerShimmerEffect } from '../../components/Wallet/ChartContainerShimmerEffect';
+import { SelectedMonthContainerShimmerEffect } from '../../components/Wallet/SelectedMonthContainerShimmerEffect';
+import { ChartLabelShimmerEffect } from '../../components/Wallet/ChartLabelShimmerEffect';
 
 const statusBarHeight = StatusBar.currentHeight + 20;
 
@@ -21,22 +24,28 @@ export default function Wallet() {
   );
   const [transactions, setTransactions] = useState([]);
   const [infoTransactions, setInfoTransactions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [firstLoading, setFirstLoading] = useState(true);
 
   useEffect(() => {
-    loadListTransactions();
-    loadListInfoTransactions();
+    handleTransactionLoading();
   }, [selectedMonth]);
 
-  const loadListInfoTransactions = async () => {
+  const handleTransactionLoading = async () => {
     setLoading(true);
+    await Promise.all([loadListInfoTransactions(), loadListTransactions()]);
+    setLoading(false);
+    setFirstLoading(false);
+  };
+
+  const loadListInfoTransactions = async () => {
     try {
-      const response = await transactionService.getAllTransactionsById('chart-pie');
-      const transactionsByMonth = response.data.transactions[selectedMonth];
+      const response = await transactionService.getAllTransactionsById('summary');
+      const transactionsByMonth = response?.data?.transactions[selectedMonth];
 
       if (transactionsByMonth) {
-        const filteredTransactions = transactionsByMonth.filter(
-          (transaction) => transaction.type !== 'Saldo'
+        const filteredTransactions = transactionsByMonth?.filter(
+          (transaction) => transaction?.type !== 'Saldo'
         );
         setInfoTransactions(filteredTransactions);
         handleFormatBalance(transactionsByMonth[2]?.value);
@@ -45,25 +54,20 @@ export default function Wallet() {
         handleFormatBalance(0);
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       setInfoTransactions(null);
-    } finally {
-      setLoading(false);
     }
   };
 
   const loadListTransactions = async () => {
-    setLoading(true);
     try {
       const response = await transactionService.getAllTransactionsById('month');
       const transactionsByMonth = response.data.transactions[selectedMonth];
 
       setTransactions(transactionsByMonth);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       setTransactions(null);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -76,25 +80,40 @@ export default function Wallet() {
     <ScrollView style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Header />
 
-      <SelectedMonthContainer
-        balance={balance}
-        setSelectedMonth={setSelectedMonth}
-        selectedMonth={selectedMonth}
-      />
+      {!loading ? (
+        <SelectedMonthContainer
+          balance={balance}
+          setSelectedMonth={setSelectedMonth}
+          selectedMonth={selectedMonth}
+        />
+      ) : (
+        <SelectedMonthContainerShimmerEffect />
+      )}
 
-      <ChartContainer infoTransactions={infoTransactions} />
+      {firstLoading ? (
+        <ChartContainerShimmerEffect />
+      ) : (
+        <ChartContainer infoTransactions={infoTransactions} />
+      )}
 
-      <ChartLabel infoTransactions={infoTransactions} />
+      {!loading ? <ChartLabel infoTransactions={infoTransactions} /> : <ChartLabelShimmerEffect />}
 
       <View style={{ padding: 30, marginBottom: 50 }}>
         <Text color="white" fontWeight="medium" marginBottom="2.5">
           Lista de movimentações
         </Text>
 
-        {transactions &&
+        {transactions?.length > 0 && !loading ? (
           transactions.map((transaction) => (
-            <ListTransactions key={transaction._id} transaction={transaction} />
-          ))}
+            <ListTransactions
+              key={transaction._id}
+              transaction={transaction}
+              handleTransactionLoading={handleTransactionLoading}
+            />
+          ))
+        ) : (
+          <ListTransactionsShimmerEffect />
+        )}
       </View>
 
       <StatusBar backgroundColor="#1e1e1e" barStyle="light-content" translucent />

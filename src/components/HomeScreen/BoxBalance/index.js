@@ -1,5 +1,5 @@
 import styles from './styles';
-import { Box, Divider, Text } from 'native-base';
+import { Box, Text } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
@@ -22,11 +22,7 @@ const BoxBalance = ({ balance, balanceViewState }) => {
   return (
     <View style={styles.balanceBox}>
       <TouchableOpacity onPress={() => navigation.navigate('Wallet')}>
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
+        <Box flexDirection="row" alignItems="center" justifyContent="space-between">
           <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
             Carteira
           </Text>
@@ -44,17 +40,25 @@ const BoxBalance = ({ balance, balanceViewState }) => {
             R$
           </Text>
           {balanceViewState ? (
-            <Text
-              color="white"
-              fontFamily="body"
-              fontWeight="bold"
-              fontSize={22}
-              paddingTop="2.5"
-            >
+            <Text color="white" fontFamily="body" fontWeight="bold" fontSize={22} paddingTop="2.5">
               {balanceState}
             </Text>
           ) : (
-            <Divider width="16" marginTop="2" height="0.5" />
+            <View
+              style={{
+                height: 20,
+                width: 100,
+                marginTop: 10,
+                shadowOpacity: 1,
+                shadowColor: '#fff0',
+                shadowOffset: { width: 10, height: 10 },
+                shadowRadius: 5,
+                elevation: 5,
+                borderWidth: 0.5,
+                borderRadius: 5,
+                backgroundColor: '#363636',
+              }}
+            ></View>
           )}
         </Box>
       </TouchableOpacity>
