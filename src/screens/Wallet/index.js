@@ -35,9 +35,7 @@ export default function Wallet({ route }) {
 
   const handleTransactionLoading = async () => {
     setLoading(true);
-    await Promise.all([loadListTransactions()]);
-    // possivel bug está na função loadListInfoTransactions
-    // await Promise.all([loadListInfoTransactions(), loadListTransactions()]);
+    await Promise.all([loadListInfoTransactions(), loadListTransactions()]);
     setLoading(false);
     setFirstLoading(false);
   };
@@ -45,21 +43,21 @@ export default function Wallet({ route }) {
   const loadListInfoTransactions = async () => {
     try {
       const response = await transactionService.getAllTransactionsById('summary');
-      const transactionsByMonth = response?.data?.transactions[selectedMonth];
+      const transactions = response?.data?.transactions;
 
-      if (transactionsByMonth) {
+      if (transactions) {
+        const transactionsByMonth = transactions[selectedMonth];
+
         const filteredTransactions = transactionsByMonth?.filter(
           (transaction) => transaction?.type !== 'Saldo'
         );
+
         setInfoTransactions(filteredTransactions);
         handleFormatBalance(transactionsByMonth[2]?.value);
-      } else {
-        setInfoTransactions(null);
-        handleFormatBalance(0);
       }
     } catch (error) {
-      console.error(error.message);
-      setInfoTransactions(null);
+      setTransactions([]);
+      setBalance(0);
     }
   };
 
@@ -71,7 +69,6 @@ export default function Wallet({ route }) {
       setTransactions(transactionsByMonth);
     } catch (error) {
       console.error(error.message);
-      setTransactions(null);
     }
   };
 
