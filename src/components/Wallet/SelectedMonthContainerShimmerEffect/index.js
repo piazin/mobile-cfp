@@ -5,7 +5,7 @@ import { Skeleton } from 'native-base';
 export const SelectedMonthContainerShimmerEffect = () => {
   return (
     <View style={styles.selectContainer}>
-      <Skeleton rounded="2xl" w={180} mb="8" startColor="primary.800" endColor="primary.900" />
+      <Skeleton rounded="2xl" w={180} mb="4" startColor="primary.800" endColor="primary.900" />
 
       <Skeleton
         width={200}
@@ -13,7 +13,7 @@ export const SelectedMonthContainerShimmerEffect = () => {
         rounded="md"
         startColor="primary.800"
         endColor="primary.900"
-        mb="8"
+        mb="2"
       />
     </View>
   );

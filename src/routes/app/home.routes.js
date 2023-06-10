@@ -12,6 +12,7 @@ export default function HomeRoutes() {
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
+        animationDuration: 5,
       }}
     >
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />

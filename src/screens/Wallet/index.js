@@ -104,14 +104,20 @@ export default function Wallet({ route }) {
           Lista de movimentações
         </Text>
 
-        {transactions?.length > 0 && !loading ? (
-          transactions.map((transaction) => (
-            <ListTransactions
-              key={transaction._id}
-              transaction={transaction}
-              handleTransactionLoading={handleTransactionLoading}
-            />
-          ))
+        {!loading ? (
+          <>
+            {transactions?.length > 0 ? (
+              transactions.map((transaction) => (
+                <ListTransactions
+                  key={transaction._id}
+                  transaction={transaction}
+                  handleTransactionLoading={handleTransactionLoading}
+                />
+              ))
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <ListTransactionsShimmerEffect />
         )}

@@ -4,7 +4,7 @@ import { Skeleton } from 'native-base';
 export const ListTransactionsShimmerEffect = () => {
   return (
     <View style={styles.transactionListContainer}>
-      <Skeleton size={42} rounded="full" startColor="primary.800" endColor="primary.900" />
+      <Skeleton size={60} rounded="full" startColor="primary.800" endColor="primary.900" />
 
       <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
         <Skeleton.Text width={170} lines={2} startColor="primary.800" endColor="primary.900" />

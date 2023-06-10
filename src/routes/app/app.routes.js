@@ -45,9 +45,7 @@ export default function AppRoutes() {
           tabBarStyle: {
             display: 'none',
           },
-          tabBarIcon: ({ size, color }) => (
-            <ButtonNew color={color} size={size} />
-          ),
+          tabBarIcon: ({ size, color }) => <ButtonNew color={color} size={size} />,
         }}
       />
 

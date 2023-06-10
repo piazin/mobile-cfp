@@ -5,7 +5,14 @@ import { Skeleton } from 'native-base';
 export function FlatListLastTransactionsShimmerEffect() {
   return (
     <View style={styles.container}>
-      <Skeleton size={62} rounded="full" startColor="primary.800" endColor="primary.900" />
+      <Skeleton
+        borderWidth={0.2}
+        borderColor="coolGray.100"
+        size={62}
+        rounded="full"
+        startColor="primary.800"
+        endColor="primary.900"
+      />
 
       <Skeleton.Text lines={1} width={190} startColor="primary.800" endColor="primary.900" />
 

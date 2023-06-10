@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { CheckIcon, Select, Text } from 'native-base';
 
 const months = [
@@ -28,28 +28,31 @@ export const SelectedMonthContainer = ({ balance, selectedMonth, setSelectedMont
         R$ {balance}
       </Text>
 
-      <Select
-        selectedValue={months.findIndex((month) => month == selectedMonth)}
-        accessibilityLabel="Choose Service"
-        placeholder="Choose Service"
-        background="primary.900"
-        color="muted.400"
-        marginTop="5"
-        fontSize="xl"
-        minWidth="200"
-        _selectedItem={{
-          bg: 'muted.200',
-          endIcon: <CheckIcon size="5" color="emerald.500" />,
-          _focus: { borderColor: 'muted.500' },
-        }}
-        placeholderTextColor="muted.400"
-        onValueChange={(itemValue) => handleChangeMonth(itemValue)}
-        mt={1}
-      >
-        {months.map((month, index) => (
-          <Select.Item label={month} value={index} key={index} />
-        ))}
-      </Select>
+      <TouchableOpacity onPress={() => console.debug('press')}>
+        <Select
+          selectedValue={months.findIndex((month) => month == selectedMonth)}
+          accessibilityLabel="Choose Service"
+          placeholder="Choose Service"
+          background="primary.900"
+          color="muted.400"
+          marginTop="5"
+          fontSize="xl"
+          height="16"
+          minWidth="200"
+          _selectedItem={{
+            bg: 'muted.200',
+            endIcon: <CheckIcon size="5" color="emerald.500" />,
+            _focus: { borderColor: 'muted.500' },
+          }}
+          placeholderTextColor="muted.400"
+          onValueChange={(itemValue) => handleChangeMonth(itemValue)}
+          mt={1}
+        >
+          {months.map((month, index) => (
+            <Select.Item label={month} value={index} key={index} />
+          ))}
+        </Select>
+      </TouchableOpacity>
     </View>
   );
 };

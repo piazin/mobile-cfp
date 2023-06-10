@@ -1,16 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/authContext';
 
 import { View, StatusBar } from 'react-native';
-import { Box, Text, Divider } from 'native-base';
+import { Avatar, Box, Text } from 'native-base';
 import styles from './styles';
 
 import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 import { SelectAnImage } from '../../components/ProfileScreen/SelectAnImage';
+import ProfileActionButton from '../../components/ProfileScreen/ProfileActionButton';
 
 const statusBarHeight = StatusBar.currentHeight;
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const { user, logOut } = useContext(AuthContext);
 
   const logOutUser = () => {
@@ -20,7 +21,18 @@ export default function ProfileScreen() {
   return (
     <View style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Box width="100%" alignItems="center" paddingTop="6">
-        <SelectAnImage user={user} />
+        <Avatar
+          bg="primary.800"
+          source={{
+            uri: user.avatar
+              ? user.avatar.url
+              : 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png',
+          }}
+          width="24"
+          height="24"
+          borderRadius={50}
+        />
+
         <Text color="white" fontFamily="heading" fontWeight="bold" fontSize={22} marginTop="4">
           {user.name}
         </Text>
@@ -45,41 +57,41 @@ export default function ProfileScreen() {
           alignSelf="flex-start"
           marginLeft="8"
         >
-          Basic Info
+          Conta
         </Text>
-        <Box width={366} height={206} bg="primary.800" borderRadius={10} marginTop="2">
-          <Box paddingTop={2} paddingX={4}>
-            <Box>
-              <Text color="white" fontFamily="body" fontWeight="medium" fontSize="md" marginTop="1">
-                NAME
-              </Text>
-              <Text color="white" fontFamily="body" fontWeight="medium" fontSize="md" marginTop="4">
-                {user.name}
-              </Text>
-              <Divider my="2" />
-            </Box>
-            <Box>
-              <Text color="white" fontFamily="body" fontWeight="medium" fontSize="md" marginTop="1">
-                EMAIL
-              </Text>
-              <Text color="white" fontFamily="body" fontWeight="medium" fontSize="md" marginTop="4">
-                {user.email}
-              </Text>
-              <Divider my="2" />
-            </Box>
-          </Box>
-        </Box>
+
+        <ProfileActionButton
+          text="Editar perfil"
+          iconName="user-edit"
+          iconLibName="FontAwesome5"
+          onPress={() => navigation.navigate('EditDataScreen', { type: 'password' })}
+        />
+        <ProfileActionButton
+          text="Alterar senha"
+          iconName="account-lock"
+          iconLibName="MaterialCommunityIcons"
+          style={{ marginTop: 0 }}
+          iconParams={{ size: 38 }}
+        />
 
         <Text
-          color="purple.600"
-          fontFamily="body"
+          color="white"
+          fontFamily="heading"
           fontWeight="bold"
           fontSize="lg"
-          marginTop="5"
-          onPress={() => logOutUser()}
+          marginTop="3"
+          alignSelf="flex-start"
+          marginLeft="8"
         >
-          Sair
+          Ações
         </Text>
+
+        <ProfileActionButton
+          text="Sair"
+          iconName="logout"
+          iconLibName="AntDesign"
+          onPress={() => logOutUser()}
+        />
       </Box>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
     </View>
