@@ -6,6 +6,14 @@ class UserService {
     this.api = api;
   }
 
+  async updateUser(data) {
+    const jwt = await AsyncStorage.getItem('@jwt');
+    const response = await this.api.put('/user', data, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    });
+    return response?.data;
+  }
+
   async refreshUserData() {
     const jwt = await AsyncStorage.getItem('@jwt');
     const { data } = await this.api.get('/user', { headers: { Authorization: `Bearer ${jwt}` } });

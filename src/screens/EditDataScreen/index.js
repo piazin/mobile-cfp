@@ -1,4 +1,4 @@
-import { StatusBar, TouchableOpacity, View } from 'react-native';
+import { Keyboard, StatusBar, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles';
 import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 import { Icon } from '../../components/Global/Icon';
@@ -16,26 +16,30 @@ export default function EditDataScreen({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  const handleUpdateUser = async () => {};
+
   return (
-    <View style={[styles.container, { paddingTop: statusBarHeight }]}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon iconLibraryName="MaterialIcons" name="arrow-back-ios" size={32} color="#fff" />
-        </TouchableOpacity>
+    <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={[styles.container, { paddingTop: statusBarHeight }]}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon iconLibraryName="MaterialIcons" name="arrow-back-ios" size={32} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <SelectAnImage user={user} />
+        </View>
+
+        <View style={styles.containerInput}>
+          <Input placeholder={user.name} setValue={setName} value={name} labelName="Nome" />
+          <Input placeholder={user.email} setValue={setEmail} value={email} labelName="Email" />
+
+          <Button title="Salvar alterações" onPress={() => console.debug('debug ')} />
+        </View>
+
+        <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
       </View>
-
-      <View style={{ alignItems: 'center' }}>
-        <SelectAnImage user={user} />
-      </View>
-
-      <View style={styles.containerInput}>
-        <Input placeholder={user.name} setValue={setName} value={name} labelName="Nome" />
-        <Input placeholder={user.email} setValue={setEmail} value={email} labelName="Email" />
-
-        <Button title="Salvar alterações" onPress={() => console.debug('debug ')} />
-      </View>
-
-      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
-    </View>
+    </TouchableNativeFeedback>
   );
 }
