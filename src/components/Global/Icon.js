@@ -1,5 +1,6 @@
 import {
   AntDesign,
+  Feather,
   FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
@@ -12,4 +13,5 @@ export function Icon({ iconLibraryName = 'FontAwesome5', ...rest }) {
   if (iconLibraryName === 'Ionicons') return <Ionicons {...rest} />;
   if (iconLibraryName === 'MaterialCommunityIcons') return <MaterialCommunityIcons {...rest} />;
   if (iconLibraryName === 'MaterialIcons') return <MaterialIcons {...rest} />;
+  if (iconLibraryName === 'Feather') return <Feather {...rest} />;
 }

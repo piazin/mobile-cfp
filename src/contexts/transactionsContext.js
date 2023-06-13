@@ -14,11 +14,11 @@ export default function TransactionProvider({ children }) {
   const findAllCategories = async () => {
     try {
       const jwt = await AsyncStorage.getItem('@jwt');
+      if (!jwt) return;
 
       const response = await api.get('/category', { headers: { Authorization: `Bearer ${jwt}` } });
       setCategories(response.data.data);
     } catch (err) {
-      console.error(err.data);
       setCategories(null);
     }
   };

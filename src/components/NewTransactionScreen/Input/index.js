@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Text } from 'native-base';
+import { Box, Text } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { BottomSheetComponent } from './BottomSheet';
@@ -22,11 +22,6 @@ export function Input({
   setButtonDisabled,
   type,
 }) {
-  const [categories, setCategories] = useState(null);
-  const getCategories = async () => {
-    const response = await categoryService.findAllCategories();
-    setCategories(response.data);
-  };
   ///////////////////////////////////////////////
   const [dateView, setDateView] = useState(null);
   const showDatePicker = () => {
@@ -49,7 +44,6 @@ export function Input({
   };
 
   useEffect(() => {
-    getCategories();
     changeDateView(date);
   }, [date]);
   ///////////////////////////////////////////////
@@ -76,7 +70,7 @@ export function Input({
       <View style={styles.viewInput}>
         <MaterialCommunityIcons
           name={category?.iconName ? category.iconName : iconName}
-          color="#ccc"
+          color={category?.colorHash ? category.colorHash : '#ccc'}
           size={32}
           style={styles.iconDescription}
         />
@@ -95,7 +89,6 @@ export function Input({
         </TouchableOpacity>
 
         <BottomSheetComponent
-          data={categories}
           categoryModalIsVisible={categoryModalIsVisible}
           setCategoryModalIsVisible={setCategoryModalIsVisible}
           category={category}

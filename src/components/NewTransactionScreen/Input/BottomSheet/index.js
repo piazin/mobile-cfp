@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import { Divider, Text, View } from 'native-base';
+import { Box, Divider, Text, View } from 'native-base';
 import BottomSheet from 'react-native-easy-bottomsheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { categoryService } from '../../../../services/categories';
 
 export function BottomSheetComponent({
   categoryModalIsVisible,
   setCategoryModalIsVisible,
   handleChangeCategory,
   category,
-  data,
   type,
 }) {
+  const [categories, setCategories] = useState([]);
+
+  const getCategories = async () => {
+    const response = await categoryService.findAllCategories();
+    setCategories(response.data);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <BottomSheet
       bottomSheetTitle="Categoria"
@@ -26,8 +37,8 @@ export function BottomSheetComponent({
       bottomSheetVisible={categoryModalIsVisible}
     >
       <ScrollView>
-        {data &&
-          data?.map((item) =>
+        {categories.length > 0 &&
+          categories?.map((item) =>
             item.type == type ? (
               <View key={item._id}>
                 <TouchableOpacity
@@ -37,7 +48,16 @@ export function BottomSheetComponent({
                   }}
                   style={styles.buttonSelectCategory}
                 >
-                  <MaterialCommunityIcons name={item.iconName} color="#ccc" size={22} />
+                  <Box
+                    w={35}
+                    h={35}
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius={50}
+                    backgroundColor={item.colorHash}
+                  >
+                    <MaterialCommunityIcons name={item.iconName} color="#fff" size={22} />
+                  </Box>
                   <Text
                     color="#fff"
                     fontWeight="medium"

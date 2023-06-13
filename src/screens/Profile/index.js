@@ -74,6 +74,15 @@ export default function ProfileScreen({ navigation }) {
           iconParams={{ size: 38 }}
         />
 
+        <ProfileActionButton
+          text="Gerenciar categorias"
+          iconName="package"
+          iconLibName="Feather"
+          style={{ marginTop: 0 }}
+          iconParams={{ size: 35 }}
+          onPress={() => navigation.navigate('CategoriesScreen')}
+        />
+
         <Text
           color="white"
           fontFamily="heading"

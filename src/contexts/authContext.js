@@ -71,7 +71,7 @@ export default AuthProvider = ({ children }) => {
   }
 
   async function setStorageJWT(data) {
-    await AsyncStorage.setItem('@jwt', JSON.stringify(data).replace(/"/g, ''));
+    await AsyncStorage.setItem('@jwt', JSON.stringify(data)?.replace(/"/g, ''));
   }
 
   async function signIn(email, password) {
@@ -99,7 +99,7 @@ export default AuthProvider = ({ children }) => {
       const { data } = await authService.signUp(name, email, password);
 
       setUser(data);
-      setJwt(data.token.replace(/"/g, ''));
+      setJwt(data.token);
 
       await Promise.all(setStorageUser(data), setStorageJWT(data.token));
     } catch (error) {

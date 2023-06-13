@@ -9,15 +9,18 @@ class TransactionService {
   async getAllTransactionsById(include) {
     try {
       let jwt = await AsyncStorage.getItem('@jwt');
-      jwt = jwt.replace(/"/g, '');
+      if (!jwt) return null;
+
+      jwt = jwt?.replace(/"/g, '');
 
       const response = await this.api.get(`/transaction?include=${include}`, {
         headers: { Authorization: `Bearer ${jwt}` },
       });
 
-      return response.data;
+      if (!response?.data) return null;
+
+      return response?.data;
     } catch (error) {
-      console.error(error);
       return null;
     }
   }

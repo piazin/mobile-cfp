@@ -1,4 +1,4 @@
-import { Text } from 'native-base';
+import { Box, Text } from 'native-base';
 import { useContext } from 'react';
 import { StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -40,7 +40,16 @@ export const ListTransactions = ({ transaction, handleTransactionLoading }) => {
     >
       {transaction ? (
         <View style={styles.transactionListContainer}>
-          <MaterialCommunityIcons name={transaction.category.iconName} size={42} color="#D6d6d6" />
+          <Box
+            w={52}
+            h={52}
+            alignItems="center"
+            justifyContent="center"
+            borderRadius={50}
+            backgroundColor={transaction.category.colorHash}
+          >
+            <MaterialCommunityIcons name={transaction.category.iconName} size={38} color="#fff" />
+          </Box>
 
           <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
             <Text color="white" fontWeight="bold" fontSize="md">
