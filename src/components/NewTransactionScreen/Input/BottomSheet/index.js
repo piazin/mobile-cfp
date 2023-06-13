@@ -26,25 +26,32 @@ export function BottomSheetComponent({
       bottomSheetVisible={categoryModalIsVisible}
     >
       <ScrollView>
-        {data?.map((item) =>
-          item.type == type ? (
-            <View key={item._id}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleChangeCategory(item);
-                  setCategoryModalIsVisible(false);
-                }}
-                style={styles.buttonSelectCategory}
-              >
-                <MaterialCommunityIcons name={item.iconName} color="#ccc" size={22} />
-                <Text color="#fff" fontWeight="medium" fontFamily="body" fontSize="lg" marginLeft={18}>
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-              <Divider my={2} bg="muted.500" />
-            </View>
-          ) : null
-        )}
+        {data &&
+          data?.map((item) =>
+            item.type == type ? (
+              <View key={item._id}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleChangeCategory(item);
+                    setCategoryModalIsVisible(false);
+                  }}
+                  style={styles.buttonSelectCategory}
+                >
+                  <MaterialCommunityIcons name={item.iconName} color="#ccc" size={22} />
+                  <Text
+                    color="#fff"
+                    fontWeight="medium"
+                    fontFamily="body"
+                    fontSize="lg"
+                    marginLeft={18}
+                  >
+                    {item.title}
+                  </Text>
+                </TouchableOpacity>
+                <Divider my={2} bg="muted.500" />
+              </View>
+            ) : null
+          )}
       </ScrollView>
     </BottomSheet>
   );

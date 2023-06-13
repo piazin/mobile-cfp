@@ -1,30 +1,9 @@
 import { View } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react';
 import { Text, Box } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './styles';
 
-import { TransactionContext } from '../../../contexts/transactionsContext';
-
-export function FlatListLastTransactions({ desc, value, typeTransaction, categoryId }) {
-  const { categories } = useContext(TransactionContext);
-
-  const [iconCategory, setIconCategory] = useState({});
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  const getCategory = () => {
-    if (!categories) return;
-
-    categories.forEach((category) => {
-      if (category._id != categoryId._id) return;
-
-      setIconCategory(category);
-    });
-  };
-
+export function FlatListLastTransactions({ desc, value, typeTransaction, category }) {
   return (
     <View style={styles.container}>
       <Box
@@ -37,7 +16,7 @@ export function FlatListLastTransactions({ desc, value, typeTransaction, categor
         alignItems="center"
         justifyContent="center"
       >
-        <MaterialCommunityIcons name={iconCategory.iconName} size={42} color="#D6d6d6" />
+        <MaterialCommunityIcons name={category.iconName} size={42} color="#D6d6d6" />
       </Box>
 
       <Text

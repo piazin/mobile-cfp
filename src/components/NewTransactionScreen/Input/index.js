@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { BottomSheetComponent } from './BottomSheet';
 
-import { TransactionContext } from '../../../contexts/transactionsContext';
+import { categoryService } from '../../../services/categories';
 
 export function Input({
   iconName,
@@ -22,7 +22,11 @@ export function Input({
   setButtonDisabled,
   type,
 }) {
-  const { categories } = useContext(TransactionContext);
+  const [categories, setCategories] = useState(null);
+  const getCategories = async () => {
+    const response = await categoryService.findAllCategories();
+    setCategories(response.data);
+  };
   ///////////////////////////////////////////////
   const [dateView, setDateView] = useState(null);
   const showDatePicker = () => {
@@ -45,6 +49,7 @@ export function Input({
   };
 
   useEffect(() => {
+    getCategories();
     changeDateView(date);
   }, [date]);
   ///////////////////////////////////////////////
@@ -77,7 +82,14 @@ export function Input({
         />
 
         <TouchableOpacity onPress={() => setCategoryModalIsVisible(true)}>
-          <Text color="white" fontWeight="medium" fontFamily="body" fontSize={16} paddingBottom={3} marginLeft={2}>
+          <Text
+            color="white"
+            fontWeight="medium"
+            fontFamily="body"
+            fontSize={16}
+            paddingBottom={3}
+            marginLeft={2}
+          >
             {category ? category?.title : 'Selecionar Categoria'}
           </Text>
         </TouchableOpacity>
@@ -96,7 +108,12 @@ export function Input({
   return (
     <>
       <View style={[styles.viewInput, { borderBottomColor: validEntry ? '#d2d2d2' : 'red' }]}>
-        <MaterialCommunityIcons name={iconName} color="#ccc" size={32} style={styles.iconDescription} />
+        <MaterialCommunityIcons
+          name={iconName}
+          color="#ccc"
+          size={32}
+          style={styles.iconDescription}
+        />
         {typeInput == 'date' ? (
           <TouchableOpacity onPress={() => showDatePicker()} style={{ width: '100%' }}>
             <Text color="white" fontSize={16} paddingBottom={3} marginLeft={2}>

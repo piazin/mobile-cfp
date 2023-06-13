@@ -96,7 +96,7 @@ export default function HomeScreen() {
                   desc={transaction.description}
                   value={transaction.value}
                   typeTransaction={transaction.type}
-                  categoryId={transaction.category}
+                  category={transaction.category}
                 />
               ))
           ) : (
