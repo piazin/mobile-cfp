@@ -18,6 +18,19 @@ class CategoryService {
       return null;
     }
   }
+
+  async deleteCategoryById(id) {
+    try {
+      const jwt = await AsyncStorage.getItem('@jwt');
+      const response = await this.api.delete(`/category/${id}`, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+      return response?.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }
 
 export const categoryService = new CategoryService(api);

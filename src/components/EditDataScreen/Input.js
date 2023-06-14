@@ -1,7 +1,7 @@
 import { Text } from 'native-base';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-export default function Input({ value, setValue, placeholder, labelName }) {
+export default function Input({ value, placeholder, labelName, style, innerRef, ...rest }) {
   return (
     <View>
       <Text color="white" fontFamily="body" fontWeight="bold" fontSize="md">
@@ -9,14 +9,15 @@ export default function Input({ value, setValue, placeholder, labelName }) {
       </Text>
       <TextInput
         value={value}
-        style={styles.input}
-        onChangeText={(value) => setValue(value)}
+        style={[styles.input, { ...style }]}
         placeholder={placeholder}
         placeholderTextColor="#727272"
         keyboardType="default"
         autoCapitalize="none"
         clearButtonMode="while-editing"
         keyboardAppearance="dark"
+        ref={innerRef}
+        {...rest}
       />
     </View>
   );

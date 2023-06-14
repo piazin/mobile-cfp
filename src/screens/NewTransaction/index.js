@@ -150,6 +150,7 @@ export default function NewTransactionScreen({ route }) {
             valueTransaction={valueTransaction}
             setValueTransaction={setValueTransaction}
             setButtonDisabled={setIsButtonDisabled}
+            autoFocus={true}
           />
 
           <Input
