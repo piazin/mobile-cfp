@@ -66,13 +66,6 @@ export default function ProfileScreen({ navigation }) {
           iconLibName="FontAwesome5"
           onPress={() => navigation.navigate('EditDataScreen', { type: 'password' })}
         />
-        <ProfileActionButton
-          text="Alterar senha"
-          iconName="account-lock"
-          iconLibName="MaterialCommunityIcons"
-          style={{ marginTop: 0 }}
-          iconParams={{ size: 38 }}
-        />
 
         <ProfileActionButton
           text="Gerenciar categorias"

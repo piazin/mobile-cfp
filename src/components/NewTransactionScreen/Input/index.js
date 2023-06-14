@@ -34,8 +34,8 @@ export function Input({
   const changeDateView = (date) => {
     if (!date) return;
 
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0');
     let yyyy = date.getFullYear();
 
     let formatDate = `${dd}/${mm}/${yyyy}`;

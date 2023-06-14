@@ -1,15 +1,12 @@
-import React, { useState, useContext } from 'react';
-import api from '../../../config/axios';
+import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native';
 import { Avatar } from 'native-base';
-import { AuthContext } from '../../../contexts/authContext';
 
 import styles from './styles';
 import { Icon } from '../../Global/Icon';
 
-export function SelectAnImage({ user, style }) {
-  const { handleNewData, jwt } = useContext(AuthContext);
+export function SelectAnImage({ user, style, setPhoto }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
@@ -20,35 +17,8 @@ export function SelectAnImage({ user, style }) {
 
     if (result.cancelled) return;
 
-    onSubmitProfilePic(result);
+    setPhoto(result);
     setSelectedImage(result.uri);
-  };
-
-  const onSubmitProfilePic = async (photo) => {
-    let data = new FormData();
-
-    let splitUri = photo.uri.split('.');
-    let getMimeType = splitUri[splitUri.length - 1];
-
-    data.append('owner', user._id);
-    data.append('avatar', {
-      uri: photo.uri,
-      name: `profile-pic-${user.name}.${getMimeType}`,
-      type: `${photo.type}/${getMimeType}`,
-    });
-
-    try {
-      var response = await api.post('/user/avatar', data, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Content-Type': `multipart/form-data`,
-        },
-      });
-
-      if (response) handleNewData();
-    } catch (error) {
-      console.error(error.response);
-    }
   };
 
   return (
