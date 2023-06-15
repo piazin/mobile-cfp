@@ -20,6 +20,7 @@ export default function EditDataScreen({ navigation }) {
 
   const [photo, setPhoto] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const ref_input_email = useRef();
   const ref_input_password = useRef();
@@ -27,6 +28,7 @@ export default function EditDataScreen({ navigation }) {
   const ref_input_confirm_password = useRef();
 
   const handleUpdateUser = async (values) => {
+    setIsLoading(true);
     let inputs = values;
     delete inputs['confirmPassword'];
 
@@ -34,19 +36,26 @@ export default function EditDataScreen({ navigation }) {
       values[value].length > 0 ? value : delete inputs[value];
     }
 
-    if (Object.keys(inputs).length > 0) await onSubmitUpdateUser(inputs);
-
-    if (photo) await onSubmitProfilePic(photo);
-  };
-
-  const onSubmitUpdateUser = async (userData) => {
     try {
-      await userService.updateUser(userData);
+      if (Object.keys(inputs).length > 0) await onSubmitUpdateUser(inputs);
+      if (photo) await onSubmitProfilePic(photo);
+
       handleNewData();
       navigation.goBack();
     } catch (err) {
       setErrorMessage(err.response.data.message);
       clearErrorMessage();
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onSubmitUpdateUser = async (userData) => {
+    try {
+      await userService.updateUser(userData);
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -64,24 +73,21 @@ export default function EditDataScreen({ navigation }) {
     });
 
     try {
-      var response = await api.post('/user/avatar', data, {
+      await api.post('/user/avatar', data, {
         headers: {
           Authorization: `Bearer ${jwt}`,
           'Content-Type': `multipart/form-data`,
         },
       });
-
-      if (response) handleNewData();
     } catch (error) {
-      setErrorMessage(error.response.data.message);
-      clearErrorMessage();
+      throw error;
     }
   };
 
   const clearErrorMessage = () => {
     setTimeout(() => {
       setErrorMessage(null);
-    }, 4000);
+    }, 5000);
   };
 
   return (
@@ -196,6 +202,7 @@ export default function EditDataScreen({ navigation }) {
                 errors.confirmPassword ||
                 errorMessage
               }
+              isLoading={isLoading}
               title="Salvar alterações"
               onPress={() => handleSubmit()}
             />

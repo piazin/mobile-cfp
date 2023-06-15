@@ -27,8 +27,7 @@ class CategoryService {
       });
       return response?.data;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw error;
     }
   }
 }

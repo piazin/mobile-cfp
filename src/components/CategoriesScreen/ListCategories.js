@@ -3,9 +3,9 @@ import { Box, Text } from 'native-base';
 import { Alert, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 import { categoryService } from '../../services/categories';
 
-export function ListCategories({ category, updateCategories }) {
-  const createButtonAlert = () => {
-    Alert.alert('Atenção', 'Deseja realmente excluir?', [
+export function ListCategories({ category, updateCategories, setErrorMessage }) {
+  const createButtonAlert = (categoryTitle) => {
+    Alert.alert(`Categoria ${categoryTitle}`, 'Deseja realmente excluir?', [
       { style: 'cancel', text: 'Cancelar' },
       {
         text: 'OK',
@@ -21,12 +21,19 @@ export function ListCategories({ category, updateCategories }) {
       }
       updateCategories();
     } catch (error) {
-      console.error(error.message);
+      setErrorMessage(error.response.data.message);
+      clearErrorMessage();
     }
   };
 
+  const clearErrorMessage = () => {
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   return (
-    <TouchableNativeFeedback onLongPress={() => createButtonAlert()}>
+    <TouchableNativeFeedback onLongPress={() => createButtonAlert(category.title)}>
       <View style={styles.container}>
         <Box bg={category.colorHash} mr="6" style={styles.boxIconCategory}>
           <MaterialCommunityIcons color="#fff" size={22} name={category.iconName} />

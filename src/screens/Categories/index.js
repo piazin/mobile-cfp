@@ -7,12 +7,14 @@ import { ListCategories } from '../../components/CategoriesScreen/ListCategories
 import { Header } from '../../components/Global/Header';
 import { AddButton } from '../../components/CategoriesScreen/AddButton';
 import { ListCategoriesShimmerEffect } from '../../components/CategoriesScreen/ListCategoriesShimmerEffect';
+import { Text } from 'native-base';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function CategoriesScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const getCategories = async () => {
     try {
@@ -32,6 +34,12 @@ export default function CategoriesScreen({ navigation }) {
   return (
     <View style={[styles.container, { paddingTop: statusBarHeight }]}>
       <Header title="Categorias" style={{ paddingBottom: 20, paddingTop: 5 }} />
+      {errorMessage ? (
+        <Text paddingLeft="5" fontFamily="body" color="danger.400" paddingY="3">
+          {errorMessage}
+        </Text>
+      ) : null}
+
       {isLoading ? (
         <>
           <ListCategoriesShimmerEffect />
@@ -48,7 +56,11 @@ export default function CategoriesScreen({ navigation }) {
         <FlatList
           data={categories}
           renderItem={({ item }) => (
-            <ListCategories category={item} updateCategories={getCategories} />
+            <ListCategories
+              category={item}
+              updateCategories={getCategories}
+              setErrorMessage={setErrorMessage}
+            />
           )}
           keyExtractor={(item) => item._id}
         />

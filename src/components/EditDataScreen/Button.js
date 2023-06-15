@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Text } from 'native-base';
+import { Spinner, Text } from 'native-base';
 
 export function Button({ title, onPress, isDisabled, isLoading, innerRef }) {
   return (
@@ -10,9 +10,13 @@ export function Button({ title, onPress, isDisabled, isLoading, innerRef }) {
       style={[styles.button, { opacity: isDisabled || isLoading ? 0.6 : 1 }]}
       disabled={isDisabled || isLoading ? true : false}
     >
-      <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
-        {title}
-      </Text>
+      {isLoading ? (
+        <Spinner color="white" size="sm" />
+      ) : (
+        <Text color="white" fontFamily="body" fontWeight="bold" fontSize="lg">
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }
@@ -25,5 +29,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: 320,
     marginTop: 22,
+    height: 45,
+    justifyContent: 'center',
   },
 });
