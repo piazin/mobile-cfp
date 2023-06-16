@@ -1,17 +1,23 @@
 import { useState } from 'react';
-import { Keyboard, StatusBar, View } from 'react-native';
+import { Keyboard, StatusBar, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles';
 import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 import { Header } from '../../components/Global/Header';
 import { TouchableWithoutFeedback } from 'react-native';
 import Input from '../../components/CategoriesScreen/Input';
 import Modal from 'react-native-modal';
-import { Text } from 'native-base';
+import { Button, Text } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { icons } from '../../constants/icons';
+import { colors } from '../../constants/colors';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
 export default function NewCategoriesScreen() {
   const [categoryName, setCategoryName] = useState('');
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [iconName, setIconName] = useState(icons[0]);
+  const [iconColor, setIconColor] = useState(colors[0]);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -25,12 +31,29 @@ export default function NewCategoriesScreen() {
             labelName="Nome"
             onChangeText={(value) => setCategoryName(value)}
           />
+
+          <View>
+            <Text color="white">Icone</Text>
+            <Button bg={iconColor} w="16" h="16" onPress={() => setModalIsVisible(!modalIsVisible)}>
+              <MaterialCommunityIcons color="#fff" size={28} name={iconName} />
+            </Button>
+          </View>
         </View>
 
         {/*https://github.com/react-native-modal/react-native-modal*/}
-        <Modal isVisible={true}>
+        <Modal isVisible={modalIsVisible}>
           <View style={{ flex: 1 }}>
-            <Text color="white">CU</Text>
+            <Button onPress={() => setModalIsVisible(!modalIsVisible)}>Voltar</Button>
+            {icons?.map((icone) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setIconName(icone);
+                  setModalIsVisible(!modalIsVisible);
+                }}
+              >
+                <MaterialCommunityIcons color="#fff" size={28} name={icone} />
+              </TouchableOpacity>
+            ))}
           </View>
         </Modal>
 
