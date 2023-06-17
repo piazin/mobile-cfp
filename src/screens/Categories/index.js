@@ -8,10 +8,13 @@ import { Header } from '../../components/Global/Header';
 import { AddButton } from '../../components/CategoriesScreen/AddButton';
 import { ListCategoriesShimmerEffect } from '../../components/CategoriesScreen/ListCategoriesShimmerEffect';
 import { Text } from 'native-base';
+import { useIsFocused } from '@react-navigation/native';
 
 const statusBarHeight = StatusBar.currentHeight || 20;
 
-export default function CategoriesScreen({ navigation }) {
+export default function CategoriesScreen({ route, navigation }) {
+  const isFocused = useIsFocused();
+
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -29,7 +32,7 @@ export default function CategoriesScreen({ navigation }) {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={[styles.container, { paddingTop: statusBarHeight }]}>

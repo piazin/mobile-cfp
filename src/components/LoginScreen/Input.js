@@ -3,14 +3,7 @@ import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Box } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 
-const InputComponent = ({
-  placeholder,
-  value,
-  changeText,
-  type,
-  typeInput,
-  changeTypeInput,
-}) => {
+const InputComponent = ({ placeholder, value, changeText, type, typeInput, changeTypeInput }) => {
   return (
     <Box style={styles.boxInput}>
       <TextInput
@@ -24,18 +17,14 @@ const InputComponent = ({
         autoCapitalize="none"
         clearButtonMode="while-editing"
         keyboardAppearance="dark"
-        onEndEditing={(value) => changeText(value.nativeEvent.text)}
+        onEndEditing={(event) => changeText(event.nativeEvent.text)}
       />
       {type == 'pass' ? (
         <TouchableOpacity
           style={styles.btnChangeSecureText}
           onPress={() => changeTypeInput(typeInput ? false : true)}
         >
-          <Ionicons
-            name={typeInput ? 'eye-off' : 'eye'}
-            size={30}
-            color="#7E74F1"
-          />
+          <Ionicons name={typeInput ? 'eye-off' : 'eye'} size={30} color="#7E74F1" />
         </TouchableOpacity>
       ) : null}
     </Box>

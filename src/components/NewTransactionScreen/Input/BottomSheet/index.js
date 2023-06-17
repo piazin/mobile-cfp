@@ -4,6 +4,7 @@ import { Box, Divider, Text, View } from 'native-base';
 import BottomSheet from 'react-native-easy-bottomsheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { categoryService } from '../../../../services/categories';
+import { useIsFocused } from '@react-navigation/native';
 
 export function BottomSheetComponent({
   categoryModalIsVisible,
@@ -12,6 +13,7 @@ export function BottomSheetComponent({
   category,
   type,
 }) {
+  const isFocused = useIsFocused();
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
@@ -21,7 +23,7 @@ export function BottomSheetComponent({
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [isFocused]);
 
   return (
     <BottomSheet
@@ -36,10 +38,10 @@ export function BottomSheetComponent({
       onRequestClose={() => setCategoryModalIsVisible(!categoryModalIsVisible)}
       bottomSheetVisible={categoryModalIsVisible}
     >
-      <ScrollView>
+      <ScrollView style={{ marginBottom: 30 }}>
         {categories.length > 0 &&
           categories?.map((item) =>
-            item.type == type ? (
+            item.type === type ? (
               <View key={item._id}>
                 <TouchableOpacity
                   onPress={() => {

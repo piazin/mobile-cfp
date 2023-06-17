@@ -24,7 +24,7 @@ export const SelectedMonthContainer = ({ balance, selectedMonth, setSelectedMont
 
   return (
     <View style={styles.selectContainer}>
-      <Text color="white" fontFamily="body" fontWeight="bold" fontSize="3xl">
+      <Text color="white" fontFamily="body" fontWeight="bold" fontSize="2xl">
         R$ {balance}
       </Text>
 

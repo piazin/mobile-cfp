@@ -6,6 +6,18 @@ class CategoryService {
     this.api = api;
   }
 
+  async createCategory(category) {
+    try {
+      const jwt = await AsyncStorage.getItem('@jwt');
+      const response = await this.api.post('/category', category, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+      return response?.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async findAllCategories() {
     try {
       const jwt = await AsyncStorage.getItem('@jwt');

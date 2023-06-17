@@ -1,7 +1,7 @@
 import { Text } from 'native-base';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-export default function Input({ value, placeholder, labelName, style, innerRef, ...rest }) {
+export default function Input({ value, placeholder, labelName, innerRef, error, ...rest }) {
   return (
     <View style={{ paddingTop: 20 }}>
       <Text color="white" fontFamily="body" fontWeight="bold" fontSize="md">
@@ -9,7 +9,7 @@ export default function Input({ value, placeholder, labelName, style, innerRef, 
       </Text>
       <TextInput
         value={value}
-        style={[styles.input, { ...style }]}
+        style={[styles.input, { borderColor: error ? 'red' : '#727272' }]}
         placeholder={placeholder}
         placeholderTextColor="#727272"
         keyboardType="default"
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'transparent',
     borderRadius: 5,
-    borderColor: '#727272',
+
     borderWidth: 1,
     color: '#F5F5F5',
     fontSize: 16,

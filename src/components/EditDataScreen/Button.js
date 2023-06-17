@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: 320,
     marginTop: 22,
+    marginBottom: 55,
     height: 45,
     justifyContent: 'center',
   },

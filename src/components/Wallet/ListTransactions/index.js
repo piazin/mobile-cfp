@@ -41,14 +41,14 @@ export const ListTransactions = ({ transaction, handleTransactionLoading }) => {
       {transaction ? (
         <View style={styles.transactionListContainer}>
           <Box
-            w={52}
-            h={52}
+            w={42}
+            h={42}
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
             backgroundColor={transaction.category.colorHash}
           >
-            <MaterialCommunityIcons name={transaction.category.iconName} size={38} color="#fff" />
+            <MaterialCommunityIcons name={transaction.category.iconName} size={28} color="#fff" />
           </Box>
 
           <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>

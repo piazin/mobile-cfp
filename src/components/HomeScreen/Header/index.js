@@ -5,23 +5,14 @@ import { Box, Text, Avatar } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 
-const statusBarHeight = StatusBar.currentHeight;
+const statusBarHeight = StatusBar.currentHeight - 1;
 
 const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
   const navigation = useNavigation();
 
   return (
-    <Box
-      backgroundColor="purple.600"
-      paddingTop={statusBarHeight}
-      style={styles.headerBox}
-    >
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        paddingTop={4}
-      >
+    <Box backgroundColor="purple.600" paddingTop={statusBarHeight} style={styles.headerBox}>
+      <Box flexDirection="row" alignItems="center" justifyContent="space-between" paddingTop={4}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Avatar
             bg="primary.900"
@@ -43,12 +34,7 @@ const Header = ({ user, handleBalanceViewState, balanceViewState }) => {
         </TouchableOpacity>
       </Box>
       <Box marginTop="6">
-        <Text
-          color="white"
-          fontFamily="heading"
-          fontWeight="bold"
-          fontSize={22}
-        >
+        <Text color="white" fontFamily="heading" fontWeight="bold" fontSize={22}>
           Olá, {user?.name?.split(' ')[0]}
         </Text>
       </Box>
