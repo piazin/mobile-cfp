@@ -15,10 +15,12 @@ export function SelectAnImage({ user, style, setPhoto }) {
       quality: 1,
     });
 
-    if (result.cancelled) return;
+    const { canceled, assets } = result;
 
-    setPhoto(result);
-    setSelectedImage(result.uri);
+    if (canceled) return;
+
+    setPhoto({ uri: assets[0].uri, type: assets[0].type });
+    setSelectedImage(result.assets[0].uri);
   };
 
   return (
